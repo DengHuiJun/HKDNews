@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">HKDNews</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="bottom_home">首页</string>
+    <string name="bottom_share">我的分享</string>
+    <string name="bottom_play">休闲吧</string>
+    <string name="bottom_me">我</string>
+</resources>
