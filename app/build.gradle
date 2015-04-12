@@ -20,6 +20,17 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'com.quentindommerc.superlistview:library:1.5.2'
+    compile 'uk.co.deanwild:flowtextview:2.0.2@aar'
+    compile files('src/libs/mframework.jar')
+    compile files('src/libs/ShareSDK-Core-2.5.9.jar')
+    compile files('src/libs/ShareSDK-QQ-2.5.9.jar')
+    compile files('src/libs/ShareSDK-QZone-2.5.9.jar')
+    compile files('src/libs/ShareSDK-SinaWeibo-2.5.9.jar')
+    compile files('src/libs/ShareSDK-TencentWeibo-2.5.9.jar')
+    compile files('src/libs/ShareSDK-Wechat-2.5.9.jar')
+    compile files('src/libs/ShareSDK-Wechat-Core-2.5.9.jar')
+    compile files('src/libs/ShareSDK-Wechat-Moments-2.5.9.jar')
 }

@@ -1,6 +1,7 @@
 package com.zero.hkdnews.ui;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -30,16 +31,17 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ArrayList<String> lst = new ArrayList<String>();
-        mAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, lst);
-        // This is what you're looking for
+        ArrayList<String> lst = new ArrayList<>();
+        mAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, lst);
+
+        //绑定fragment_home里面的SuperListView
         mList = (SuperListview) getActivity().findViewById(R.id.list);
 
         Thread thread = new Thread( new Runnable() {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(1500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -47,9 +49,9 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mAdapter.add("More stuff");
-                        mAdapter.add("More stuff");
-                        mAdapter.add("More stuff");
+                        mAdapter.add("初始数据1");
+                        mAdapter.add("初始数据2");
+                        mAdapter.add("初始数据3");
 
                         mList.setAdapter(mAdapter);
 
@@ -67,6 +69,9 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
         // I want to get loadMore triggered if I see the last item (1)
         mList.setupMoreListener(this, 1);
+
+
+        mList.setOnItemClickListener(this);
 
         mList.setupSwipeToDismiss(new SwipeDismissListViewTouchListener.DismissCallbacks() {
             @Override
@@ -99,7 +104,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @Override
     public void onRefresh() {
-        Toast.makeText(getActivity(), "Refresh", Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "已经刷新！", Toast.LENGTH_LONG).show();
 
         // enjoy the beaty of the progressbar
         Handler handler = new Handler();
@@ -107,16 +112,19 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             public void run() {
 
                 // demo purpose, adding to the top so you can see it
-                mAdapter.insert("New stuff", 0);
+                mAdapter.insert("插入新数据", 0);
 
             }
-        }, 2000);
+        }, 1500);
 
 
     }
 
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(getActivity(),"Click:+"+position,Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(),"OK:"+position,Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(getActivity(),NewsActivity.class);
+        startActivity(intent);
     }
 }
