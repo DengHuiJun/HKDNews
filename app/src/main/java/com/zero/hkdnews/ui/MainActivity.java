@@ -11,6 +11,8 @@ import android.view.View;
 
 import com.zero.hkdnews.R;
 
+import cn.bmob.v3.Bmob;
+
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener{
 
@@ -44,6 +46,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_main);
 
         initView();
@@ -117,6 +121,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         switch (index){
             case 0:
+                homeLayout.setBackgroundColor(getResources().getColor(R.color.custom_theme_dark));
                 if(homeFragment == null){
                     homeFragment = new HomeFragment();
                     transaction.add(R.id.main_content,homeFragment);
@@ -125,6 +130,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 }
                 break;
             case 1:
+                shareLayout.setBackgroundColor(getResources().getColor(R.color.custom_theme_dark));
 
                 if(shareFragment == null){
                     shareFragment = new ShareFragment();
@@ -134,7 +140,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             }
                 break;
             case 2:
-
+                playLayout.setBackgroundColor(getResources().getColor(R.color.custom_theme_dark));
                 if(playFragment ==null ){
                     playFragment = new PlayFragment();
                     transaction.add(R.id.main_content,playFragment);
@@ -147,6 +153,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
             case 3:
             default:
+                meLayout.setBackgroundColor(getResources().getColor(R.color.custom_theme_dark));
                 if(meFragment == null){
                     meFragment = new MeFragment();
                     transaction.add(R.id.main_content,meFragment);
@@ -160,9 +167,13 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
     /**
-     * 清除当前选中状态，将颜色设置为深色
+     * 清除当前选中状态，将颜色设置为浅色
      */
     private void clearSelection(){
+        homeLayout.setBackgroundColor(getResources().getColor(R.color.custom_theme_darker));
+        shareLayout.setBackgroundColor(getResources().getColor(R.color.custom_theme_darker));
+        meLayout.setBackgroundColor(getResources().getColor(R.color.custom_theme_darker));
+        playLayout.setBackgroundColor(getResources().getColor(R.color.custom_theme_darker));
 
     }
 

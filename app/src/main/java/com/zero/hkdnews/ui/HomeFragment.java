@@ -16,8 +16,13 @@ import com.quentindommerc.superlistview.OnMoreListener;
 import com.quentindommerc.superlistview.SuperListview;
 import com.quentindommerc.superlistview.SwipeDismissListViewTouchListener;
 import com.zero.hkdnews.R;
+import com.zero.hkdnews.adapter.HomeAdapter;
+import com.zero.hkdnews.beans.News;
+import com.zero.hkdnews.common.UIHelper;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import android.os.Handler;
 
 /**
@@ -26,13 +31,19 @@ import android.os.Handler;
 public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, OnMoreListener ,AdapterView.OnItemClickListener {
 
     private SuperListview mList;
-    private ArrayAdapter<String> mAdapter;
+ //   private ArrayAdapter<String> mAdapter;
+
+    private List<News> dataList;
+    private HomeAdapter homeAdapter;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ArrayList<String> lst = new ArrayList<>();
-        mAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, lst);
+     //   ArrayList<String> lst = new ArrayList<>();
+        dataList = new ArrayList<>();
+        homeAdapter =  new HomeAdapter(dataList,getActivity());
+
+    //    mAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, lst);
 
         //绑定fragment_home里面的SuperListView
         mList = (SuperListview) getActivity().findViewById(R.id.list);
@@ -49,11 +60,19 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mAdapter.add("初始数据1");
-                        mAdapter.add("初始数据2");
-                        mAdapter.add("初始数据3");
-
-                        mList.setAdapter(mAdapter);
+                   //     mAdapter.add("初始数据1");
+                   //     mAdapter.add("初始数据2");
+                   //     mAdapter.add("初始数据3");
+                        News data = new News();
+                        data.setNewsID(12);
+                        data.setNewsTime("04-21 12:33");
+                        data.setNewsSource("计算机学院");
+                        data.setNewsTitle("湖南科技大学个性化新闻客户端正在火速研发当中，由zero主导。");
+                    //    data.setImageUrl("wait");
+                        for (int i=0 ;i < 6 ;i++)
+                            dataList.add(data);
+                        homeAdapter.setDataList(dataList);
+                        mList.setAdapter(homeAdapter);
 
                     }
                 });
@@ -98,7 +117,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         Toast.makeText(getActivity(), "More", Toast.LENGTH_LONG).show();
 
         //demo purpose, adding to the bottom
-        mAdapter.add("More asked, more served");
+       // mAdapter.add("More asked, more served");
 
     }
 
@@ -112,7 +131,18 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             public void run() {
 
                 // demo purpose, adding to the top so you can see it
-                mAdapter.insert("插入新数据", 0);
+             //   mAdapter.insert("插入新数据", 0);
+                News data = new News();
+                data.setNewsID(13);
+                data.setNewsTime("04-22 14:33");
+                data.setNewsSource("加上");
+                data.setNewsTitle("湖南科技大学个性化新闻客户端正在火速研发当中，刷新测试。");
+            //    data.setImageUrl("wait");
+           //     dataList.add(data);
+                dataList.add(0,data);
+                homeAdapter.setDataList(dataList);
+                homeAdapter.notifyDataSetChanged();
+
 
             }
         }, 1500);
@@ -124,7 +154,8 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(getActivity(),"OK:"+position,Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(getActivity(),NewsActivity.class);
-        startActivity(intent);
+
+        UIHelper.showNewsDetail(getActivity(),dataList.get(position).getObjectId());
+
     }
 }
