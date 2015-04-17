@@ -8,10 +8,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.zero.hkdnews.R;
+import com.zero.hkdnews.beans.HnustUser;
+import com.zero.hkdnews.common.UIHelper;
 
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobUser;
 
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener{
@@ -84,9 +88,33 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id){
+            case R.id.action_login:
+
+                if(LoginActivity.infoUser == null) {
+                    UIHelper.showLogin(this);
+                    finish();
+                }else{
+                    Toast.makeText(this,"你已经登录！",Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            case R.id.action_out:
+                if(LoginActivity.infoUser != null){
+                    HnustUser.logOut(this);
+                    HnustUser temp = BmobUser.getCurrentUser(this,HnustUser.class);
+                    if(temp == null){
+                        UIHelper.showLogin(this);
+                        finish();
+                    }else{
+                        Toast.makeText(this,"退出失败！",Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(this,"您未登录！",Toast.LENGTH_SHORT).show();
+                }
+
+                return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 

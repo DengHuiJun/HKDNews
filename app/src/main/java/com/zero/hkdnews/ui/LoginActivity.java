@@ -48,6 +48,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private View mProgressView;
     private View mLoginFormView;
 
+    public static HnustUser infoUser;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +90,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     }
 
     private void initData() {
-        HnustUser infoUser = BmobUser.getCurrentUser(this,HnustUser.class);
+        infoUser = BmobUser.getCurrentUser(this,HnustUser.class);
         if(infoUser !=null){
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);

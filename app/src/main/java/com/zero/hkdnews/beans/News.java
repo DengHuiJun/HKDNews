@@ -3,6 +3,7 @@ package com.zero.hkdnews.beans;
 import java.io.File;
 
 import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.datatype.BmobFile;
 
 /**
  * Created by luowei on 15/4/13.
@@ -17,8 +18,15 @@ public class News extends BmobObject{
     private String body;
 
 
-    private File newsImage;
+    private BmobFile newsImage;
 
+    public void setNewsImage(BmobFile newsImage) {
+        this.newsImage = newsImage;
+    }
+
+    public BmobFile getNewsImage() {
+        return newsImage;
+    }
 
     public void setBody(String body) {
         this.body = body;
@@ -34,14 +42,6 @@ public class News extends BmobObject{
 
     public Number getCommentCount() {
         return commentCount;
-    }
-
-    public void setNewsImage(File newsImage) {
-        this.newsImage = newsImage;
-    }
-
-    public File getNewsImage() {
-        return newsImage;
     }
 
     public void setNewsID(int newsID) {

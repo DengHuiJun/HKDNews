@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.zero.hkdnews.R;
 import com.zero.hkdnews.beans.News;
 
@@ -71,8 +72,8 @@ public class HomeAdapter extends BaseAdapter{
         viewHolder.newsTitle.setText(data.getNewsTitle());
         viewHolder.newsTime.setText(data.getNewsTime());
         viewHolder.newsSource.setText(data.getNewsSource());
-        viewHolder.newsImage.setBackgroundColor(context.getResources().getColor(R.color.custom_theme_primary));
-
+     //   viewHolder.newsImage.setBackgroundColor(context.getResources().getColor(R.color.custom_theme_primary));
+        Picasso.with(context).load(data.getNewsImage().getFileUrl(context)).into(viewHolder.newsImage);
 
         return convertView;
     }

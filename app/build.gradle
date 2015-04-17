@@ -35,4 +35,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.quentindommerc.superlistview:library:1.5.2'
     compile 'com.google.android.gms:play-services:7.0.0'
+    compile files('src/libs/picasso-2.5.0.jar')
 }
