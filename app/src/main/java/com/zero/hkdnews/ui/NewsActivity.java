@@ -19,6 +19,8 @@ import com.zero.hkdnews.R;
 import com.zero.hkdnews.beans.News;
 import com.zero.hkdnews.common.UIHelper;
 
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.GetListener;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
@@ -52,6 +54,8 @@ public class NewsActivity extends Activity{
 
     private ViewSwitcher mFootViewSwitcher;
 
+    public static final int GET_NEWS_CODE = 2;
+
 
 
 
@@ -69,9 +73,9 @@ public class NewsActivity extends Activity{
     private void initData() {
         mHandler = new Handler() {
             public void handleMessage(Message msg){
-                if(msg.what == 1){
-                    String body = (String) msg.obj;
-                    mWebView.loadDataWithBaseURL(null,body,"text/html","utf-8",null);
+                if(msg.what == GET_NEWS_CODE){
+                    News body = (News) msg.obj;
+                    mWebView.loadDataWithBaseURL(null,body.getBody(),"text/html","utf-8",null);
                     mWebView.setWebViewClient(new WebViewClient(){
                         @Override
                         public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -92,27 +96,22 @@ public class NewsActivity extends Activity{
     private void initDate(final String newsId,final boolean isRefresh){
         new Thread(){
             public void run(){
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                BmobQuery<News> query = new BmobQuery<News>();
+                query.getObject(context,newsId,new GetListener<News>() {
+                    @Override
+                    public void onSuccess(News news) {
+                        Message msg = Message.obtain();
+                        msg.obj = news;
+                        msg.what = GET_NEWS_CODE;
+                        mHandler.sendMessage(msg);
+                    }
 
-                //要显示的页面
-                String html = "<ul>\n" +
-                        "  <li><em>学历</em> 由于拿到offer后，办理工作签证时出示本科成绩单。所以本科学历是最低要求的。</li>\n" +
-                        "  <li><em>英语</em> 英语没有硬性要求，不需要雅思托福成绩。个人觉得能无障碍的听懂youtube上的技术分享，会一些基本日常语法加上相关专业词汇，就能比较顺利的完成电面和人肉面。</li>\n" +
-                        "  <li><em>专业经验</em> 没有硬性的相关领域证书要求，当然如果你没有内推渠道，有个把证可以增加通过简历过滤器脱引而出的机会。</li>\n" +
-                        "  <li><em>技术经验</em> 是否有能力维护设计Facebook服务器量级的系统是一个重要考察点。当然不要求你一定要经历过这么大的量级经验（毕竟这样的公司不多）。</li>\n" +
-                        "  <li><em>家庭</em> “一人Offer，全家受益”是我对Facebook Relocation的总结。拿到Offer后的所有环节，Facebook都会把你的家庭（配偶和子女）作为一个整体考虑进去。所以只要家人支持，家庭不会成为入职的羁绊。</li>\n" +
-                        "  <li><em>国外生活经历</em> 博主在去Facebook前，除了一次自助蜜月游，从来没有出过国。也证明这方面没有硬性要求。个人觉得生活就像学游泳，扔进水里了，扑腾几下怎么样都会了。</li>\n" +
-                        "  <li><em>会翻墙</em> 呵呵。。。</li>\n" +
-                        "</ul>";
+                    @Override
+                    public void onFailure(int i, String s) {
 
-                Message msg = new Message();
-                msg.what = 1;
-                msg.obj = html;
-                mHandler.sendMessage(msg);
+                    }
+                });
+
             }
 
         }.start();
@@ -217,8 +216,6 @@ public class NewsActivity extends Activity{
         Toast.makeText(context,"comment",Toast.LENGTH_SHORT).show();
         }
     };
-
-
 
 
 }

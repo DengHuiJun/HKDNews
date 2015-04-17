@@ -3,6 +3,7 @@ package com.zero.hkdnews.ui;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,59 +26,68 @@ import java.util.List;
 
 import android.os.Handler;
 
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.FindListener;
+
 /**
  * Created by luowei on 15/4/11.
  */
 public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, OnMoreListener ,AdapterView.OnItemClickListener {
 
     private SuperListview mList;
- //   private ArrayAdapter<String> mAdapter;
 
     private List<News> dataList;
     private HomeAdapter homeAdapter;
 
+    public static final int ADD_DATA = 1;
+
+    private Handler mHandler =  new Handler(){
+      public void handleMessage(Message msg){
+          if(msg.what == ADD_DATA){
+              dataList = (List<News>) msg.obj;
+              homeAdapter.setDataList(dataList);
+              homeAdapter.notifyDataSetChanged();
+
+          }
+      }
+    };
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-     //   ArrayList<String> lst = new ArrayList<>();
+
         dataList = new ArrayList<>();
         homeAdapter =  new HomeAdapter(dataList,getActivity());
-
-    //    mAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, lst);
 
         //绑定fragment_home里面的SuperListView
         mList = (SuperListview) getActivity().findViewById(R.id.list);
 
-        Thread thread = new Thread( new Runnable() {
+        //初始化
+        homeAdapter.setDataList(dataList);
+        mList.setAdapter(homeAdapter);
+
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                getActivity().runOnUiThread(new Runnable() {
+                BmobQuery<News> query = new BmobQuery<>();
+                query.findObjects(getActivity(),new FindListener<News>() {
                     @Override
-                    public void run() {
-                   //     mAdapter.add("初始数据1");
-                   //     mAdapter.add("初始数据2");
-                   //     mAdapter.add("初始数据3");
-                        News data = new News();
-                        data.setNewsID(12);
-                        data.setNewsTime("04-21 12:33");
-                        data.setNewsSource("计算机学院");
-                        data.setNewsTitle("湖南科技大学个性化新闻客户端正在火速研发当中，由zero主导。");
-                    //    data.setImageUrl("wait");
-                        for (int i=0 ;i < 6 ;i++)
-                            dataList.add(data);
-                        homeAdapter.setDataList(dataList);
-                        mList.setAdapter(homeAdapter);
+                    public void onSuccess(List<News> list) {
+                        Message msg = Message.obtain();
+                        msg.obj = list;
+                        msg.what = ADD_DATA;
+                        mHandler.sendMessage(msg);
+                    }
+
+                    @Override
+                    public void onError(int i, String s) {
 
                     }
                 });
             }
+
         });
+
         thread.start();
 
         // Setting the refresh listener will enable the refresh progressbar

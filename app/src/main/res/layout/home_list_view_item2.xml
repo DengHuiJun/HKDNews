@@ -21,7 +21,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
-            android:text="谷歌暗中开发电池新技术｜极客早知道2015234"
+            android:text="暂时无数据，请刷新！"
             android:textSize="18sp" />
 
         <RelativeLayout
@@ -38,7 +38,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:gravity="center_vertical"
-                android:text="极客公园"
+                android:text="null"
                 android:textSize="10sp"
                 android:textColor="#ccc"/>
 
@@ -48,7 +48,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:gravity="center_vertical"
-                android:text="04-13 9:21"
+                android:text="null"
                 android:textSize="10sp"
                 android:textColor="#ccc"/>
 
