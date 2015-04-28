@@ -21,8 +21,6 @@ import com.zero.hkdnews.common.UIHelper;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.GetListener;
-import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.onekeyshare.OnekeyShare;
 
 /**
  * 新闻详情
@@ -158,15 +156,6 @@ public class NewsActivity extends Activity{
     }
 
     private void showShare(){
-        ShareSDK.initSDK(this);
-        OnekeyShare oks = new OnekeyShare();
-        // 分享时Notification的图标和文字
-
-    //    oks.setNotification(R.drawable.ic_launcher, getResources().getString(R.string.app_name));
-        oks.setText("我是分享文本");
-        oks.setImageUrl("http://f1.sharesdk.cn/imgs/2014/05/21/oESpJ78_533x800.jpg");
-        // 启动分享GUI
-        oks.show(this);
     }
 
     private View.OnClickListener homeClickListenter = new View.OnClickListener(){
