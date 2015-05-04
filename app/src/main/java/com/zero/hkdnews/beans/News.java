@@ -16,9 +16,18 @@ public class News extends BmobObject{
     private String strUrl;
     private Number commentCount;
     private String body;
+    private int code;
 
 
     private BmobFile newsImage;
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public int getCode() {
+        return code;
+    }
 
     public void setNewsImage(BmobFile newsImage) {
         this.newsImage = newsImage;

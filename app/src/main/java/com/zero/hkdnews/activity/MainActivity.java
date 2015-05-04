@@ -1,10 +1,10 @@
-package com.zero.hkdnews.ui;
+package com.zero.hkdnews.activity;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,9 +12,13 @@ import android.widget.Toast;
 
 import com.zero.hkdnews.R;
 import com.zero.hkdnews.beans.HnustUser;
+import com.zero.hkdnews.common.ActivityCollector;
 import com.zero.hkdnews.common.UIHelper;
+import com.zero.hkdnews.fragment.HomeFragment;
+import com.zero.hkdnews.fragment.MeFragment;
+import com.zero.hkdnews.fragment.PlayFragment;
+import com.zero.hkdnews.fragment.ShareFragment;
 
-import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
 
 
@@ -50,9 +54,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.d("BaseActivity", getClass().getSimpleName());
+        ActivityCollector.addActivity(this);
 
         setContentView(R.layout.activity_main);
+
+
 
         initView();
 
@@ -223,4 +230,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         }
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
+    }
 }

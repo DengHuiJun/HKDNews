@@ -1,4 +1,4 @@
-package com.zero.hkdnews.ui;
+package com.zero.hkdnews.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;

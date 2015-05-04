@@ -1,17 +1,15 @@
-package com.zero.hkdnews.ui;
+package com.zero.hkdnews.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
-import android.content.ContentResolver;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -33,14 +31,16 @@ import java.util.List;
 import com.zero.hkdnews.R;
 import com.zero.hkdnews.beans.HnustUser;
 
+import cn.bmob.push.BmobPush;
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobInstallation;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.SaveListener;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends BaseActivity implements LoaderCallbacks<Cursor> {
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -56,6 +56,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         super.onCreate(savedInstanceState);
 
         Bmob.initialize(this, "a1a712de02b00df3a5e8d9553d33f431");
+        // 使用推送服务时的初始化操作
+        BmobInstallation.getCurrentInstallation(this).save();
+        // 启动推送服务
+        BmobPush.startWork(this, "a1a712de02b00df3a5e8d9553d33f431");
+
 
         setContentView(R.layout.activity_login);
 

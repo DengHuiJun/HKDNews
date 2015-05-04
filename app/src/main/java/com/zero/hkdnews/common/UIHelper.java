@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.zero.hkdnews.ui.LoginActivity;
-import com.zero.hkdnews.ui.MainActivity;
-import com.zero.hkdnews.ui.NewsActivity;
+import com.zero.hkdnews.activity.LoginActivity;
+import com.zero.hkdnews.activity.MainActivity;
+import com.zero.hkdnews.activity.NewsActivity;
 
 /**
  * Created by luowei on 15/4/16.

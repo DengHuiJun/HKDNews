@@ -1,4 +1,4 @@
-package com.zero.hkdnews.ui;
+package com.zero.hkdnews.fragment;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -94,7 +94,10 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         mList.setRefreshListener(this);
 
         // Wow so beautiful
-     //   mList.setRefreshingColor(android.R.color.holo_orange_light, android.R.color.holo_blue_light, android.R.color.holo_green_light, android.R.color.holo_red_light);
+//        mList.setRefreshingColor(getResources().getColor(android.R.color.holo_orange_light),
+//                getResources().getColor(android.R.color.holo_blue_light),
+//                getResources().getColor(android.R.color.holo_green_light),
+//                getResources().getColor(android.R.color.holo_red_light));
 
         // I want to get loadMore triggered if I see the last item (1)
         mList.setupMoreListener(this, 1);
@@ -124,7 +127,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @Override
     public void onMoreAsked(int i, int i2, int i3) {
-        Toast.makeText(getActivity(), "More", Toast.LENGTH_LONG).show();
+//        Toast.makeText(getActivity(), "More", Toast.LENGTH_LONG).show();
 
         //demo purpose, adding to the bottom
        // mAdapter.add("More asked, more served");
@@ -147,6 +150,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 data.setNewsTime("04-22 14:33");
                 data.setNewsSource("加上");
                 data.setNewsTitle("湖南科技大学个性化新闻客户端正在火速研发当中，刷新测试。");
+                data.setCode(2);
                 dataList.add(0,data);
                 homeAdapter.setDataList(dataList);
                 homeAdapter.notifyDataSetChanged();

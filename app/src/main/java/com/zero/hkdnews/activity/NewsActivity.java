@@ -1,6 +1,5 @@
-package com.zero.hkdnews.ui;
+package com.zero.hkdnews.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,7 +25,7 @@ import cn.bmob.v3.listener.GetListener;
  * 新闻详情
  * Created by luowei on 15/4/11.
  */
-public class NewsActivity extends Activity{
+public class NewsActivity extends BaseActivity{
 
     private Context context ;
 

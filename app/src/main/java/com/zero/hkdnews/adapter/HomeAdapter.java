@@ -73,8 +73,11 @@ public class HomeAdapter extends BaseAdapter{
         viewHolder.newsTime.setText(data.getNewsTime());
         viewHolder.newsSource.setText(data.getNewsSource());
      //   viewHolder.newsImage.setBackgroundColor(context.getResources().getColor(R.color.custom_theme_primary));
-        Picasso.with(context).load(data.getNewsImage().getFileUrl(context)).into(viewHolder.newsImage);
-
+        if(data.getCode() == 2){
+         viewHolder.newsImage.setImageResource(R.mipmap.ic_launcher);
+        }else {
+            Picasso.with(context).load(data.getNewsImage().getFileUrl(context)).into(viewHolder.newsImage);
+        }
         return convertView;
     }
 
