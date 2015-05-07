@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.zero.hkdnews.R;
 
 /**
+ * 关于我的分享
  * Created by luowei on 15/4/11.
  */
 public class ShareFragment extends Fragment {

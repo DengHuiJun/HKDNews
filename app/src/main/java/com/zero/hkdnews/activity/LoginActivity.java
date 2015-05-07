@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.zero.hkdnews.R;
+import com.zero.hkdnews.app.AppContext;
 import com.zero.hkdnews.beans.HnustUser;
 
 import cn.bmob.push.BmobPush;
@@ -94,10 +95,11 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         mProgressView = findViewById(R.id.login_progress);
     }
 
-    private void initData() {
+    public void initData() {
         infoUser = BmobUser.getCurrentUser(this,HnustUser.class);
         if(infoUser !=null){
-            Intent i = new Intent(this, MainActivity.class);
+            AppContext.setCurrentUserId(infoUser.getObjectId());
+            Intent i = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(i);
             finish();
         }else{
@@ -163,9 +165,11 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
             user.login(LoginActivity.this,new SaveListener() {
                 @Override
                 public void onSuccess() {
-                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                    startActivity(intent);
-                    finish();
+
+//                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+//                    startActivity(intent);
+//                    finish();
+                    initData();
                 }
 
                 @Override

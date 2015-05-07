@@ -1,5 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:background="@color/custom_theme_light"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_marginTop="50dp"
+            android:src="@drawable/ic_launcher"
+            android:layout_gravity="center"
+            android:id="@+id/me_info_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp" />
+        <TextView
+            android:layout_margin="10dp"
+            android:text="zero"
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:id="@+id/me_info_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_margin="40dp"
+        android:textSize="19sp"
+        android:id="@+id/me_info_intro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="湖南科技大学计算机科学与工程学院，计算机2班学生"
+        />
+
+
+
 
 </LinearLayout>

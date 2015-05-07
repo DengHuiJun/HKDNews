@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.zero.hkdnews.common.ActivityCollector;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by luowei on 15/5/4.
  */
@@ -15,11 +17,16 @@ public class BaseActivity extends Activity {
         super.onCreate(savedInstanceState);
         Log.d("BaseActivity", getClass().getSimpleName());
         ActivityCollector.addActivity(this);
+        //绑定注解
+        ButterKnife.inject(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ActivityCollector.removeActivity(this);
+        //销毁注解
+        ButterKnife.reset(this);
+
     }
 }
