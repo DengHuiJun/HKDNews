@@ -36,6 +36,8 @@
 
         </ScrollView>
 
+        <include layout="@layout/comment_list"/>
+
     </ViewSwitcher>
 
     <include layout="@layout/news_detail_footer" />

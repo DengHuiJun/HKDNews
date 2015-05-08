@@ -2,9 +2,11 @@ package com.zero.hkdnews.common;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.zero.hkdnews.activity.CommentActivity;
 import com.zero.hkdnews.activity.LoginActivity;
 import com.zero.hkdnews.activity.MainActivity;
 import com.zero.hkdnews.activity.NewsActivity;
@@ -35,21 +37,23 @@ public class UIHelper {
     }
 
 
+    /**
+     * 跳转至登录界面
+     * @param context
+     */
     public static void showLogin(Context context){
         Intent intent = new Intent(context, LoginActivity.class);
         context.startActivity(intent);
     }
 
-    public static void addWebImageShow(final Context c,WebView wv){
-        wv.getSettings().setJavaScriptEnabled(true);
-        wv.addJavascriptInterface(new OnWebViewImageListener() {
-            @Override
-            public void onImageClick(String bigImageUrl) {
-                if(bigImageUrl != null){
-
-                }
-            }
-        },"mWebImageListener");
+    /**
+     * 跳转至评论回复
+     * @param context
+     */
+    public static void showCommentPub(Context context,Bundle bundle){
+        Intent intent = new Intent(context, CommentActivity.class);
+        intent.putExtra("data",bundle);
+        context.startActivity(intent);
     }
 
     public static WebViewClient getWebViewClient(){

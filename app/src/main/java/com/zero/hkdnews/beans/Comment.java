@@ -2,11 +2,13 @@ package com.zero.hkdnews.beans;
 
 import java.util.ArrayList;
 
+import cn.bmob.v3.BmobObject;
+
 /**
  * 评论类实体
  * Created by luowei on 15/5/7.
  */
-public class Comment {
+public class Comment extends BmobObject{
 
     //评论的新闻id
     private String newsId;

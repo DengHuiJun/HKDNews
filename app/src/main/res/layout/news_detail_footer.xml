@@ -3,48 +3,201 @@
     android:id="@+id/news_detail_footer"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="60dp"
     android:gravity="center_horizontal"
     android:background="@color/custom_theme_darker">
-
     <ViewSwitcher
-        android:id="@+id/news_detail_foot_viewswitcher"
+        android:id="@+id/news_detail_foot_view_switcher"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="match_parent">
         <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/news_detail_foot_com"
-                android:layout_width="150dp"
+        <RelativeLayout
+            android:id="@+id/news_detail_comment"
+            android:clickable="true"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_gravity="center_vertical"
-                android:background="@mipmap/reply_editbox_bg"
-                />
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/news_detail_foot_detail"
-                style="@style/main_footbar_image"
-                android:src="@mipmap/widget_bar_detail_nor"
-                 />
-            <ImageView
-               android:id="@+id/news_detail_foot_comlist"
-                style="@style/main_footbar_image"
-                android:src="@mipmap/widget_bar_comment_nor"/>
-            <ImageView
-               android:id="@+id/news_detail_foot_share"
-                style="@style/main_footbar_image"
-                android:src="@mipmap/widget_bar_share_nor"/>
+                <ImageView
+                    android:id="@+id/news_detail_comment_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/reply_editbox_bg" />
 
+            </LinearLayout>
 
+        </RelativeLayout>
 
+            <RelativeLayout
+                android:clickable="true"
+                android:id="@+id/news_detail_comment_detail"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/news_comment_detail_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@mipmap/widget_bar_detail_over" />
+
+                    <TextView
+                        android:id="@+id/news_comment_detail_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/news_detail_detail"
+                        android:textColor="#fff" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        <RelativeLayout
+            android:clickable="true"
+            android:id="@+id/news_detail_comment_list"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/news_comment_list_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/widget_bar_detail_nor" />
+
+                <TextView
+                    android:id="@+id/news_comment_list_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/news_detail_list"
+                    android:textColor="#fff" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+
+            android:clickable="true"
+            android:id="@+id/news_detail_love"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/news_detail_love_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/widget_bar_comment_nor" />
+
+                <TextView
+                    android:id="@+id/news_detail_love_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/news_detail_love"
+                    android:textColor="#fff" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+
+            android:clickable="true"
+            android:id="@+id/news_detail_share"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/news_detail_share_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/widget_bar_share_nor" />
+
+                <TextView
+                    android:id="@+id/news_detail_share_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/news_detail_share"
+                    android:textColor="#fff" />
+            </LinearLayout>
+
+        </RelativeLayout>
         </LinearLayout>
 
-    </ViewSwitcher>
+        <LinearLayout
+            android:padding="5dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <EditText
+                android:id="@+id/news_detail_foot_editer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:autoLink="web|email"
+                android:gravity="top"
+                android:visibility="visible"
+                />
 
+            <Button
+                android:id="@+id/news_detail_foot_comment_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/custom_theme_dark"
+                android:textSize="15dp"
+                android:text="评论"
+                />
+
+        </LinearLayout>
+    </ViewSwitcher>
 </LinearLayout>
