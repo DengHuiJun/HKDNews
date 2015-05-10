@@ -1,14 +1,16 @@
 package com.zero.hkdnews.beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.datatype.BmobRelation;
 
 /**
  * 评论类实体
  * Created by luowei on 15/5/7.
  */
-public class Comment extends BmobObject{
+public class Comment extends BmobObject implements Serializable{
 
     //评论的新闻id
     private String newsId;
@@ -22,12 +24,25 @@ public class Comment extends BmobObject{
     //评论的内容
     private String content;
 
-    //回复
-    private ArrayList<Reply> replies;
+    //对应的新闻
+    private News news;
 
-    class Reply{
-        String id;
-        String name;
+    private BmobRelation replies;
+
+    public void setReplies(BmobRelation replies) {
+        this.replies = replies;
+    }
+
+    public BmobRelation getReplies() {
+        return replies;
+    }
+
+    public void setNews(News news) {
+        this.news = news;
+    }
+
+    public News getNews() {
+        return news;
     }
 
     public void setNewsId(String newsId) {
@@ -62,11 +77,5 @@ public class Comment extends BmobObject{
         return content;
     }
 
-    public ArrayList<Reply> getReplies() {
-        return replies;
-    }
 
-    public void setReplies(ArrayList<Reply> replies) {
-        this.replies = replies;
-    }
 }

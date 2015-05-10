@@ -22,6 +22,7 @@ import android.widget.ViewSwitcher;
 import com.quentindommerc.superlistview.SuperListview;
 import com.zero.hkdnews.R;
 import com.zero.hkdnews.adapter.CommentAdapter;
+import com.zero.hkdnews.app.AppContext;
 import com.zero.hkdnews.beans.Comment;
 import com.zero.hkdnews.beans.News;
 import com.zero.hkdnews.common.UIHelper;
@@ -33,9 +34,17 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bmob.social.share.core.BMShareListener;
+import cn.bmob.social.share.core.ErrorInfo;
+import cn.bmob.social.share.core.data.BMPlatform;
+import cn.bmob.social.share.core.data.ShareData;
+import cn.bmob.social.share.view.BMShare;
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobRelation;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.GetListener;
+import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 /**
  * 新闻详情
@@ -75,7 +84,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private WebView mWebView;
     private Handler mHandler;
 
-    private String newsId;
+    private News  news;
 
     private static final int GET_NEWS_COMMENT = 1;
     private static final int GET_NEWS_CODE = 2;
@@ -125,7 +134,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             }
         };
 
-        initDate(newsId, false);
+        initDate(news.getObjectId(), false);
 
     }
 
@@ -157,7 +166,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         new Thread(){
             public void run(){
                 BmobQuery<Comment> query = new BmobQuery<Comment>();
-                query.addWhereEqualTo("newsId",newsId);
+                query.addWhereEqualTo("newsId",news.getObjectId());
                 query.findObjects(context, new FindListener<Comment>() {
                     @Override
                     public void onSuccess(List<Comment> list) {
@@ -203,8 +212,8 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private void initView() {
 
         context =this;
-        //获取传递过来newsId
-        newsId = getIntent().getStringExtra("news_id");
+        //获取传递过来news
+       news = (News) getIntent().getBundleExtra("data").getSerializable("news");
 
         //顶部的控件绑定
         mHome = (ImageView) findViewById(R.id.news_header_home);
@@ -220,6 +229,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         mLove=findViewById(R.id.news_detail_love);
         mShare=findViewById(R.id.news_detail_share);
 
+        //评论模块2个控件
         mCommentContent = (EditText) findViewById(R.id.news_detail_foot_editer);
         mCommentBtn = (Button) findViewById(R.id.news_detail_foot_comment_btn);
 
@@ -263,7 +273,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
         @Override
         public void onClick(View v) {
-            initDate(newsId, true);
+            initDate(news.getObjectId(), true);
             Toast.makeText(context,"refresh",Toast.LENGTH_SHORT).show();
         }
     };
@@ -286,6 +296,9 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         }
     };
 
+    /**
+     * 切换到评论列表事件
+     */
     private View.OnClickListener commentListClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -295,24 +308,71 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         }
     };
 
+    /**
+     * 点赞事件
+     */
     private View.OnClickListener loveClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            T.showShort(getApplicationContext(),"love");
+            T.showShort(getApplicationContext(), "love");
         }
     };
 
+    /**
+     *社会化分享
+     */
     private View.OnClickListener shareClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            T.showShort(getApplicationContext(),"share");
+          //  T.showShort(getApplicationContext(), "share");
+            ShareData shareData = new ShareData();
+            shareData.setTitle(news.getNewsTitle());
+            shareData.setDescription(news.getNewsTitle());
+            shareData.setText("分享");
+            shareData.setTarget_url(news.getStrUrl());
+            shareData.setImageUrl(news.getNewsImage().getFileUrl(context));
+
+            BMShareListener whiteViewListener = new BMShareListener() {
+                @Override
+                public void onPreShare() {
+                    T.showShort(context,"开始分享");
+                }
+                @Override
+                public void onSuccess() {
+                    T.showShort(context,"分享成功！");
+                }
+                @Override
+                public void onError(ErrorInfo error) {
+                    T.showShort(context,"分享失败"+ error);
+                }
+                @Override
+                public void onCancel() {
+                    T.showShort(context,"取消分享");
+                }
+            };
+            BMShare share = new BMShare(NewsActivity.this);
+            share.setShareData(shareData);
+            share.addListener(BMPlatform.PLATFORM_WECHAT, whiteViewListener);
+            share.addListener(BMPlatform.PLATFORM_WECHATMOMENTS, whiteViewListener);
+            share.addListener(BMPlatform.PLATFORM_SINAWEIBO, whiteViewListener);
+            share.addListener(BMPlatform.PLATFORM_RENN, whiteViewListener);
+            share.addListener(BMPlatform.PLATFORM_TENCENTWEIBO, whiteViewListener);
+            share.addListener(BMPlatform.PLATFORM_QQ, whiteViewListener);
+            share.addListener(BMPlatform.PLATFORM_QZONE, whiteViewListener);
+            share.show();
+           // Log.d("bmob", "分享end");
+
         }
     };
 
+    /**
+     * 点击评论监听事件
+     */
     private View.OnClickListener pubClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            T.showShort(getApplicationContext(),"Btn");
+//            T.showShort(getApplicationContext(),"Btn");
+            commitComment();
         }
     };
 
@@ -337,6 +397,64 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 break;
 
         }
+    }
+
+    /**
+     * 上传评论至服务器线程
+     */
+    private void commitComment(){
+        new Thread(){
+            public void run(){
+                if (!mCommentContent.getText().toString().equals("")) {
+                    Comment temp = new Comment();
+                    temp.setNews(news);
+                    temp.setAuthor(AppContext.getUserName());
+                    temp.setAuthorId(AppContext.currentUserId);
+                    temp.setNewsId(news.getObjectId());
+                    temp.setContent(mCommentContent.getText().toString());
+                    temp.save(context, new SaveListener() {
+                        @Override
+                        public void onSuccess() {
+                            T.showShort(context, "评论成功！");
+                            mFootViewSwitcher.setDisplayedChild(0);
+                            mCommentContent.setText("");
+                        }
+
+                        @Override
+                        public void onFailure(int i, String s) {
+                            L.d(s);
+                            T.showShort(context, "评论失败！");
+                        }
+                    });
+
+                    addCommentToNews(temp);
+
+
+
+                }else{
+                    T.showShort(context,"请输入评论内容！");
+                }
+            }
+        }.start();
+    }
+
+
+    private void addCommentToNews(Comment comment){
+        BmobRelation comments = new BmobRelation();
+        comments.add(comment);
+        news.setComments(comments);
+        news.update(context, new UpdateListener() {
+            @Override
+            public void onSuccess() {
+                T.showShort(context,"绑定到news");
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                L.d(s);
+            }
+        });
+
     }
 
 
@@ -373,9 +491,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Comment com = comments.get(position);
         Bundle bundle = new Bundle();
-        bundle.putString("author",com.getAuthor());
-        bundle.putString("id",com.getObjectId());
-        bundle.putString("content",com.getContent());
+        bundle.putSerializable("comment",com);
         UIHelper.showCommentPub(this,bundle);
     }
 }

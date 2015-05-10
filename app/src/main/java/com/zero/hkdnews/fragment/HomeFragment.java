@@ -146,7 +146,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 // demo purpose, adding to the top so you can see it
              //   mAdapter.insert("插入新数据", 0);
                 News data = new News();
-                data.setNewsID(13);
+               // data.setNewsID(13);
                 data.setNewsTime("04-22 14:33");
                 data.setNewsSource("加上");
                 data.setNewsTitle("湖南科技大学个性化新闻客户端正在火速研发当中，刷新测试。");
@@ -167,7 +167,11 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(getActivity(),"OK:"+position,Toast.LENGTH_LONG).show();
 
-        UIHelper.showNewsDetail(getActivity(),dataList.get(position).getObjectId());
+        Bundle bundle = new Bundle();
+
+        bundle.putSerializable("news",dataList.get(position));
+
+        UIHelper.showNewsDetail(getActivity(),bundle);
 
     }
 }

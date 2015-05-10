@@ -59,7 +59,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         setContentView(R.layout.activity_main);
 
-
+   //     getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.custom_theme_primary));
 
         initView();
 

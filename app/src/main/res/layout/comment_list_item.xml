@@ -32,6 +32,14 @@
             android:text="昵称"
             />
 
+        <TextView
+            android:id="@+id/comment_listitem_replies"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#e8e8e8"
+            android:text="这里是回复内容"/>
+
 
         <TextView
             android:id="@+id/comment_listitem_content"

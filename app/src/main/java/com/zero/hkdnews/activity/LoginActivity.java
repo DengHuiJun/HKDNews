@@ -31,6 +31,8 @@ import java.util.List;
 import com.zero.hkdnews.R;
 import com.zero.hkdnews.app.AppContext;
 import com.zero.hkdnews.beans.HnustUser;
+import com.zero.hkdnews.common.UIHelper;
+import com.zero.hkdnews.util.T;
 
 import cn.bmob.push.BmobPush;
 import cn.bmob.v3.Bmob;
@@ -91,6 +93,15 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
             }
         });
 
+        Button registerBtn = (Button) findViewById(R.id.email_sign_up_button);
+        registerBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIHelper.showRegister(LoginActivity.this);
+                finish();
+            }
+        });
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
@@ -99,6 +110,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         infoUser = BmobUser.getCurrentUser(this,HnustUser.class);
         if(infoUser !=null){
             AppContext.setCurrentUserId(infoUser.getObjectId());
+            AppContext.setUserName(infoUser.getNickname());
             Intent i = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(i);
             finish();
@@ -166,15 +178,14 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
                 @Override
                 public void onSuccess() {
 
-//                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-//                    startActivity(intent);
-//                    finish();
                     initData();
                 }
 
                 @Override
                 public void onFailure(int i, String s) {
+
                     showProgress(false);
+                    T.showShort(getApplicationContext(),"账号错误！");
                 }
             });
         }

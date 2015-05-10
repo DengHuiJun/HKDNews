@@ -8,6 +8,16 @@ import cn.bmob.v3.BmobUser;
 public class HnustUser extends BmobUser {
     private String studentID;
 
+    private String nickname;
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     public void setStudentID(String studentID) {
         this.studentID = studentID;
     }

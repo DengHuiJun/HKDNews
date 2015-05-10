@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.zero.hkdnews.R;
 import com.zero.hkdnews.beans.Comment;
+import com.zero.hkdnews.beans.Reply;
 
 import java.util.List;
 
@@ -28,9 +29,10 @@ public class CommentAdapter extends BaseAdapter {
         TextView name;
         TextView content;
         TextView date;
+        TextView reply;
     }
 
-    public void setListItems(List<Comment> listItems) {
+    public void setListItems(List<Comment> listItems){
         this.listItems = listItems;
     }
 
@@ -68,6 +70,7 @@ public class CommentAdapter extends BaseAdapter {
             viewHoler.name = (TextView) convertView.findViewById(R.id.comment_listitem_name);
             viewHoler.content = (TextView) convertView.findViewById(R.id.comment_listitem_content);
             viewHoler.date = (TextView) convertView.findViewById(R.id.comment_listitem_date);
+            viewHoler.reply = (TextView) convertView.findViewById(R.id.comment_listitem_replies);
 
             convertView.setTag(viewHoler);
 

@@ -18,7 +18,7 @@ public class BaseActivity extends Activity {
         Log.d("BaseActivity", getClass().getSimpleName());
         ActivityCollector.addActivity(this);
         //绑定注解
-        ButterKnife.inject(this);
+       // ButterKnife.inject(this);
     }
 
     @Override
@@ -26,7 +26,7 @@ public class BaseActivity extends Activity {
         super.onDestroy();
         ActivityCollector.removeActivity(this);
         //销毁注解
-        ButterKnife.reset(this);
+      //  ButterKnife.reset(this);
 
     }
 }

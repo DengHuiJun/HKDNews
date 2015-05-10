@@ -10,6 +10,7 @@ import com.zero.hkdnews.activity.CommentActivity;
 import com.zero.hkdnews.activity.LoginActivity;
 import com.zero.hkdnews.activity.MainActivity;
 import com.zero.hkdnews.activity.NewsActivity;
+import com.zero.hkdnews.activity.RegisterActivity;
 
 /**
  * Created by luowei on 15/4/16.
@@ -19,11 +20,11 @@ public class UIHelper {
     /**
      * 跳转到新闻详情界面
      * @param context
-     * @param newsId
+     * @param bundle
      */
-    public static void showNewsDetail(Context context,String newsId){
+    public static void showNewsDetail(Context context,Bundle bundle){
         Intent intent = new Intent(context, NewsActivity.class);
-        intent.putExtra("news_id",newsId);
+        intent.putExtra("data",bundle);
         context.startActivity(intent);
     }
 
@@ -45,6 +46,16 @@ public class UIHelper {
         Intent intent = new Intent(context, LoginActivity.class);
         context.startActivity(intent);
     }
+
+    /**
+     * 跳转至注册界面
+     * @param context
+     */
+    public static void showRegister(Context context){
+        Intent intent = new Intent(context, RegisterActivity.class);
+        context.startActivity(intent);
+    }
+
 
     /**
      * 跳转至评论回复

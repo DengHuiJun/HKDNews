@@ -13,6 +13,8 @@ public class AppContext extends Application {
     //当前用户登录的id
     public static String currentUserId;
 
+    public static String userName;
+
     @Override
     public void onCreate() {
         context = getApplicationContext();
@@ -32,5 +34,13 @@ public class AppContext extends Application {
 
     public static void setCurrentUserId(String currentUserId) {
         AppContext.currentUserId = currentUserId;
+    }
+
+    public static void setUserName(String userName) {
+        AppContext.userName = userName;
+    }
+
+    public static String getUserName() {
+        return userName;
     }
 }
