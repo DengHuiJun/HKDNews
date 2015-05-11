@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="horizontal"
+    android:background="@color/white">
+
+    <ImageView
+        android:background="@mipmap/widget_bar_share_over"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/me_list_view_img"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        />
+
+    <TextView
+        android:layout_marginLeft="2dp"
+        android:id="@+id/me_list_view_text"
+        android:text="我的消息"
+        android:textSize="22sp"
+        android:textColor="@color/black"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/me_list_view_end"
+        android:layout_gravity="center"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@mipmap/widget_bar_detail_over"/>
+
+</LinearLayout>

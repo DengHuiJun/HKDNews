@@ -8,16 +8,21 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.zero.hkdnews.R;
+import com.zero.hkdnews.adapter.MeAdapter;
 import com.zero.hkdnews.app.AppContext;
+import com.zero.hkdnews.beans.MeItem;
 import com.zero.hkdnews.beans.News;
 import com.zero.hkdnews.beans.UserInfo;
 import com.zero.hkdnews.util.L;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -28,11 +33,15 @@ import cn.bmob.v3.listener.FindListener;
 /**
  * Created by luowei on 15/4/11.
  */
-public class MeFragment extends Fragment {
+public class MeFragment extends Fragment{
     public static final int READ_INFO_OK = 12;
     public static final int READ_INFO_FAILED = 11;
 
     private UserInfo me;
+
+    private List<MeItem> list;
+
+    private MeAdapter meAdapter;
 
     private Handler mHandler =  new Handler(){
         public void handleMessage(Message msg){
@@ -57,6 +66,9 @@ public class MeFragment extends Fragment {
     @InjectView(R.id.me_info_intro)
     TextView my_intro;
 
+    @InjectView(R.id.me_list_view)
+    ListView meListView;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,6 +81,8 @@ public class MeFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        initData();
 
         Thread addInfo = new Thread(){
             @Override
@@ -98,11 +112,39 @@ public class MeFragment extends Fragment {
         addInfo.start();
     }
 
+    /**
+     * 加载列表数据
+     */
+    private void initData() {
+        list = new ArrayList(){};
+        MeItem  item1 = new MeItem(R.mipmap.widget_bar_share_over,"我的消息");
+        MeItem  item2 = new MeItem(R.mipmap.widget_bar_share_over,"推送资讯");
+        MeItem  item3 = new MeItem(R.mipmap.widget_bar_share_over,"我的收藏");
+        MeItem  item4 = new MeItem(R.mipmap.widget_bar_share_over,"用户反馈");
+        MeItem  item5 = new MeItem(R.mipmap.widget_bar_share_over,"检查更新");
+        MeItem  item6 = new MeItem(R.mipmap.widget_bar_share_over,"关于我们");
+        list.add(item1);
+        list.add(item2);
+        list.add(item3);
+        list.add(item4);
+        list.add(item5);
+        list.add(item6);
+
+        meAdapter = new MeAdapter(getActivity(),list);
+        meListView.setAdapter(meAdapter);
+
+        //添加各种响应事件
+        meListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
     }
-
-
 }
