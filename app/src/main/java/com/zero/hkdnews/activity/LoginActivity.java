@@ -106,6 +106,9 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         mProgressView = findViewById(R.id.login_progress);
     }
 
+    /**
+     * 判断是否登录成功过，自动登录，进入主界面
+     */
     public void initData() {
         infoUser = BmobUser.getCurrentUser(this,HnustUser.class);
         if(infoUser !=null){
