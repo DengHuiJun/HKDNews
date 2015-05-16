@@ -31,6 +31,6 @@
         android:layout_gravity="center"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="@mipmap/widget_bar_detail_over"/>
+        android:background="@mipmap/me_list_item_end"/>
 
 </LinearLayout>

@@ -8,6 +8,13 @@ android {
         disable 'InvalidPackage'
     }
 
+    packagingOptions{
+        exclude 'AndroidManifest.xml'
+        exclude 'proguard-project.txt'
+        exclude 'project.properties'
+    }
+
+
     defaultConfig {
         applicationId "com.zero.hkdnews"
         minSdkVersion 15
@@ -33,4 +40,5 @@ dependencies {
     compile 'com.android.support:support-v4:22.0.0'
     compile 'com.jakewharton:butterknife:6.1.0'
     compile project(':bmobShareSDK')
+    compile files('src/libs/viewpager_indicator.jar')
 }

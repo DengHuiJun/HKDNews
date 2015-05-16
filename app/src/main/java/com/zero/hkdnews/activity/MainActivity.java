@@ -1,7 +1,7 @@
 package com.zero.hkdnews.activity;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -15,6 +15,7 @@ import com.zero.hkdnews.beans.HnustUser;
 import com.zero.hkdnews.common.ActivityCollector;
 import com.zero.hkdnews.common.UIHelper;
 import com.zero.hkdnews.fragment.HomeFragment;
+import com.zero.hkdnews.fragment.HomePagerFragment;
 import com.zero.hkdnews.fragment.MeFragment;
 import com.zero.hkdnews.fragment.PlayFragment;
 import com.zero.hkdnews.fragment.ShareFragment;
@@ -25,7 +26,9 @@ import cn.bmob.v3.BmobUser;
 public class MainActivity extends ActionBarActivity implements View.OnClickListener{
 
     //首页新闻的fragment
-    private HomeFragment homeFragment;
+//    private HomeFragment homeFragment;
+
+    private HomePagerFragment homePagerFragment;
 
     //分享界面的fragment
     private ShareFragment shareFragment;
@@ -63,7 +66,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         initView();
 
-        fragmentManager = getFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         //第一次选中首页
         setBottomSelection(0);
 
@@ -157,11 +160,17 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         switch (index){
             case 0:
                 homeLayout.setBackgroundColor(getResources().getColor(R.color.custom_theme_dark));
-                if(homeFragment == null){
-                    homeFragment = new HomeFragment();
-                    transaction.add(R.id.main_content,homeFragment);
+//                if(homeFragment == null){
+//                    homeFragment = new HomeFragment();
+//                    transaction.add(R.id.main_content,homeFragment);
+//                }else{
+//                    transaction.show(homeFragment);
+//                }
+                if(homePagerFragment == null){
+                    homePagerFragment = new HomePagerFragment();
+                    transaction.add(R.id.main_content,homePagerFragment);
                 }else{
-                    transaction.show(homeFragment);
+                    transaction.show(homePagerFragment);
                 }
                 break;
             case 1:
@@ -216,9 +225,13 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
      * 隐藏所有的Fragment
      */
     private void hideAllFragment(FragmentTransaction transaction){
-        if(homeFragment != null){
-            transaction.hide(homeFragment);
+//        if(homeFragment != null){
+//            transaction.hide(homeFragment);
+//        }
+        if(homePagerFragment != null){
+            transaction.hide(homePagerFragment);
         }
+
         if(meFragment != null){
             transaction.hide(meFragment);
         }
