@@ -1,15 +1,14 @@
 package com.zero.hkdnews.fragment;
 
-import android.support.v4.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -24,16 +23,14 @@ import com.zero.hkdnews.common.UIHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.os.Handler;
-
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 
 /**
- * Created by luowei on 15/4/11.
+ * 推荐列表
+ * Created by luowei on 15/5/17.
  */
-public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, OnMoreListener ,AdapterView.OnItemClickListener {
-
+public class RecomFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, OnMoreListener,AdapterView.OnItemClickListener{
     private SuperListview mList;
 
     private List<News> dataList;
@@ -42,25 +39,31 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public static final int ADD_DATA = 1;
 
     private Handler mHandler =  new Handler(){
-      public void handleMessage(Message msg){
-          if(msg.what == ADD_DATA){
-              dataList = (List<News>) msg.obj;
-              homeAdapter.setDataList(dataList);
-              homeAdapter.notifyDataSetChanged();
+        public void handleMessage(Message msg){
+            if(msg.what == ADD_DATA){
+                dataList = (List<News>) msg.obj;
+                homeAdapter.setDataList(dataList);
+                homeAdapter.notifyDataSetChanged();
 
-          }
-      }
+            }
+        }
     };
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_newst,container,false);
+        return view;
+    }
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         dataList = new ArrayList<>();
         homeAdapter =  new HomeAdapter(dataList,getActivity());
 
         //绑定fragment_home里面的SuperListView
-        mList = (SuperListview) getActivity().findViewById(R.id.list);
+        mList = (SuperListview) getActivity().findViewById(R.id.recom_list);
 
         //初始化
         homeAdapter.setDataList(dataList);
@@ -70,7 +73,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             @Override
             public void run() {
                 BmobQuery<News> query = new BmobQuery<>();
-                query.addWhereEqualTo("code",0);
+                query.addWhereEqualTo("code",1);
                 query.findObjects(getActivity(),new FindListener<News>() {
                     @Override
                     public void onSuccess(List<News> list) {
@@ -108,58 +111,31 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             public void onDismiss(ListView listView, int[] reverseSortedPositions) {
             }
         }, true);
-
-    }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View homeLayout = inflater.inflate(R.layout.fragment_home,container,false);
-        return homeLayout;
-    }
-
-    @Override
-    public void onMoreAsked(int i, int i2, int i3) {
-//        Toast.makeText(getActivity(), "More", Toast.LENGTH_LONG).show();
-
-        //demo purpose, adding to the bottom
-       // mAdapter.add("More asked, more served");
-     //   homeAdapter.setDataList(dataList);
-        homeAdapter.notifyDataSetChanged();
-
-    }
-
-    @Override
-    public void onRefresh() {
-        Toast.makeText(getActivity(), "已经刷新！", Toast.LENGTH_LONG).show();
-
-        // enjoy the beaty of the progressbar
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-
-                News data = new News();
-                data.setNewsTime("04-22 14:33");
-                data.setNewsSource("加上");
-                data.setNewsTitle("湖南科技大学个性化新闻客户端正在火速研发当中，刷新测试。");
-                data.setCode(2);
-                dataList.add(0,data);
-                homeAdapter.setDataList(dataList);
-                homeAdapter.notifyDataSetChanged();
-
-            }
-        }, 1500);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
         Toast.makeText(getActivity(),"OK:"+position,Toast.LENGTH_LONG).show();
 
         Bundle bundle = new Bundle();
 
         bundle.putSerializable("news",dataList.get(position));
 
-        UIHelper.showNewsDetail(getActivity(),bundle);
+        UIHelper.showNewsDetail(getActivity(), bundle);
+    }
+
+    @Override
+    public void onMoreAsked(int i, int i1, int i2) {
+        homeAdapter.notifyDataSetChanged();
+
+
+    }
+
+    @Override
+    public void onRefresh() {
+        Toast.makeText(getActivity(), "最新了！", Toast.LENGTH_LONG).show();
+        homeAdapter.notifyDataSetChanged();
 
     }
 }

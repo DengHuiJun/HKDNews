@@ -16,6 +16,10 @@ import com.shizhefei.view.indicator.IndicatorViewPager;
 import com.shizhefei.view.indicator.slidebar.SpringBar;
 import com.shizhefei.view.indicator.transition.OnTransitionTextListener;
 import com.zero.hkdnews.R;
+import com.zero.hkdnews.adapter.HomePagerAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by luowei on 15/5/16.
@@ -28,6 +32,7 @@ public class HomePagerFragment extends Fragment {
     private Indicator indicator;
 
 
+    private List<Fragment> list;
 
 
     @Override
@@ -39,6 +44,9 @@ public class HomePagerFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        initData();
+
         viewPager = (ViewPager) getActivity().findViewById(R.id.home_pager_view_pager);
         indicator = (Indicator) getActivity().findViewById(R.id.home_pager_indicator);
 
@@ -53,50 +61,24 @@ public class HomePagerFragment extends Fragment {
 
         inflater = LayoutInflater.from(getActivity());
 
-        MyAdapter adapter = new MyAdapter(getFragmentManager());
+        HomePagerAdapter adapter = new HomePagerAdapter(getFragmentManager(),list,getActivity());
 
         indicatorViewPager.setAdapter(adapter);
 
         indicatorViewPager.setCurrentItem(1,false);
 
     }
-    
-    private  class MyAdapter extends IndicatorViewPager.IndicatorFragmentPagerAdapter{
 
+    private void initData() {
+        list = new ArrayList<>();
+        HomeFragment newst = new HomeFragment();
+        list.add(newst);
 
-            private String[] tabNames = {"最新","推荐","特色"};
-            private int[] status = {11,22,33};
+        RecomFragment recom = new RecomFragment();
+        list.add(recom);
 
-            public  MyAdapter(FragmentManager fragmentManager){
-                super(fragmentManager);
-               // inflater = LayoutInflater.from(getActivity());
-            }
-
-            @Override
-            public int getCount() {
-                return 3;
-            }
-
-            @Override
-            public View getViewForTab(int i, View view, ViewGroup viewGroup) {
-                if(view == null){
-                view = inflater.inflate(R.layout.home_pager_tab,viewGroup,false);
-            }
-            TextView textView = (TextView) view.findViewById(R.id.home_pager_tab_text);
-
-            textView.setText(tabNames[i]);
-
-            return view;
-            }
-
-            @Override
-            public android.support.v4.app.Fragment getFragmentForPage(int i) {
-                HomeFragment homeFragment = new HomeFragment();
-                Bundle bundle = new Bundle();
-                bundle.putInt("code",status[i]);
-                homeFragment.setArguments(bundle);
-                return homeFragment;
-            }
-        }
+        TeseFragment tese = new TeseFragment();
+        list.add(tese);
+    }
 
 }

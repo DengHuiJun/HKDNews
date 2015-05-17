@@ -25,6 +25,7 @@ import com.zero.hkdnews.adapter.CommentAdapter;
 import com.zero.hkdnews.app.AppContext;
 import com.zero.hkdnews.beans.Comment;
 import com.zero.hkdnews.beans.News;
+import com.zero.hkdnews.beans.NewsBody;
 import com.zero.hkdnews.common.UIHelper;
 import com.zero.hkdnews.util.L;
 import com.zero.hkdnews.util.T;
@@ -120,7 +121,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         mHandler = new Handler() {
             public void handleMessage(Message msg){
                 if(msg.what == GET_NEWS_CODE){
-                    News body = (News) msg.obj;
+                    NewsBody body = (NewsBody) msg.obj;
                     mWebView.loadDataWithBaseURL(null,body.getBody(),"text/html","utf-8",null);
                     mWebView.setWebViewClient(new WebViewClient(){
                         @Override
@@ -185,25 +186,32 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         }.start();
     }
 
+    /**
+     * 加载新闻内容
+     * @param newsId
+     * @param isRefresh
+     */
 
     private void initDate(final String newsId,final boolean isRefresh){
         new Thread(){
             public void run(){
-                BmobQuery<News> query = new BmobQuery<News>();
-                query.getObject(context,newsId,new GetListener<News>() {
+                BmobQuery<NewsBody> query = new BmobQuery<>();
+                query.addWhereEqualTo("newsId",newsId);
+                query.findObjects(getApplicationContext(), new FindListener<NewsBody>() {
                     @Override
-                    public void onSuccess(News news) {
-                        Message msg = Message.obtain();
-                        msg.obj = news;
-                        msg.what = GET_NEWS_CODE;
-                        mHandler.sendMessage(msg);
+                    public void onSuccess(List<NewsBody> list) {
+                        if (list.get(0) != null){
+                            Message msg = Message.obtain();
+                            msg.obj = list.get(0);
+                            msg.what = GET_NEWS_CODE;
+                            mHandler.sendMessage(msg);
+                        }
                     }
                     @Override
-                    public void onFailure(int i, String s) {
-                        L.d("get News"+s);
+                    public void onError(int i, String s) {
+                        T.showShort(getApplicationContext(),"ERROR!");
                     }
                 });
-
             }
 
         }.start();
@@ -256,10 +264,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
         //评论列表
         commentListView = (SuperListview) findViewById(R.id.comment_list_listview);
-
-
     }
-
     private View.OnClickListener homeClickListenter = new View.OnClickListener(){
 
         @Override
@@ -361,7 +366,6 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             share.addListener(BMPlatform.PLATFORM_QZONE, whiteViewListener);
             share.show();
            // Log.d("bmob", "分享end");
-
         }
     };
 
@@ -375,7 +379,6 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             commitComment();
         }
     };
-
     /**
      * 切换显示新闻还是评论列表
      * @param type
@@ -395,10 +398,8 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 mHeadTitle.setText("网友评论");
                 mViewSwitcher.setDisplayedChild(1);
                 break;
-
         }
     }
-
     /**
      * 上传评论至服务器线程
      */
@@ -419,17 +420,13 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                             mFootViewSwitcher.setDisplayedChild(0);
                             mCommentContent.setText("");
                         }
-
                         @Override
                         public void onFailure(int i, String s) {
                             L.d(s);
                             T.showShort(context, "评论失败！");
                         }
                     });
-
                     addCommentToNews(temp);
-
-
 
                 }else{
                     T.showShort(context,"请输入评论内容！");
@@ -457,9 +454,6 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     }
 
-
-
-
     /**
      * 底部的评论模式下，不能退出
      * @param keyCode
@@ -479,7 +473,6 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         }
         return super.onKeyDown(keyCode, event);
     }
-
 
     @Override
     public void onRefresh() {

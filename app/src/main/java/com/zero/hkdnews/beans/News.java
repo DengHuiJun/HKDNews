@@ -19,12 +19,11 @@ public class News extends BmobObject implements Serializable{
     private String newsTime;
     private String strUrl;
     private Number commentCount;
-    private String body;
     private BmobFile newsImage;
 
     private BmobRelation comments;
 
-
+    //新闻类型
     private int code;
 
     public int getCode() {
@@ -49,14 +48,6 @@ public class News extends BmobObject implements Serializable{
 
     public BmobFile getNewsImage() {
         return newsImage;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
-
-    public String getBody() {
-        return body;
     }
 
     public void setCommentCount(Number commentCount) {

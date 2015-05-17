@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#fff"
-    >
+    android:layout_height="match_parent">
     <com.quentindommerc.superlistview.SuperListview
         xmlns:superlistview="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/comment_list_listview"
+        android:id="@+id/recom_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         superlistview:superlv__listClipToPadding="false"
         superlistview:superlv__listDivider="@android:color/transparent"
         superlistview:superlv__listDividerHeight="10dp"
@@ -18,7 +14,5 @@
         superlistview:superlv__empty="@layout/wait_ui"
         superlistview:superlv__scrollbarStyle="outsideOverlay" >
     </com.quentindommerc.superlistview.SuperListview>
-
-
 
 </LinearLayout>
