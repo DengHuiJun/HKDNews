@@ -8,37 +8,41 @@
     <LinearLayout
         android:background="@color/custom_theme_light"
         android:layout_width="match_parent"
-        android:layout_height="190dp"
-        android:orientation="vertical">
+        android:layout_height="100dp"
+        android:paddingLeft="10dp"
+        android:orientation="horizontal">
+
         <ImageView
-            android:layout_marginTop="25dp"
-            android:src="@drawable/ic_launcher"
             android:layout_gravity="center"
             android:id="@+id/me_info_image"
-            android:layout_width="90dp"
-            android:layout_height="90dp" />
-        <TextView
-            android:layout_margin="5dp"
-            android:text="zero"
-            android:textSize="20sp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:id="@+id/me_info_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_launcher"/>
 
-        <TextView
+        <LinearLayout
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_gravity="center_vertical"
-            android:gravity="center"
-            android:textSize="21sp"
-            android:id="@+id/me_info_intro"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:text="什么都没留下。"
-            />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:textSize="20sp"
+                android:gravity="center_vertical"
+                android:id="@+id/me_info_name"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="zero"/>
+
+            <TextView
+                android:textSize="17sp"
+                android:maxHeight="50dp"
+                android:id="@+id/me_info_intro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="这个人什么也没留下"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <ListView

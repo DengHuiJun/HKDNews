@@ -412,6 +412,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                     temp.setAuthor(AppContext.getUserName());
                     temp.setAuthorId(AppContext.currentUserId);
                     temp.setNewsId(news.getObjectId());
+                    temp.setFace(AppContext.getMyHead());
                     temp.setContent(mCommentContent.getText().toString());
                     temp.save(context, new SaveListener() {
                         @Override
@@ -436,6 +437,10 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     }
 
 
+    /**
+     * 将评论绑定至新闻
+     * @param comment
+     */
     private void addCommentToNews(Comment comment){
         BmobRelation comments = new BmobRelation();
         comments.add(comment);
@@ -476,6 +481,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
+
         T.showShort(context,"刷新数据");
     }
 

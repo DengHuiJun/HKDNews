@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/share_upload_take_photo_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="拍照"/>
+        <Button
+            android:layout_marginLeft="10dp"
+            android:id="@+id/share_upload_use_photo_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="相册"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:textSize="18sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:text="您选择的照片："
+        android:textColor="#000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/share_upload_imageview"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        />
+
+    <EditText
+        android:hint="输入上传内容..."
+        android:gravity="top"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        android:layout_margin="10dp"
+        android:id="@+id/share_upload_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <Button
+        android:layout_margin="5dp"
+        android:textSize="20sp"
+        android:id="@+id/share_upload_ok_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="点击上传"/>
+
+
+
+
+</LinearLayout>

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.datatype.BmobRelation;
 
 /**
@@ -28,6 +29,17 @@ public class Comment extends BmobObject implements Serializable{
     private News news;
 
     private BmobRelation replies;
+
+
+    private BmobFile face;
+
+    public BmobFile getFace() {
+        return face;
+    }
+
+    public void setFace(BmobFile face) {
+        this.face = face;
+    }
 
     public void setReplies(BmobRelation replies) {
         this.replies = replies;

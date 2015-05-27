@@ -112,8 +112,14 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
     public void initData() {
         infoUser = BmobUser.getCurrentUser(this,HnustUser.class);
         if(infoUser !=null){
+
+            //将用户信息全局保留下来
             AppContext.setCurrentUserId(infoUser.getObjectId());
             AppContext.setUserName(infoUser.getNickname());
+            AppContext.setIntro(infoUser.getIntro());
+            AppContext.setMyHead(infoUser.getHead());
+
+
             Intent i = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(i);
             finish();
@@ -139,8 +145,8 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        String email = mEmailView.getText().toString().trim();
+        String password = mPasswordView.getText().toString().trim();
 
         boolean cancel = false;
         View focusView = null;
@@ -188,7 +194,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
                 public void onFailure(int i, String s) {
 
                     showProgress(false);
-                    T.showShort(getApplicationContext(),"账号错误！");
+                    T.showShort(getApplicationContext(),s+"登录失败！");
                 }
             });
         }

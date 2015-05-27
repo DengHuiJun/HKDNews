@@ -8,7 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.zero.hkdnews.R;
+import com.zero.hkdnews.app.AppContext;
 import com.zero.hkdnews.beans.Comment;
 import com.zero.hkdnews.beans.Reply;
 
@@ -84,6 +86,8 @@ public class CommentAdapter extends BaseAdapter {
         viewHoler.name.setText(comment.getAuthor());
         viewHoler.date.setText(comment.getUpdatedAt());
         viewHoler.content.setText(comment.getContent());
+
+        Picasso.with(context).load(comment.getFace().getFileUrl(context)).into(viewHoler.face);
 
         return convertView;
     }
