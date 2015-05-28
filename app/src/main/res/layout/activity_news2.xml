@@ -25,11 +25,19 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+                <ProgressBar
+                    android:id="@+id/news_detail_pb"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"/>
+
                 <WebView
                     android:id="@+id/news_detail_webview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#fff" />
+                    android:background="#fff"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 

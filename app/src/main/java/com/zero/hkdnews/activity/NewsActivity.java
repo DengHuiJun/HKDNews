@@ -1,6 +1,7 @@
 package com.zero.hkdnews.activity;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,6 +64,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     //包裹webView
     private ScrollView mScrollView;
     private ViewSwitcher mViewSwitcher;
+    private ProgressBar loadPB;
 
     //评论
     private View mComment;
@@ -128,6 +131,18 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                         public boolean shouldOverrideUrlLoading(WebView view, String url) {
                             view.loadUrl(url);
                             return super.shouldOverrideUrlLoading(view,url);
+                        }
+
+                        @Override
+                        public void onPageFinished(WebView view, String url) {
+                            super.onPageFinished(view, url);
+                            loadPB.setVisibility(View.GONE);
+                            mWebView.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                            super.onPageStarted(view, url, favicon);
                         }
                     });
 
@@ -244,6 +259,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         //包裹webview的控件
         mViewSwitcher = (ViewSwitcher) findViewById(R.id.news_detail_viewswitcher);
         mScrollView = (ScrollView) findViewById(R.id.news_detail_scrollview);
+        loadPB = (ProgressBar) findViewById(R.id.news_detail_pb);
 
         mWebView = (WebView) findViewById(R.id.news_detail_webview);
         mWebView.getSettings().setSupportZoom(true);

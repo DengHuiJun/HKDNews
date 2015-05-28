@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <com.quentindommerc.superlistview.SuperListview
-        xmlns:superlistview="http://schemas.android.com/apk/res-auto"
+    <ListView
         android:id="@+id/share_list_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        superlistview:superlv__listClipToPadding="false"
-        superlistview:superlv__listDivider="@android:color/transparent"
-        superlistview:superlv__listDividerHeight="5dp"
-        superlistview:superlv__listPadding="5dp"
-        superlistview:superlv__empty="@layout/wait_ui"
-        superlistview:superlv__scrollbarStyle="outsideOverlay" >
-    </com.quentindommerc.superlistview.SuperListview>
+        android:layout_height="match_parent"
+        android:dividerHeight="2dp"
+        android:divider="@color/custom_theme_dark"
+        >
 
-    <Button
-        android:id="@+id/share_upload_btn"
-        android:text="上传见闻"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
+    </ListView>
 
-</LinearLayout>
+
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:src="@mipmap/ic_add_white"
+        fab:fab_colorNormal="@color/custom_theme_primary"
+        fab:fab_colorPressed="@color/custom_theme_darker"
+        fab:fab_colorRipple="@color/custom_theme_light" />
+
+</FrameLayout>

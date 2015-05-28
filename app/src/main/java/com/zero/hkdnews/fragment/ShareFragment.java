@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.melnykov.fab.FloatingActionButton;
 import com.quentindommerc.superlistview.OnMoreListener;
 import com.quentindommerc.superlistview.SuperListview;
 import com.quentindommerc.superlistview.SwipeDismissListViewTouchListener;
@@ -31,12 +32,15 @@ import cn.bmob.v3.listener.FindListener;
  * 关于我的分享
  * Created by luowei on 15/4/11.
  */
-public class ShareFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, OnMoreListener {
+public class ShareFragment extends Fragment{
 
-    private SuperListview listview;
-    private Button uploadBtn;
+    private ListView listview;
+
     private List<UploadNews> datalist;
     private ShareAdapter adapter;
+
+    //浮动的按钮
+    private FloatingActionButton fab;
 
     private Thread addThread;
 
@@ -65,9 +69,9 @@ public class ShareFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        listview = (SuperListview) getActivity().findViewById(R.id.share_list_view);
+        listview = (ListView) getActivity().findViewById(R.id.share_list_view);
 
-        uploadBtn = (Button) getActivity().findViewById(R.id.share_upload_btn);
+        fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
 
         datalist = new ArrayList<>();
 
@@ -76,6 +80,9 @@ public class ShareFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         adapter.setDatalist(datalist);
 
         listview.setAdapter(adapter);
+
+
+        fab.attachToListView(listview);
 
 
         addThread = new Thread(new Runnable() {
@@ -103,26 +110,10 @@ public class ShareFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
         addThread.start();
 
-        listview.setRefreshListener(this);
-
-        listview.setOnMoreListener(this);
-
-        listview.setupSwipeToDismiss(new SwipeDismissListViewTouchListener.DismissCallbacks() {
-            @Override
-            public boolean canDismiss(int position) {
-                return true;
-            }
-
-            @Override
-            public void onDismiss(ListView listView, int[] reverseSortedPositions) {
-            }
-        }, true);
-
-
-        uploadBtn.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ShareUploadActivity.class);
+                Intent intent = new Intent(getActivity(),ShareUploadActivity.class);
                 getActivity().startActivity(intent);
             }
         });
@@ -130,17 +121,6 @@ public class ShareFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     }
 
-    @Override
-    public void onMoreAsked(int i, int i1, int i2) {
-        Toast.makeText(getActivity(), "no more", Toast.LENGTH_LONG).show();
-       // adapter.notifyAll();
 
-    }
 
-    @Override
-    public void onRefresh() {
-        //Toast.makeText(getActivity(), "已经刷新！", Toast.LENGTH_LONG).show();
-       // adapter.notifyAll();
-        addThread.start();
-    }
 }
