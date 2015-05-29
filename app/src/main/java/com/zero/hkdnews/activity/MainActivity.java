@@ -10,13 +10,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.zero.hkdnews.R;
+import com.zero.hkdnews.beans.HnustUser;
 import com.zero.hkdnews.common.ActivityCollector;
+import com.zero.hkdnews.common.UIHelper;
 import com.zero.hkdnews.fragment.HomePagerFragment;
 import com.zero.hkdnews.fragment.MeFragment;
 import com.zero.hkdnews.fragment.PlayFragment;
 import com.zero.hkdnews.fragment.ShareFragment;
+
+import cn.bmob.v3.BmobUser;
 
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener,NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -67,8 +72,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         setContentView(R.layout.activity_main);
 
-   //     getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.custom_theme_primary));
-
         initNav();
 
         initView();
@@ -99,11 +102,35 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
      */
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        fragmentManager.beginTransaction()
-//                .replace(R.id.main_content, PlaceholderFragment.newInstance(position + 1))
-//                .commit();
+
+        switch (position){
+            case 0:
+
+                break;
+            case 1:
+                if(LoginActivity.infoUser == null) {
+                    UIHelper.showLogin(this);
+                    finish();
+                }else{
+                    Toast.makeText(this, "你已经登录！", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case 2:
+                if(LoginActivity.infoUser != null){
+                    HnustUser.logOut(this);
+                    HnustUser temp = BmobUser.getCurrentUser(this, HnustUser.class);
+                    if(temp == null){
+                        UIHelper.showLogin(this);
+                        finish();
+                    }else{
+                        Toast.makeText(this,"退出失败！",Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(this,"您未登录！",Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+        }
     }
 
     /**
@@ -168,36 +195,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-//        switch (id){
-//            case R.id.action_login:
-//
-//                if(LoginActivity.infoUser == null) {
-//                    UIHelper.showLogin(this);
-//                    finish();
-//                }else{
-//                    Toast.makeText(this,"你已经登录！",Toast.LENGTH_SHORT).show();
-//                }
-//                return true;
-//            case R.id.action_out:
-//                if(LoginActivity.infoUser != null){
-//                    HnustUser.logOut(this);
-//                    HnustUser temp = BmobUser.getCurrentUser(this,HnustUser.class);
-//                    if(temp == null){
-//                        UIHelper.showLogin(this);
-//                        finish();
-//                    }else{
-//                        Toast.makeText(this,"退出失败！",Toast.LENGTH_SHORT).show();
-//                    }
-//                }else{
-//                    Toast.makeText(this,"您未登录！",Toast.LENGTH_SHORT).show();
-//                }
-//
-//                return true;
-//        }
-       // int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }

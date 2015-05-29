@@ -98,7 +98,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
             @Override
             public void onClick(View v) {
                 UIHelper.showRegister(LoginActivity.this);
-                finish();
+             //   finish();
             }
         });
 

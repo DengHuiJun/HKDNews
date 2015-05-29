@@ -18,16 +18,15 @@
 
     <string name="drawer_open">drawer_open</string>
     <string name="drawer_close">drawer_close</string>
-    <string name="title_activity_main_activity2">MainActivity2Activity</string>
 
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+    <string name="title_section1">定位</string>
+    <string name="title_section2">登录</string>
+    <string name="title_section3">注销</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_example">Example action</string>
+    <string name="action_example">search action</string>
 
     <string name="action_settings">Settings</string>
 </resources>
