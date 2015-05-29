@@ -60,6 +60,10 @@
             android:name=".activity.ShareUploadActivity"
             android:label="@string/app_name" />
 
+        <activity
+            android:name=".activity.LocationActivity"
+            android:label="@string/app_name" />
+
         <service
             android:name="cn.bmob.push.lib.service.PushService"
             android:exported="true"

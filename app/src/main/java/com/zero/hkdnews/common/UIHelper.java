@@ -7,6 +7,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.zero.hkdnews.activity.CommentActivity;
+import com.zero.hkdnews.activity.LocationActivity;
 import com.zero.hkdnews.activity.LoginActivity;
 import com.zero.hkdnews.activity.MainActivity;
 import com.zero.hkdnews.activity.NewsActivity;
@@ -56,6 +57,14 @@ public class UIHelper {
         context.startActivity(intent);
     }
 
+    /**
+     * 跳转至定位界面
+     * @param context
+     */
+    public static void showLocation(Context context){
+        Intent intent = new Intent(context, LocationActivity.class);
+        context.startActivity(intent);
+    }
 
     /**
      * 跳转至评论回复

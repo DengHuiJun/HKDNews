@@ -104,9 +104,13 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void onNavigationDrawerItemSelected(int position) {
 
         switch (position){
+
+            //定位功能
             case 0:
 
                 break;
+
+            //登录功能
             case 1:
                 if(LoginActivity.infoUser == null) {
                     UIHelper.showLogin(this);
@@ -115,6 +119,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                     Toast.makeText(this, "你已经登录！", Toast.LENGTH_SHORT).show();
                 }
                 break;
+
+            //注销功能
             case 2:
                 if(LoginActivity.infoUser != null){
                     HnustUser.logOut(this);
@@ -128,6 +134,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 }else{
                     Toast.makeText(this,"您未登录！",Toast.LENGTH_SHORT).show();
                 }
+                break;
+
+            //定位
+            case 3:
+                UIHelper.showLocation(this);
                 break;
 
         }
