@@ -7,14 +7,11 @@ android {
     lintOptions {
         disable 'InvalidPackage'
     }
-
     packagingOptions{
         exclude 'AndroidManifest.xml'
         exclude 'proguard-project.txt'
         exclude 'project.properties'
     }
-
-
     defaultConfig {
         applicationId "com.zero.hkdnews"
         minSdkVersion 15

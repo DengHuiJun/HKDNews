@@ -1,29 +1,25 @@
 package com.zero.hkdnews.activity;
 
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.zero.hkdnews.R;
-import com.zero.hkdnews.beans.HnustUser;
 import com.zero.hkdnews.common.ActivityCollector;
-import com.zero.hkdnews.common.UIHelper;
-import com.zero.hkdnews.fragment.HomeFragment;
 import com.zero.hkdnews.fragment.HomePagerFragment;
 import com.zero.hkdnews.fragment.MeFragment;
 import com.zero.hkdnews.fragment.PlayFragment;
 import com.zero.hkdnews.fragment.ShareFragment;
 
-import cn.bmob.v3.BmobUser;
 
-
-public class MainActivity extends ActionBarActivity implements View.OnClickListener{
+public class MainActivity extends ActionBarActivity implements View.OnClickListener,NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     //首页新闻的fragment
 //    private HomeFragment homeFragment;
@@ -54,6 +50,15 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private FragmentManager fragmentManager;
 
 
+    /**
+     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
+     */
+    private NavigationDrawerFragment mNavigationDrawerFragment;
+
+    //标题
+    private CharSequence mTitle;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +69,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
    //     getActionBar().setBackgroundDrawable(getResources().getDrawable(R.color.custom_theme_primary));
 
+        initNav();
+
         initView();
 
         fragmentManager = getSupportFragmentManager();
@@ -71,6 +78,62 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         setBottomSelection(0);
 
     }
+
+    /**
+     * 初始化左侧滑块菜单
+     */
+    private void initNav() {
+        mNavigationDrawerFragment = (NavigationDrawerFragment)
+                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+        mTitle = getTitle();
+
+        // Set up the drawer.
+        mNavigationDrawerFragment.setUp(
+                R.id.navigation_drawer,
+                (DrawerLayout) findViewById(R.id.drawer_layout));
+    }
+
+    /**
+     * 处理右侧滑菜单的选择
+     * @param position
+     */
+    @Override
+    public void onNavigationDrawerItemSelected(int position) {
+        // update the main content by replacing fragments
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        fragmentManager.beginTransaction()
+//                .replace(R.id.main_content, PlaceholderFragment.newInstance(position + 1))
+//                .commit();
+    }
+
+    /**
+     * 根据选项，改变ActionBar的标题
+     * @param number
+     */
+    public void onSectionAttached(int number) {
+        switch (number) {
+            case 1:
+                mTitle = getString(R.string.title_section1);
+                break;
+            case 2:
+                mTitle = getString(R.string.title_section2);
+                break;
+            case 3:
+                mTitle = getString(R.string.title_section3);
+                break;
+        }
+    }
+
+    /**
+     * 点击左上角恢复原来的ActionBar
+     */
+    public void restoreActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setTitle(mTitle);
+    }
+
 
     private void initView() {
 
@@ -90,7 +153,15 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+       // getMenuInflater().inflate(R.menu.menu_main, menu);
+        if (!mNavigationDrawerFragment.isDrawerOpen()) {
+            // Only show items in the action bar relevant to this screen
+            // if the drawer is not showing. Otherwise, let the drawer
+            // decide what to show in the action bar.
+            getMenuInflater().inflate(R.menu.main_activity2, menu);
+            restoreActionBar();
+            return true;
+        }
         return true;
     }
 
@@ -98,31 +169,37 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch (id){
-            case R.id.action_login:
+//        switch (id){
+//            case R.id.action_login:
+//
+//                if(LoginActivity.infoUser == null) {
+//                    UIHelper.showLogin(this);
+//                    finish();
+//                }else{
+//                    Toast.makeText(this,"你已经登录！",Toast.LENGTH_SHORT).show();
+//                }
+//                return true;
+//            case R.id.action_out:
+//                if(LoginActivity.infoUser != null){
+//                    HnustUser.logOut(this);
+//                    HnustUser temp = BmobUser.getCurrentUser(this,HnustUser.class);
+//                    if(temp == null){
+//                        UIHelper.showLogin(this);
+//                        finish();
+//                    }else{
+//                        Toast.makeText(this,"退出失败！",Toast.LENGTH_SHORT).show();
+//                    }
+//                }else{
+//                    Toast.makeText(this,"您未登录！",Toast.LENGTH_SHORT).show();
+//                }
+//
+//                return true;
+//        }
+       // int id = item.getItemId();
 
-                if(LoginActivity.infoUser == null) {
-                    UIHelper.showLogin(this);
-                    finish();
-                }else{
-                    Toast.makeText(this,"你已经登录！",Toast.LENGTH_SHORT).show();
-                }
-                return true;
-            case R.id.action_out:
-                if(LoginActivity.infoUser != null){
-                    HnustUser.logOut(this);
-                    HnustUser temp = BmobUser.getCurrentUser(this,HnustUser.class);
-                    if(temp == null){
-                        UIHelper.showLogin(this);
-                        finish();
-                    }else{
-                        Toast.makeText(this,"退出失败！",Toast.LENGTH_SHORT).show();
-                    }
-                }else{
-                    Toast.makeText(this,"您未登录！",Toast.LENGTH_SHORT).show();
-                }
-
-                return true;
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -147,10 +224,13 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             default:
                 break;
         }
-
     }
 
 
+    /**
+     * 选择底部功能
+     * @param index
+     */
     private void setBottomSelection(int index){
         clearSelection();
 
@@ -180,8 +260,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                     shareFragment = new ShareFragment();
                     transaction.add(R.id.main_content,shareFragment);
                 }else{
-                transaction.show(shareFragment);
-            }
+                    transaction.show(shareFragment);
+                }
                 break;
             case 2:
                 playLayout.setBackgroundColor(getResources().getColor(R.color.custom_theme_dark));
@@ -211,7 +291,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
     /**
-     * 清除当前选中状态，将颜色设置为浅色
+     * 清除底部当前选中状态，将颜色设置为浅色
      */
     private void clearSelection(){
         homeLayout.setBackgroundColor(getResources().getColor(R.color.custom_theme_darker));
@@ -222,7 +302,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
     /**
-     * 隐藏所有的Fragment
+     * 隐藏主页所有的Fragment
      */
     private void hideAllFragment(FragmentTransaction transaction){
 //        if(homeFragment != null){
@@ -242,7 +322,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             transaction.hide(shareFragment);
         }
     }
-
 
     @Override
     protected void onDestroy() {
