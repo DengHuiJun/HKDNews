@@ -74,12 +74,12 @@ public class MeFragment extends Fragment{
 
 
         list = new ArrayList(){};
-        MeItem  item1 = new MeItem(R.mipmap.widget_bar_share_over,"我的消息");
-        MeItem  item2 = new MeItem(R.mipmap.widget_bar_share_over,"推送资讯");
-        MeItem  item3 = new MeItem(R.mipmap.widget_bar_share_over,"我的收藏");
-        MeItem  item4 = new MeItem(R.mipmap.widget_bar_share_over,"用户反馈");
-        MeItem  item5 = new MeItem(R.mipmap.widget_bar_share_over,"检查更新");
-        MeItem  item6 = new MeItem(R.mipmap.widget_bar_share_over,"关于我们");
+        MeItem  item1 = new MeItem(R.mipmap.main_bottom_me,"我的消息");
+        MeItem  item2 = new MeItem(R.mipmap.main_bottom_me,"推送资讯");
+        MeItem  item3 = new MeItem(R.mipmap.main_bottom_me,"我的收藏");
+        MeItem  item4 = new MeItem(R.mipmap.main_bottom_me,"用户反馈");
+        MeItem  item5 = new MeItem(R.mipmap.main_bottom_me,"检查更新");
+        MeItem  item6 = new MeItem(R.mipmap.main_bottom_me,"关于我们");
         list.add(item1);
         list.add(item2);
         list.add(item3);

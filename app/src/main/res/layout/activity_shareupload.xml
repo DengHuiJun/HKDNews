@@ -37,8 +37,9 @@
 
     <ImageView
         android:id="@+id/share_upload_imageview"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="200dp"
+        android:visibility="gone"
         />
 
     <EditText

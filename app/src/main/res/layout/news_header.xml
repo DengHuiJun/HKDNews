@@ -10,26 +10,28 @@
     android:paddingRight="2dp">
 
     <ImageView
+        android:padding="5dp"
         android:id="@+id/news_header_home"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_gravity="left|center"
-        android:background="@mipmap/bottom_home"
+        android:background="@mipmap/news_detail_top_back"
         android:clickable="true" />
 
     <TextView
         android:id="@+id/news_header_title"
         style="@style/detail_head_title"
         android:layout_gravity="center"
-        android:textColor="@color/blue"
+        android:textColor="@color/PETER_RIVER"
         android:text="@string/news_detail_head_title" />
 
     <ImageView
+        android:padding="5dp"
         android:id="@+id/news_header_refresh"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_gravity="right|center"
-        android:background="@drawable/ic_launcher"
+        android:background="@mipmap/news_detail_top_refresh"
         android:clickable="true" />
 
 </LinearLayout>

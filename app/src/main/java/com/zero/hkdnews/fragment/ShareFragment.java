@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.melnykov.fab.FloatingActionButton;
+import com.pnikosis.materialishprogress.ProgressWheel;
 import com.quentindommerc.superlistview.OnMoreListener;
 import com.quentindommerc.superlistview.SuperListview;
 import com.quentindommerc.superlistview.SwipeDismissListViewTouchListener;
@@ -44,6 +45,9 @@ public class ShareFragment extends Fragment{
 
     private Thread addThread;
 
+
+    private ProgressWheel pw;
+
     private static final int UP_DATA = 0x11;
 
     private Handler mHandler =  new Handler(){
@@ -52,6 +56,7 @@ public class ShareFragment extends Fragment{
                 datalist = (List<UploadNews>) msg.obj;
                 adapter.setDatalist(datalist);
                 adapter.notifyDataSetChanged();
+                pw.setVisibility(View.GONE);
 
             }
         }
@@ -68,6 +73,8 @@ public class ShareFragment extends Fragment{
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        pw = (ProgressWheel) getActivity().findViewById(R.id.fragment_share_pb);
 
         listview = (ListView) getActivity().findViewById(R.id.share_list_view);
 

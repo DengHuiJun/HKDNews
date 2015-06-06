@@ -6,7 +6,22 @@
     <color name="red">#FF0000</color>
     <color name="blue">#0000FF</color>
     <color name="lightblue">#0083FF</color>
-    <color name="orange">#FFA500</color>
+
+    <color name="SUN_FLOWER">#F1C40F</color>
+    <color name="ORANGE">#F39C12</color>
+
+    <color name="TURQUOISE">#1ABC9C</color>
+    <color name="GREEN_SEA">#16A085</color>
+
+    <color name="CLOUDS">#ECF0F1</color>
+    <color name="SILVER">#BDC3C7</color>
+
+    <color name="CONCRETE">#95A5A6</color>
+    <color name="ASBESTOS">#7F8C8D</color>
+
+    <color name="PETER_RIVER">#3498DB</color>
+    <color name="BELIZE_HOLE">#2980B9</color>
+
 
     <color name="custom_theme_darker">#ad843d</color>
     <color name="custom_theme_dark">#d4a14a</color>

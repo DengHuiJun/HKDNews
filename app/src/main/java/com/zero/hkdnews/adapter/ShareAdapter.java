@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.squareup.picasso.Picasso;
 import com.zero.hkdnews.R;
 import com.zero.hkdnews.beans.UploadNews;
@@ -83,8 +85,12 @@ public class ShareAdapter extends BaseAdapter {
         if(data.getPhoto().getUrl()== null){
             viewHolder.photo.setImageResource(R.mipmap.ic_launcher);
         }else {
-            Picasso.with(context).load(data.getPhoto().getFileUrl(context)).into(viewHolder.photo);
+
+            Picasso.with(context)
+                    .load(data.getPhoto().getFileUrl(context))
+                    .into(viewHolder.photo);
         }
+
 
         return convertView;
     }

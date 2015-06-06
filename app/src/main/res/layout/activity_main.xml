@@ -46,7 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/bottom_home" />
+                    android:src="@mipmap/main_bottom_home" />
 
                 <TextView
                     android:id="@+id/home_text"
@@ -77,7 +77,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/bottom_share" />
+                    android:src="@mipmap/main_bottom_share" />
 
                 <TextView
                     android:id="@+id/share_text"
@@ -108,7 +108,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/bottom_play" />
+                    android:src="@mipmap/main_bottom_inform" />
 
                 <TextView
                     android:id="@+id/play_text"
@@ -139,7 +139,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/bottom_me" />
+                    android:src="@mipmap/main_bottom_me" />
 
                 <TextView
                     android:id="@+id/me_text"

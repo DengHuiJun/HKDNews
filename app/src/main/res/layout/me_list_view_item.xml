@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:orientation="horizontal"
-    android:background="@color/white">
+    android:background="@color/CLOUDS">
 
     <ImageView
-        android:background="@mipmap/widget_bar_share_over"
+        android:background="@mipmap/main_bottom_me"
         android:layout_marginLeft="10dp"
         android:id="@+id/me_list_view_img"
         android:layout_width="40dp"
@@ -20,7 +20,7 @@
         android:id="@+id/me_list_view_text"
         android:text="我的消息"
         android:textSize="22sp"
-        android:textColor="@color/black"
+        android:textColor="@color/ASBESTOS"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:layout_width="0dp"

@@ -67,5 +67,4 @@
         android:gravity="center"
         android:src="@mipmap/ic_launcher" />
 
-
 </LinearLayout>

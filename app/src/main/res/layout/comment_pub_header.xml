@@ -15,7 +15,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:clickable="true"
-        android:background="@mipmap/bottom_home"/>
+        android:background="@mipmap/news_detail_top_back"/>
 
     <TextView
         android:id="@+id/comment_list_head_title"

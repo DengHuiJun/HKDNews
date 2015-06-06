@@ -34,7 +34,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/reply_editbox_bg" />
+                    android:src="@mipmap/news_detail_bottom_comment" />
+
+                <TextView
+                    android:id="@+id/news_detail_comment_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="评论"
+                    android:textColor="#fff" />
 
             </LinearLayout>
 
@@ -58,7 +66,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@mipmap/widget_bar_detail_over" />
+                        android:src="@mipmap/news_detail_bottom_content" />
 
                     <TextView
                         android:id="@+id/news_comment_detail_text"
@@ -87,10 +95,10 @@
 
                 <ImageView
                     android:id="@+id/news_comment_list_img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/widget_bar_detail_nor" />
+                    android:src="@mipmap/news_detail_bottom_comment_list" />
 
                 <TextView
                     android:id="@+id/news_comment_list_text"
@@ -123,7 +131,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/widget_bar_comment_nor" />
+                    android:src="@mipmap/news_detail_bottom_love" />
 
                 <TextView
                     android:id="@+id/news_detail_love_text"
@@ -156,7 +164,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/widget_bar_share_nor" />
+                    android:src="@mipmap/news_share_transmit" />
 
                 <TextView
                     android:id="@+id/news_detail_share_text"
