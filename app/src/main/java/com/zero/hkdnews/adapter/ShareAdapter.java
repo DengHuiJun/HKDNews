@@ -57,7 +57,7 @@ public class ShareAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         UploadNews data = datalist.get(position);
         ViewHolder viewHolder = null;
-        if (viewHolder == null){
+        if (convertView == null){
             convertView = inflater.inflate(R.layout.share_list_view_item,parent,false);
             viewHolder = new ViewHolder();
             viewHolder.author = (TextView) convertView.findViewById(R.id.share_list_view_item_name);

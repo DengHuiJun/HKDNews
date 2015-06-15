@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/play_item_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="来自it2班的通知"
+        android:textSize="19dp"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/play_item_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="17dp"
+        android:text="@string/play_content"/>
+
+    <LinearLayout
+        android:background="@color/SILVER"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_margin="5dp"
+            android:id="@+id/play_list_view_item_bottom_comment"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/play_list_view_item_bottom_one"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@mipmap/news_share_transmit"/>
+            <TextView
+                android:layout_centerVertical="true"
+                android:id="@+id/play_list_view_item_bottom_one_text"
+                android:layout_toRightOf="@id/play_list_view_item_bottom_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/CLOUDS"
+                android:text="评论"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_margin="5dp"
+            android:id="@+id/play_list_view_item_bottom_receive"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/play_list_view_item_bottom_two"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@mipmap/news_share_comment"/>
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/play_list_view_item_bottom_two"
+                android:id="@+id/play_list_view_item_bottom_two_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/CLOUDS"
+                android:text="收到"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_margin="5dp"
+            android:id="@+id/play_list_view_item_bottom_look"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_centerVertical="true"
+                android:id="@+id/play_list_view_item_bottom_three"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@mipmap/news_share_love"/>
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/play_list_view_item_bottom_three"
+                android:id="@+id/play_list_view_item_bottom_three_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/CLOUDS"
+                android:text="查看"/>
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

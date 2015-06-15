@@ -32,7 +32,7 @@ import cn.bmob.v3.listener.FindListener;
 /**
  * Created by luowei on 15/4/11.
  */
-public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, OnMoreListener ,AdapterView.OnItemClickListener {
+public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener ,AdapterView.OnItemClickListener {
 
     private SuperListview mList;
 
@@ -66,10 +66,22 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         homeAdapter.setDataList(dataList);
         mList.setAdapter(homeAdapter);
 
+
+        //查询新闻的线程
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 BmobQuery<News> query = new BmobQuery<>();
+
+                //判断是否有缓存
+                boolean isCache = query.hasCachedResult(getActivity());
+
+                if(isCache){  //此为举个例子，并不一定按这种方式来设置缓存策略
+                    query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);    // 如果有缓存的话，则设置策略为CACHE_ELSE_NETWORK
+                }else{
+                    query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);    // 如果没有缓存的话，则设置策略为NETWORK_ELSE_CACHE
+                }
+
                 query.addWhereEqualTo("code",0);
                 query.findObjects(getActivity(),new FindListener<News>() {
                     @Override
@@ -88,26 +100,23 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             }
 
         });
-
         thread.start();
 
         // Setting the refresh listener will enable the refresh progressbar
         mList.setRefreshListener(this);
 
-        mList.setupMoreListener(this, 1);
-
         mList.setOnItemClickListener(this);
 
-        mList.setupSwipeToDismiss(new SwipeDismissListViewTouchListener.DismissCallbacks() {
-            @Override
-            public boolean canDismiss(int position) {
-                return true;
-            }
-
-            @Override
-            public void onDismiss(ListView listView, int[] reverseSortedPositions) {
-            }
-        }, true);
+//        mList.setupSwipeToDismiss(new SwipeDismissListViewTouchListener.DismissCallbacks() {
+//            @Override
+//            public boolean canDismiss(int position) {
+//                return true;
+//            }
+//
+//            @Override
+//            public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+//            }
+//        }, true);
 
     }
 
@@ -116,17 +125,6 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View homeLayout = inflater.inflate(R.layout.fragment_home,container,false);
         return homeLayout;
-    }
-
-    @Override
-    public void onMoreAsked(int i, int i2, int i3) {
-//        Toast.makeText(getActivity(), "More", Toast.LENGTH_LONG).show();
-
-        //demo purpose, adding to the bottom
-       // mAdapter.add("More asked, more served");
-     //   homeAdapter.setDataList(dataList);
-        homeAdapter.notifyDataSetChanged();
-
     }
 
     @Override
@@ -141,7 +139,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 News data = new News();
                 data.setNewsTime("04-22 14:33");
                 data.setNewsSource("加上");
-                data.setNewsTitle("湖南科技大学个性化新闻客户端正在火速研发当中，刷新测试。");
+                data.setNewsTitle("湖南科技大学个性化新闻客户端正在火速研发当中");
                 data.setCode(2);
                 dataList.add(0,data);
                 homeAdapter.setDataList(dataList);

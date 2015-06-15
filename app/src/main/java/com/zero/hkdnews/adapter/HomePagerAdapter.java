@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class HomePagerAdapter extends IndicatorViewPager.IndicatorFragmentPagerAdapter {
 
-    private String[] tabNames = {"最新","推荐","趣闻"};
+    private String[] tabNames = {"最新","推荐","招聘"};
     private List<Fragment> data;
     private LayoutInflater inflater;
 

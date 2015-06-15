@@ -21,6 +21,7 @@ import com.zero.hkdnews.fragment.MeFragment;
 import com.zero.hkdnews.fragment.PlayFragment;
 import com.zero.hkdnews.fragment.ShareFragment;
 
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 
 
@@ -141,6 +142,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 UIHelper.showLocation(this);
                 break;
 
+            //一键清除缓存
+            case 4:
+                BmobQuery.clearAllCachedResults(this);
+                break;
         }
     }
 

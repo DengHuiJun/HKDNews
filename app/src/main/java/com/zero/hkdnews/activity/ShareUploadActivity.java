@@ -227,7 +227,7 @@ public class ShareUploadActivity extends BaseActivity {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] byteArray = baos.toByteArray();
 
-            final double r = Math.random()*10000000+1;
+            final double r = Math.random()*100000000+1;
             final String name = (int)r+ "";
             String saveDir = Environment.getExternalStorageDirectory()
                     + "/hkdnews";
@@ -327,7 +327,7 @@ public class ShareUploadActivity extends BaseActivity {
         progressDialog.setCancelable(false);
         // 设置对话框的进度条风格
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        
+
         progressDialog.setIndeterminate(false);
         progressDialog.show();
     }

@@ -30,7 +30,7 @@ import cn.bmob.v3.listener.FindListener;
  * 推荐列表
  * Created by luowei on 15/5/17.
  */
-public class RecomFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, OnMoreListener,AdapterView.OnItemClickListener{
+public class RecomFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,AdapterView.OnItemClickListener{
     private SuperListview mList;
 
     private List<News> dataList;
@@ -73,6 +73,17 @@ public class RecomFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             @Override
             public void run() {
                 BmobQuery<News> query = new BmobQuery<>();
+
+                //判断是否有缓存
+                boolean isCache = query.hasCachedResult(getActivity());
+
+                if(isCache){  //此为举个例子，并不一定按这种方式来设置缓存策略
+                    query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);    // 如果有缓存的话，则设置策略为CACHE_ELSE_NETWORK
+                }else{
+                    query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);    // 如果没有缓存的话，则设置策略为NETWORK_ELSE_CACHE
+                }
+
+
                 query.addWhereEqualTo("code",1);
                 query.findObjects(getActivity(),new FindListener<News>() {
                     @Override
@@ -97,20 +108,10 @@ public class RecomFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         // Setting the refresh listener will enable the refresh progressbar
         mList.setRefreshListener(this);
 
-        mList.setupMoreListener(this, 1);
+//        mList.setupMoreListener(this, 1);
 
         mList.setOnItemClickListener(this);
 
-        mList.setupSwipeToDismiss(new SwipeDismissListViewTouchListener.DismissCallbacks() {
-            @Override
-            public boolean canDismiss(int position) {
-                return true;
-            }
-
-            @Override
-            public void onDismiss(ListView listView, int[] reverseSortedPositions) {
-            }
-        }, true);
     }
 
     @Override
@@ -123,13 +124,6 @@ public class RecomFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         bundle.putSerializable("news",dataList.get(position));
 
         UIHelper.showNewsDetail(getActivity(), bundle);
-    }
-
-    @Override
-    public void onMoreAsked(int i, int i1, int i2) {
-        homeAdapter.notifyDataSetChanged();
-
-
     }
 
     @Override

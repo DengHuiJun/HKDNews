@@ -1,20 +1,17 @@
 package com.zero.hkdnews.fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ListView;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.pnikosis.materialishprogress.ProgressWheel;
-import com.quentindommerc.superlistview.OnMoreListener;
-import com.quentindommerc.superlistview.SuperListview;
-import com.quentindommerc.superlistview.SwipeDismissListViewTouchListener;
 import com.zero.hkdnews.R;
 import com.zero.hkdnews.activity.ShareUploadActivity;
 import com.zero.hkdnews.adapter.ShareAdapter;
@@ -22,9 +19,6 @@ import com.zero.hkdnews.beans.UploadNews;
 
 import java.util.ArrayList;
 import java.util.List;
-import android.os.Handler;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
@@ -92,10 +86,22 @@ public class ShareFragment extends Fragment{
         fab.attachToListView(listview);
 
 
+        //查询数据的线程
         addThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 BmobQuery<UploadNews> query = new BmobQuery<>();
+
+                //判断是否有缓存
+                boolean isCache = query.hasCachedResult(getActivity());
+
+                if(isCache){  //此为举个例子，并不一定按这种方式来设置缓存策略
+                    query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);    // 如果有缓存的话，则设置策略为CACHE_ELSE_NETWORK
+                }else{
+                    query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);    // 如果没有缓存的话，则设置策略为NETWORK_ELSE_CACHE
+                }
+
+                query.order("-createdAt");
                 query.setLimit(10);
                 query.findObjects(getActivity(),new FindListener<UploadNews>() {
                     @Override
