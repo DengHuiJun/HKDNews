@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginRight="40dp"
+    android:layout_marginLeft="40dp"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btn_group_view_inform"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发布通知"/>
+
+    <Button
+        android:id="@+id/btn_group_view_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="邀请成员"/>
+
+    <Button
+        android:id="@+id/btn_group_view_check"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="查看成员"/>
+
+    <Button
+        android:id="@+id/btn_group_view_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="历史通知"/>
+
+</LinearLayout>

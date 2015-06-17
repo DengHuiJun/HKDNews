@@ -27,15 +27,13 @@ import cn.bmob.v3.BmobUser;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener,NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    //首页新闻的fragment
-//    private HomeFragment homeFragment;
-
+    //首页新闻的fragment,嵌入了一个viewpager
     private HomePagerFragment homePagerFragment;
 
     //分享界面的fragment
     private ShareFragment shareFragment;
 
-    //休闲吧界面的Fragment
+    //通知服务界面的Fragment
     private PlayFragment playFragment;
 
     //我的资料界面的Fragment
@@ -47,7 +45,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     //分享布局
     private View shareLayout;
 
-    //休闲吧布局
+    //通知服务布局
     private View playLayout;
 
     //我的资料布局
@@ -57,7 +55,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
 
     /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
+     * 左侧滑块
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
@@ -253,12 +251,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         switch (index){
             case 0:
                 homeLayout.setBackgroundColor(getResources().getColor(R.color.custom_theme_dark));
-//                if(homeFragment == null){
-//                    homeFragment = new HomeFragment();
-//                    transaction.add(R.id.main_content,homeFragment);
-//                }else{
-//                    transaction.show(homeFragment);
-//                }
                 if(homePagerFragment == null){
                     homePagerFragment = new HomePagerFragment();
                     transaction.add(R.id.main_content,homePagerFragment);
@@ -318,9 +310,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
      * 隐藏主页所有的Fragment
      */
     private void hideAllFragment(FragmentTransaction transaction){
-//        if(homeFragment != null){
-//            transaction.hide(homeFragment);
-//        }
         if(homePagerFragment != null){
             transaction.hide(homePagerFragment);
         }

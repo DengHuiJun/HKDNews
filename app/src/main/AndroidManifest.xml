@@ -42,12 +42,9 @@
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/app_name"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:windowSoftInputMode="adjustResize|stateVisible"
+            >
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activity.CommentActivity"
@@ -63,6 +60,19 @@
         <activity
             android:name=".activity.LocationActivity"
             android:label="@string/app_name" />
+
+        <activity android:name=".activity.GroupActivity"
+            android:label="@string/app_name"/>
+
+        <activity
+            android:name=".activity.StartActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
 
         <service
             android:name="cn.bmob.push.lib.service.PushService"

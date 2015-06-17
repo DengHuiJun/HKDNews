@@ -1,5 +1,6 @@
 package com.zero.hkdnews.fragment;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,7 +11,9 @@ import android.widget.ListView;
 import com.melnykov.fab.FloatingActionButton;
 import com.pnikosis.materialishprogress.ProgressWheel;
 import com.zero.hkdnews.R;
+import com.zero.hkdnews.activity.GroupActivity;
 import com.zero.hkdnews.adapter.PlayAdapter;
+import com.zero.hkdnews.beans.Group;
 import com.zero.hkdnews.beans.Informs;
 import com.zero.hkdnews.util.T;
 
@@ -50,7 +53,8 @@ public class PlayFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                T.showShort(getActivity(),"OK");
+                Intent intent = new Intent(getActivity(), GroupActivity.class);
+                getActivity().startActivity(intent);
             }
         });
 

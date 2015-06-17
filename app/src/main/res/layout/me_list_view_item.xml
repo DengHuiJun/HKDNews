@@ -4,22 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:orientation="horizontal"
-    android:background="@color/CLOUDS">
+    android:background="@color/SILVER">
 
     <ImageView
         android:background="@mipmap/main_bottom_me"
         android:layout_marginLeft="10dp"
         android:id="@+id/me_list_view_img"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         />
 
     <TextView
-        android:layout_marginLeft="2dp"
+        android:layout_marginLeft="5dp"
         android:id="@+id/me_list_view_text"
         android:text="我的消息"
-        android:textSize="22sp"
+        android:textSize="20sp"
         android:textColor="@color/ASBESTOS"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
@@ -27,10 +27,11 @@
         android:layout_height="wrap_content" />
 
     <ImageView
+        android:layout_marginRight="12dp"
         android:id="@+id/me_list_view_end"
         android:layout_gravity="center"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@mipmap/me_list_item_end"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/news_detail_top_back"/>
 
 </LinearLayout>

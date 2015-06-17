@@ -95,8 +95,8 @@
 
                 <ImageView
                     android:id="@+id/news_comment_list_img"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:src="@mipmap/news_detail_bottom_comment_list" />
 

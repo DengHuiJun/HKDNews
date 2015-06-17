@@ -2,18 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/news_header"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="40dp"
     android:background="@color/custom_theme_primary"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingLeft="2dp"
-    android:paddingRight="2dp">
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
 
     <ImageView
         android:padding="5dp"
         android:id="@+id/news_header_home"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="left|center"
         android:background="@mipmap/news_detail_top_back"
         android:clickable="true" />
@@ -28,8 +28,8 @@
     <ImageView
         android:padding="5dp"
         android:id="@+id/news_header_refresh"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="right|center"
         android:background="@mipmap/news_detail_top_refresh"
         android:clickable="true" />
