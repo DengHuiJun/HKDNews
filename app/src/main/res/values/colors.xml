@@ -37,4 +37,22 @@
 
 
     <color name="head_text">#0e5986</color>
+    
+    
+    <!-- 新版的颜色搭配-->
+    <color name="circle_ic_in">#65f0ac</color>
+    <color name="circle_ic_out">#c7f7c5</color>
+
+    <color name="ic_bg">#f7fbfc</color>
+    <color name="label_bg">#f5fafe</color>
+
+    <color name="divder">#e7f3ef</color>
+
+    <color name="big_title">#93f0c3</color>
+    <color name="select_ic">#abdebd</color>
+
+    <color name="love_or_special">#ffa283</color>
+    <color name="warning_news">#e8333a</color>
+    
+    
 </resources>

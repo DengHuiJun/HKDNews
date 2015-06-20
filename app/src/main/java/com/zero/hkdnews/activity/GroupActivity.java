@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
@@ -32,7 +33,11 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
     private PopupWindow popupWindow;
 
 
+    //发布通知按钮
     private Button btn_inform;
+
+    private ImageView back;
+    private ImageView addGroup;
 
 
     @Override
@@ -40,9 +45,9 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
 
-        initPopup();
+        initView();
 
-        listview = (SuperListview) findViewById(R.id.group_list_view);
+        initPopup();
 
         initData();
 
@@ -54,6 +59,29 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
 
         listview.setOnItemClickListener(this);
 
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        addGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                T.showShort(GroupActivity.this,"AddGroup");
+            }
+        });
+
+
+    }
+
+    private void initView() {
+        listview = (SuperListview) findViewById(R.id.group_list_view);
+
+        back = (ImageView) findViewById(R.id.group_header_home);
+
+        addGroup = (ImageView) findViewById(R.id.group_header_add);
 
     }
 
@@ -65,6 +93,7 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
         popupWindow.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
 
         btn_inform = (Button) popupView.findViewById(R.id.btn_group_view_inform);
+
         btn_inform.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

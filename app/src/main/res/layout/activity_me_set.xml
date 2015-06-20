@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/me_set_nickname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="昵称"/>
+
+    <EditText
+        android:id="@+id/me_set_intro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="个性签名"/>
+
+    <EditText
+        android:id="@+id/me_set_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="邮箱"/>
+
+    <EditText
+        android:id="@+id/me_set_city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="所在城市"/>
+
+    <Button
+        android:id="@+id/me_set_ok_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="确定"/>
+
+</LinearLayout>

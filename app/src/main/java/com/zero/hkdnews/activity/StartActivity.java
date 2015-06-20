@@ -1,6 +1,7 @@
 package com.zero.hkdnews.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.Window;
@@ -10,15 +11,25 @@ import com.zero.hkdnews.R;
 import android.os.Handler;
 
 /**
- * Created by luowei on 15/6/17.
+ * 启动界面
+ * Created by Guzz on /17.
  */
 public class StartActivity extends BaseActivity {
+
+    //用来标志是否第一次登录，来判断进入引导，还是登录
+    private boolean flag = true;
 
     private Handler handler = new Handler() {
 
         public void handleMessage(Message msg){
             if (msg.what == 11){
-                Intent intent = new Intent(StartActivity.this,LoginActivity.class);
+
+                Intent intent;
+                if(flag){
+                    intent = new Intent(StartActivity.this,GuideActivity.class);
+                } else{
+                    intent = new Intent(StartActivity.this,LoginActivity.class);
+                }
                 startActivity(intent);
                 finish();
             }
@@ -32,6 +43,10 @@ public class StartActivity extends BaseActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.activity_start);
+
+        flag = getFlag();
+
+        setFlag();
 
         new Thread(new Runnable() {
             @Override
@@ -50,5 +65,21 @@ public class StartActivity extends BaseActivity {
         }).start();
 
 
+    }
+
+    /**
+     * 通过sharePreferences存储 来判断是否第一次
+     */
+    private void setFlag() {
+        SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
+        editor.putBoolean("flag", false);
+        editor.commit();
+    }
+
+
+    public boolean getFlag() {
+        SharedPreferences pref = getSharedPreferences("data",MODE_PRIVATE);
+        boolean f = pref.getBoolean("flag",true);
+        return f;
     }
 }

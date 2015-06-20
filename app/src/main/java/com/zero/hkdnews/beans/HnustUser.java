@@ -7,13 +7,14 @@ import cn.bmob.v3.datatype.BmobFile;
  * Created by luowei on 15/4/16.
  */
 public class HnustUser extends BmobUser {
-    private String studentID;
 
     private String nickname;
 
     private BmobFile head;
 
     private String intro;
+
+    private String location;
 
     public BmobFile getHead() {
         return head;
@@ -39,11 +40,11 @@ public class HnustUser extends BmobUser {
         this.nickname = nickname;
     }
 
-    public void setStudentID(String studentID) {
-        this.studentID = studentID;
+    public String getLocation() {
+        return location;
     }
 
-    public String getStudentID() {
-        return studentID;
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

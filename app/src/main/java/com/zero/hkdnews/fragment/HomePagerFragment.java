@@ -25,6 +25,7 @@ import java.util.List;
  * Created by luowei on 15/5/16.
  */
 public class HomePagerFragment extends Fragment {
+
     private IndicatorViewPager indicatorViewPager;
     private LayoutInflater inflater;
 

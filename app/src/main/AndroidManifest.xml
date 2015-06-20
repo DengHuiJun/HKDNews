@@ -64,6 +64,10 @@
         <activity android:name=".activity.GroupActivity"
             android:label="@string/app_name"/>
 
+        <activity android:name=".activity.MeSetActivity"/>
+
+        <activity android:name=".activity.GuideActivity"/>
+
         <activity
             android:name=".activity.StartActivity">
             <intent-filter>
