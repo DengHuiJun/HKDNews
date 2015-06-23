@@ -117,7 +117,10 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
             AppContext.setCurrentUserId(infoUser.getObjectId());
             AppContext.setUserName(infoUser.getNickname());
             AppContext.setIntro(infoUser.getIntro());
-            AppContext.setMyHead(infoUser.getHead());
+
+            if(infoUser.getHead()!=null){
+                AppContext.setMyHead(infoUser.getHead());
+            }
 
 
             Intent i = new Intent(LoginActivity.this, MainActivity.class);
@@ -199,23 +202,24 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
             });
         }
 
-
-
-
     }
 
+    //验证用户名是否大于6个字符
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return email.contains("@");
+        if (email.length() >= 6  )
+            return true;
+        return false;
     }
 
+    //验证密码是否大于4个字符
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
         return password.length() > 4;
     }
 
     /**
-     * Shows the progress UI and hides the login form.
+     * 显示登录进度条，隐藏登录界面
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public void showProgress(final boolean show) {

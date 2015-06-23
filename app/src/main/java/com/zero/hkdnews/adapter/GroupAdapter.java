@@ -62,12 +62,14 @@ public class GroupAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
 
             viewHolder.name = (TextView) convertView.findViewById(R.id.group_item_name);
+            viewHolder.intro = (TextView) convertView.findViewById(R.id.group_item_intro);
 
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
         viewHolder.name.setText(group.getName());
+        viewHolder.intro.setText(group.getIntro());
 
 
         return convertView;
@@ -75,5 +77,6 @@ public class GroupAdapter extends BaseAdapter {
 
     static class ViewHolder{
         TextView name;
+        TextView intro;
     }
 }

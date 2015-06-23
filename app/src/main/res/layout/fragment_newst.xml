@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         superlistview:superlv__listClipToPadding="false"
         superlistview:superlv__listDivider="@android:color/transparent"
-        superlistview:superlv__listDividerHeight="10dp"
+        superlistview:superlv__listDividerHeight="1dp"
         superlistview:superlv__listPadding="10dp"
         superlistview:superlv__empty="@layout/wait_ui"
         superlistview:superlv__scrollbarStyle="outsideOverlay" >

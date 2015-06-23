@@ -76,16 +76,15 @@ public class ShareAdapter extends BaseAdapter {
         viewHolder.time.setText(data.getUpdatedAt());
         viewHolder.content.setText(data.getContent());
 
-        if(data.getHead().getUrl()== null){
-            viewHolder.head.setImageResource(R.mipmap.ic_launcher);
+        if(data.getHead() == null){
+            viewHolder.head.setImageResource(R.mipmap.default_me);
         }else {
             Picasso.with(context).load(data.getHead().getFileUrl(context)).into(viewHolder.head);
         }
 
-        if(data.getPhoto().getUrl()== null){
-            viewHolder.photo.setImageResource(R.mipmap.ic_launcher);
+        if(data.getPhoto() == null){
+            viewHolder.photo.setImageResource(R.mipmap.default_news);
         }else {
-
             Picasso.with(context)
                     .load(data.getPhoto().getFileUrl(context))
                     .into(viewHolder.photo);

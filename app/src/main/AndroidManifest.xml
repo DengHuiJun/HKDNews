@@ -68,6 +68,8 @@
 
         <activity android:name=".activity.GuideActivity"/>
 
+        <activity android:name=".activity.SendInformActivity"/>
+
         <activity
             android:name=".activity.StartActivity">
             <intent-filter>

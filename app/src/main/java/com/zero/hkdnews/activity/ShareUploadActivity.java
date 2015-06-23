@@ -143,13 +143,17 @@ public class ShareUploadActivity extends BaseActivity {
         });
     }
 
+    //上传完照片后，存储记录到Bmob中
     private void initData() {
         mHandler = new Handler() {
             public void  handleMessage(Message msg){
                 if (msg.what == 0x22){
                     UploadNews data = new UploadNews();
                     data.setAuthor(AppContext.getUserName());
-                    data.setHead(AppContext.getMyHead());
+
+                    if (AppContext.getMyHead()!=null)
+                        data.setHead(AppContext.getMyHead());
+
                     data.setPhoto((BmobFile) msg.obj);
                     data.setContent(contentEt.getText().toString());
                     data.setLove(0);

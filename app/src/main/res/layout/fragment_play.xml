@@ -8,8 +8,8 @@
         android:id="@+id/play_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:dividerHeight="4dp"
-        android:divider="@color/CLOUDS"
+        android:dividerHeight="10dp"
+        android:divider="@color/divder"
         >
 
     </ListView>
@@ -22,8 +22,8 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
         android:src="@mipmap/ic_add_white"
-        fab:fab_colorNormal="@color/custom_theme_primary"
-        fab:fab_colorPressed="@color/custom_theme_darker"
+        fab:fab_colorNormal="@color/circle_ic_in"
+        fab:fab_colorPressed="@color/circle_ic_out"
         fab:fab_colorRipple="@color/custom_theme_light" />
 
 </FrameLayout>

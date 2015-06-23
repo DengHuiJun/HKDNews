@@ -86,6 +86,7 @@ public class TeseFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);    // 如果没有缓存的话，则设置策略为NETWORK_ELSE_CACHE
                 }
 
+                query.order("-createdAt");
                 query.addWhereEqualTo("code",2);
                 query.findObjects(getActivity(),new FindListener<News>() {
                     @Override
@@ -109,8 +110,6 @@ public class TeseFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
         // Setting the refresh listener will enable the refresh progressbar
         mList.setRefreshListener(this);
-
-
         mList.setOnItemClickListener(this);
 
     }

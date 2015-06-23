@@ -26,7 +26,7 @@
             style="@style/detail_head_title"
             android:layout_gravity="center"
             android:textColor="@color/PETER_RIVER"
-            android:text="群组列表" />
+            android:text="发布通知" />
 
         <ImageView
             android:padding="5dp"
@@ -41,20 +41,25 @@
 
 
 
-    <com.quentindommerc.superlistview.SuperListview
-        xmlns:superlistview="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/group_list_view"
+    <TextView
+        android:id="@+id/send_inform_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/CLOUDS"
-        superlistview:superlv__listClipToPadding="false"
-        superlistview:superlv__listDivider="@color/SILVER"
-        superlistview:superlv__listDividerHeight="1dp"
-        superlistview:superlv__listPadding="10dp"
-        superlistview:superlv__empty="@layout/wait_ui"
-        superlistview:superlv__scrollbarStyle="outsideOverlay" >
-    </com.quentindommerc.superlistview.SuperListview>
+        android:layout_height="60dp"
+        android:textSize="22sp"
+        android:text="通知内容:"/>
 
+    <EditText
+        android:id="@+id/send_inform_content"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:hint="请输入详情..."
+        android:gravity="top"
+        android:layout_height="0dp" />
 
+    <Button
+        android:id="@+id/send_inform_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发布"/>
 
 </LinearLayout>

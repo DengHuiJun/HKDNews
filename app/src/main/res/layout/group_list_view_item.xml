@@ -2,15 +2,56 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="horizontal"
+    android:padding="10dp"
+    >
 
-    <TextView
-        android:id="@+id/group_item_name"
-        android:layout_width="match_parent"
+
+    <ImageView
+        android:id="@+id/group_item_img"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="22sp"
-        android:layout_gravity="center"
-        android:text="null"/>
+        android:src="@mipmap/group_head_one"
+        android:layout_gravity="center_horizontal"
+        />
+
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/group_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textSize="20sp"
+            android:maxLines="1"
+            android:text="IT2班"/>
+
+        <TextView
+            android:maxLines="1"
+            android:id="@+id/group_item_intro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textSize="16sp"
+            android:textColor="@color/SILVER"
+            android:text="计算机科学与技术专业2班"/>
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/group_item_img_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/arrows_left"
+        android:layout_gravity="center_horizontal"
+        />
+
 
 </LinearLayout>

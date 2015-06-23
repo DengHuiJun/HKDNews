@@ -70,7 +70,12 @@ public class MeFragment extends Fragment{
      */
     private void initData() {
         //初始化个人信息
-        Picasso.with(getActivity()).load(AppContext.getMyHead().getFileUrl(getActivity())).into(my_img);
+        if (AppContext.getMyHead()!=null){
+            Picasso.with(getActivity()).load(AppContext.getMyHead().getFileUrl(getActivity())).into(my_img);
+        }else {
+            my_img.setImageResource(R.mipmap.default_me);
+        }
+
         my_name.setText(AppContext.getUserName());
         my_intro.setText(AppContext.getIntro());
 

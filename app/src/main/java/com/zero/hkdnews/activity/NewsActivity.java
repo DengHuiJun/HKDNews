@@ -120,6 +120,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     }
 
+    //初始化文章内容
     private void initData() {
         mHandler = new Handler() {
             public void handleMessage(Message msg){
@@ -182,6 +183,8 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         new Thread(){
             public void run(){
                 BmobQuery<Comment> query = new BmobQuery<Comment>();
+                query.order("-createdAt");
+                query.setLimit(20);
                 query.addWhereEqualTo("newsId",news.getObjectId());
                 query.findObjects(context, new FindListener<Comment>() {
                     @Override

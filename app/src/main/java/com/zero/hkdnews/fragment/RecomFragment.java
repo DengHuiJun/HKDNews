@@ -83,7 +83,7 @@ public class RecomFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                     query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);    // 如果没有缓存的话，则设置策略为NETWORK_ELSE_CACHE
                 }
 
-
+                query.order("-createdAt");
                 query.addWhereEqualTo("code",1);
                 query.findObjects(getActivity(),new FindListener<News>() {
                     @Override

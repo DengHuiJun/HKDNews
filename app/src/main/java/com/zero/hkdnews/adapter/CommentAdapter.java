@@ -87,7 +87,13 @@ public class CommentAdapter extends BaseAdapter {
         viewHoler.date.setText(comment.getUpdatedAt());
         viewHoler.content.setText(comment.getContent());
 
-        Picasso.with(context).load(comment.getFace().getFileUrl(context)).into(viewHoler.face);
+        //如果不存在，则加载本地头像
+        if(comment.getFace()!=null){
+            Picasso.with(context).load(comment.getFace().getFileUrl(context)).into(viewHoler.face);
+        }else{
+            Picasso.with(context).load(R.mipmap.default_me).into(viewHoler.face);
+        }
+
 
         return convertView;
     }
