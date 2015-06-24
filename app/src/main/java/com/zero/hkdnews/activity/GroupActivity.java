@@ -16,6 +16,7 @@ import com.quentindommerc.superlistview.SuperListview;
 import com.zero.hkdnews.R;
 import com.zero.hkdnews.adapter.GroupAdapter;
 import com.zero.hkdnews.beans.Group;
+import com.zero.hkdnews.common.UIHelper;
 import com.zero.hkdnews.util.T;
 
 import java.util.ArrayList;
@@ -79,7 +80,8 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
         addGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                T.showShort(GroupActivity.this,"AddGroup");
+                Intent intent = new Intent(GroupActivity.this,AddGroupActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -142,7 +144,7 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
     private View.OnClickListener informListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            T.showShort(getApplicationContext(),"发布通知");
+           // T.showShort(getApplicationContext(),"发布通知");
             Intent intent = new Intent(GroupActivity.this,SendInformActivity.class);
             startActivity(intent);
         }
@@ -154,7 +156,8 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
     private View.OnClickListener addMebListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            T.showShort(getApplicationContext(),"添加成员");
+           // T.showShort(getApplicationContext(),"添加成员");
+            UIHelper.jumbActivity(GroupActivity.this,AddMemberActivity.class);
         }
     };
 

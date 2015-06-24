@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,13 @@ import android.widget.ListView;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.pnikosis.materialishprogress.ProgressWheel;
+import com.quentindommerc.superlistview.SuperListview;
 import com.zero.hkdnews.R;
 import com.zero.hkdnews.activity.ShareUploadActivity;
 import com.zero.hkdnews.adapter.ShareAdapter;
 import com.zero.hkdnews.beans.UploadNews;
+import com.zero.hkdnews.myview.RefreshableView;
+import com.zero.hkdnews.util.T;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,12 +41,13 @@ public class ShareFragment extends Fragment{
     //浮动的按钮
     private FloatingActionButton fab;
 
+    //加载分享数据线程
     private Thread addThread;
-
 
     private ProgressWheel pw;
 
     private static final int UP_DATA = 0x11;
+    private static final int REFRESH_DATA = 0x22;
 
     private Handler mHandler =  new Handler(){
         public void handleMessage(Message msg){
@@ -55,7 +60,6 @@ public class ShareFragment extends Fragment{
             }
         }
     };
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -82,9 +86,7 @@ public class ShareFragment extends Fragment{
 
         listview.setAdapter(adapter);
 
-
         fab.attachToListView(listview);
-
 
         //查询数据的线程
         addThread = new Thread(new Runnable() {
@@ -111,7 +113,6 @@ public class ShareFragment extends Fragment{
                         msg.what = UP_DATA;
                         mHandler.sendMessage(msg);
                     }
-
                     @Override
                     public void onError(int i, String s) {
 
@@ -126,14 +127,11 @@ public class ShareFragment extends Fragment{
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),ShareUploadActivity.class);
+                Intent intent = new Intent(getActivity(), ShareUploadActivity.class);
                 getActivity().startActivity(intent);
             }
         });
 
-
     }
-
-
 
 }

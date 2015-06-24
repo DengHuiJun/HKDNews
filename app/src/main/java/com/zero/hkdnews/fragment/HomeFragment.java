@@ -20,6 +20,7 @@ import com.zero.hkdnews.R;
 import com.zero.hkdnews.adapter.HomeAdapter;
 import com.zero.hkdnews.beans.News;
 import com.zero.hkdnews.common.UIHelper;
+import com.zero.hkdnews.util.T;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 
 /**
+ * 最新模块里面的新闻加载
  * Created by luowei on 15/4/11.
  */
 public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener ,AdapterView.OnItemClickListener {
@@ -39,7 +41,8 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private List<News> dataList;
     private HomeAdapter homeAdapter;
 
-    public static final int ADD_DATA = 1;
+    private static final int ADD_DATA = 1;
+    private static final int REFRESH_DATA = 2;
 
     private Handler mHandler =  new Handler(){
       public void handleMessage(Message msg){
@@ -49,6 +52,14 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
               homeAdapter.notifyDataSetChanged();
 
           }
+          if(msg.what == REFRESH_DATA){
+              dataList = (List<News>) msg.obj;
+              homeAdapter.setDataList(dataList);
+              homeAdapter.notifyDataSetChanged();
+              T.showShort(getActivity(),"刷新完成！");
+
+          }
+
       }
     };
 
@@ -66,7 +77,6 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         homeAdapter.setDataList(dataList);
         mList.setAdapter(homeAdapter);
 
-
         //查询新闻的线程
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -82,6 +92,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);    // 如果没有缓存的话，则设置策略为NETWORK_ELSE_CACHE
                 }
                 query.order("-createdAt");
+                query.setLimit(15);
                 query.addWhereEqualTo("code",0);
                 query.findObjects(getActivity(),new FindListener<News>() {
                     @Override
@@ -101,22 +112,10 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
         });
         thread.start();
-
         // Setting the refresh listener will enable the refresh progressbar
         mList.setRefreshListener(this);
 
         mList.setOnItemClickListener(this);
-
-//        mList.setupSwipeToDismiss(new SwipeDismissListViewTouchListener.DismissCallbacks() {
-//            @Override
-//            public boolean canDismiss(int position) {
-//                return true;
-//            }
-//
-//            @Override
-//            public void onDismiss(ListView listView, int[] reverseSortedPositions) {
-//            }
-//        }, true);
 
     }
 
@@ -129,24 +128,31 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @Override
     public void onRefresh() {
-        Toast.makeText(getActivity(), "已经刷新！", Toast.LENGTH_LONG).show();
-
         // enjoy the beaty of the progressbar
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        mHandler.postDelayed(new Runnable() {
             public void run() {
+                BmobQuery<News> query = new BmobQuery<>();
 
-                News data = new News();
-                data.setNewsTime("04-22 14:33");
-                data.setNewsSource("加上");
-                data.setNewsTitle("湖南科技大学个性化新闻客户端正在火速研发当中");
-                data.setCode(2);
-                dataList.add(0,data);
-                homeAdapter.setDataList(dataList);
-                homeAdapter.notifyDataSetChanged();
+                query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);    // 设置策略为NETWORK_ELSE_CACHE
+                query.order("-createdAt");
+                query.setLimit(15);
+                query.addWhereEqualTo("code",0);
+                query.findObjects(getActivity(), new FindListener<News>() {
+                    @Override
+                    public void onSuccess(List<News> list) {
+                        Message msg = Message.obtain();
+                        msg.obj = list;
+                        msg.what = REFRESH_DATA;
+                        mHandler.sendMessage(msg);
+                    }
 
+                    @Override
+                    public void onError(int i, String s) {
+
+                    }
+                });
             }
-        }, 1500);
+        }, 500);
     }
 
     @Override

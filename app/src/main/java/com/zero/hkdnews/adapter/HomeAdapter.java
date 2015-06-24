@@ -70,7 +70,7 @@ public class HomeAdapter extends BaseAdapter{
         }
 
         viewHolder.newsTitle.setText(data.getNewsTitle());
-        viewHolder.newsTime.setText(data.getNewsTime());
+        viewHolder.newsTime.setText(data.getCreatedAt());
         viewHolder.newsSource.setText(data.getNewsSource());
 
         if(data.getNewsImage()!= null){

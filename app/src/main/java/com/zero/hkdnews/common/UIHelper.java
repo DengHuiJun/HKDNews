@@ -12,6 +12,7 @@ import com.zero.hkdnews.activity.LoginActivity;
 import com.zero.hkdnews.activity.MainActivity;
 import com.zero.hkdnews.activity.NewsActivity;
 import com.zero.hkdnews.activity.RegisterActivity;
+import com.zero.hkdnews.util.T;
 
 /**
  * Created by luowei on 15/4/16.
@@ -26,6 +27,11 @@ public class UIHelper {
     public static void showNewsDetail(Context context,Bundle bundle){
         Intent intent = new Intent(context, NewsActivity.class);
         intent.putExtra("data",bundle);
+        context.startActivity(intent);
+    }
+
+    public static void jumbActivity(Context context,Class<?> tClass){
+        Intent intent = new Intent(context,tClass);
         context.startActivity(intent);
     }
 

@@ -8,6 +8,6 @@
         android:id="@+id/start_image_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@mipmap/start_ui"/>
+        android:background="@mipmap/start_bg"/>
 
 </LinearLayout>

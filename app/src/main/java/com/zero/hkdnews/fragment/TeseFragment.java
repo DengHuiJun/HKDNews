@@ -19,6 +19,7 @@ import com.zero.hkdnews.R;
 import com.zero.hkdnews.adapter.HomeAdapter;
 import com.zero.hkdnews.beans.News;
 import com.zero.hkdnews.common.UIHelper;
+import com.zero.hkdnews.util.T;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,8 @@ public class TeseFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private List<News> dataList;
     private HomeAdapter homeAdapter;
 
-    public static final int ADD_DATA = 1;
+    private static final int ADD_DATA = 1;
+    private static final int REFRESH_DATA = 2;
 
     private Handler mHandler =  new Handler(){
         public void handleMessage(Message msg){
@@ -44,6 +46,13 @@ public class TeseFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 dataList = (List<News>) msg.obj;
                 homeAdapter.setDataList(dataList);
                 homeAdapter.notifyDataSetChanged();
+
+            }
+            if(msg.what == REFRESH_DATA){
+                dataList = (List<News>) msg.obj;
+                homeAdapter.setDataList(dataList);
+                homeAdapter.notifyDataSetChanged();
+                T.showShort(getActivity(), "刷新完成！");
 
             }
         }
@@ -125,7 +134,29 @@ public class TeseFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @Override
     public void onRefresh() {
-        Toast.makeText(getActivity(), "新！", Toast.LENGTH_LONG).show();
-        homeAdapter.notifyDataSetChanged();
+        mHandler.postDelayed(new Runnable() {
+            public void run() {
+                BmobQuery<News> query = new BmobQuery<>();
+
+                query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);    // 设置策略为NETWORK_ELSE_CACHE
+                query.order("-createdAt");
+                query.setLimit(15);
+                query.addWhereEqualTo("code",2);
+                query.findObjects(getActivity(), new FindListener<News>() {
+                    @Override
+                    public void onSuccess(List<News> list) {
+                        Message msg = Message.obtain();
+                        msg.obj = list;
+                        msg.what = REFRESH_DATA;
+                        mHandler.sendMessage(msg);
+                    }
+
+                    @Override
+                    public void onError(int i, String s) {
+
+                    }
+                });
+            }
+        }, 500);
     }
 }

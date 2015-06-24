@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="群组昵称"/>
+
+        <EditText
+            android:id="@+id/add_group_name"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="群组简介"/>
+
+        <EditText
+            android:id="@+id/add_group_intro"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:layout_height="wrap_content"
+            android:minLines="2"/>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/add_group_add_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="立即创建"
+        />
+
+
+
+</LinearLayout>

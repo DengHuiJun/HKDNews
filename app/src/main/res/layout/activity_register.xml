@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/rg_activity"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:padding="16dp"
+    >
+
+    <!-- Login progress -->
+    <ProgressBar android:id="@+id/register_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:src="@mipmap/wen"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/CLOUDS"
+        android:textSize="18sp"
+        android:text="校园微圈注册"/>
+
+    <ScrollView android:id="@+id/register_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <LinearLayout
+            android:id="@+id/email_register_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/register_username"
+                android:layout_width="220dp"
+                android:layout_height="40dp"
+                android:background="@mipmap/login_btn_bg"
+                android:hint="填写账户"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:inputType="text"
+                />
+
+            <EditText android:id="@+id/register_password"
+                android:layout_width="220dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@mipmap/login_btn_bg"
+                android:hint="@string/prompt_password"
+                android:imeActionLabel="@string/action_sign_in"
+                android:imeOptions="actionUnspecified"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+            <EditText android:id="@+id/register_re_password"
+                android:layout_width="220dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@mipmap/login_btn_bg"
+                android:hint="@string/prompt_password"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+            <EditText
+                android:id="@+id/register_email"
+                android:layout_width="220dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@mipmap/login_btn_bg"
+                android:hint="邮箱"
+                android:inputType="textEmailAddress"
+                />
+
+            <Button android:id="@+id/register_ok_btn"
+                style="?android:textAppearanceSmall"
+                android:layout_width="220dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:text="提交"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:textColor="@color/CLOUDS"
+                android:gravity="center"
+                android:background="@mipmap/login_btn_bg"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
