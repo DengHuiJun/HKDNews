@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardBackgroundColor="@color/CLOUDS"
+    card_view:cardBackgroundColor="@color/white"
     card_view:cardPreventCornerOverlap="true"
     card_view:cardUseCompatPadding="true"
     android:clickable="false"
@@ -74,9 +74,8 @@
 
 
     <LinearLayout
-        android:background="@color/GREEN_SEA"
-        android:layout_marginTop="3dp"
-        android:layout_marginBottom="2dp"
+        android:background="@color/ic_bg"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -101,10 +100,17 @@
                 android:layout_toRightOf="@id/share_list_view_item_bottom_one"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/CLOUDS"
+                android:textColor="@color/font_gray"
                 android:text="转发"/>
 
         </RelativeLayout>
+
+
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:background="@color/gray"/>
 
         <RelativeLayout
             android:layout_margin="5dp"
@@ -126,10 +132,16 @@
                 android:id="@+id/share_list_view_item_bottom_two_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/CLOUDS"
+                android:textColor="@color/font_gray"
                 android:text="评论"/>
 
         </RelativeLayout>
+
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:background="@color/gray"/>
 
         <RelativeLayout
             android:layout_margin="5dp"
@@ -151,7 +163,7 @@
                 android:id="@+id/share_list_view_item_bottom_three_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/CLOUDS"
+                android:textColor="@color/font_gray"
                 android:text="赞"/>
 
         </RelativeLayout>

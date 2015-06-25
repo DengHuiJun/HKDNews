@@ -6,7 +6,7 @@
     >
 
     <LinearLayout
-        android:background="@color/custom_theme_light"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:paddingLeft="10dp"
@@ -45,12 +45,17 @@
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/font_gray"/>
+
     <ListView
-        android:layout_margin="5dp"
+        android:layout_margin="2dp"
         android:id="@+id/me_list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:dividerHeight="3dp"
+        android:dividerHeight="1dp"
         android:divider="@color/gray"
         >
 

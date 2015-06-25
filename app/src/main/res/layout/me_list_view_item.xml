@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:orientation="horizontal"
-    android:background="@color/SILVER">
+    android:background="@color/white">
 
     <ImageView
         android:background="@mipmap/main_bottom_me"
@@ -32,6 +32,6 @@
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@mipmap/news_detail_top_back"/>
+        android:background="@mipmap/arrows_right"/>
 
 </LinearLayout>

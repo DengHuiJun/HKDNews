@@ -22,11 +22,16 @@
 
     </FrameLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/font_gray"/>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/circle_ic_in">
+        android:layout_height="50dp"
+        android:background="@color/CLOUDS">
 
         <RelativeLayout
             android:id="@+id/bottom_home"
@@ -54,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/bottom_home"
-                    android:textColor="#fff" />
+                    android:textColor="@color/font_gray" />
 
             </LinearLayout>
 
@@ -85,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/bottom_share"
-                    android:textColor="#fff" />
+                    android:textColor="@color/font_gray" />
 
             </LinearLayout>
 
@@ -116,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/bottom_play"
-                    android:textColor="#fff" />
+                    android:textColor="@color/font_gray" />
 
             </LinearLayout>
 
@@ -147,7 +152,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/bottom_me"
-                    android:textColor="#fff" />
+                    android:textColor="@color/font_gray" />
 
             </LinearLayout>
 

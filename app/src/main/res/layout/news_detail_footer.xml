@@ -3,9 +3,9 @@
     android:id="@+id/news_detail_footer"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="50dp"
     android:gravity="center_horizontal"
-    android:background="@color/custom_theme_darker">
+    android:background="@color/CLOUDS">
     <ViewSwitcher
         android:id="@+id/news_detail_foot_view_switcher"
         android:layout_width="match_parent"
@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="评论"
-                    android:textColor="#fff" />
+                    android:textColor="@color/font_gray" />
 
             </LinearLayout>
 
@@ -74,7 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:text="@string/news_detail_detail"
-                        android:textColor="#fff" />
+                        android:textColor="@color/font_gray" />
 
                 </LinearLayout>
 
@@ -106,7 +106,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/news_detail_list"
-                    android:textColor="#fff" />
+                    android:textColor="@color/font_gray" />
 
             </LinearLayout>
 
@@ -139,7 +139,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/news_detail_love"
-                    android:textColor="#fff" />
+                    android:textColor="@color/font_gray" />
 
             </LinearLayout>
 
@@ -172,7 +172,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/news_detail_share"
-                    android:textColor="#fff" />
+                    android:textColor="@color/font_gray" />
             </LinearLayout>
 
         </RelativeLayout>
@@ -201,7 +201,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="45dp"
                 android:layout_marginLeft="5dp"
-                android:textColor="@color/custom_theme_dark"
+                android:textColor="@color/font_gray"
                 android:textSize="15dp"
                 android:text="评论"
                 />

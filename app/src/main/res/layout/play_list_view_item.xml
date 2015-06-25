@@ -2,7 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"/>
 
     <TextView
         android:id="@+id/play_item_title"
@@ -23,7 +29,7 @@
         android:text="@string/play_content"/>
 
     <LinearLayout
-        android:background="@color/SILVER"
+        android:background="@color/ic_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -48,10 +54,16 @@
                 android:layout_toRightOf="@id/play_list_view_item_bottom_one"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/CLOUDS"
+                android:textColor="@color/font_gray"
                 android:text="评论"/>
 
         </RelativeLayout>
+
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:background="@color/gray"/>
 
         <RelativeLayout
             android:layout_margin="5dp"
@@ -73,10 +85,16 @@
                 android:id="@+id/play_list_view_item_bottom_two_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/CLOUDS"
+                android:textColor="@color/font_gray"
                 android:text="收到"/>
 
         </RelativeLayout>
+
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:background="@color/gray"/>
 
         <RelativeLayout
             android:layout_margin="5dp"
@@ -98,7 +116,7 @@
                 android:id="@+id/play_list_view_item_bottom_three_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/CLOUDS"
+                android:textColor="@color/font_gray"
                 android:text="查看"/>
 
         </RelativeLayout>
@@ -106,6 +124,11 @@
 
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"/>
 
 
 </LinearLayout>

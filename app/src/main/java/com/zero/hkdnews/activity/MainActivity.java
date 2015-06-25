@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.zero.hkdnews.R;
@@ -41,15 +42,19 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     //新闻布局
     private View homeLayout;
+    private ImageView homeImg;
 
     //分享布局
     private View shareLayout;
+    private ImageView shareImg;
 
     //通知服务布局
     private View playLayout;
+    private ImageView playImg;
 
     //我的资料布局
     private View meLayout;
+    private ImageView meImg;
 
     private FragmentManager fragmentManager;
 
@@ -183,6 +188,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         playLayout = findViewById(R.id.bottom_play);
         meLayout = findViewById(R.id.bottom_me);
 
+        homeImg = (ImageView) findViewById(R.id.home_image);
+        shareImg = (ImageView) findViewById(R.id.share_image);
+        playImg = (ImageView) findViewById(R.id.play_image);
+        meImg = (ImageView) findViewById(R.id.me_image);
+
+
         homeLayout.setOnClickListener(this);
         shareLayout.setOnClickListener(this);
         playLayout.setOnClickListener(this);
@@ -250,7 +261,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         switch (index){
             case 0:
-                homeLayout.setBackgroundColor(getResources().getColor(R.color.custom_theme_dark));
+             //   homeLayout.setBackgroundColor(getResources().getColor(R.color.custom_theme_dark));
+                homeImg.setImageResource(R.mipmap.main_bottom_home_select);
                 if(homePagerFragment == null){
                     homePagerFragment = new HomePagerFragment();
                     transaction.add(R.id.main_content,homePagerFragment);
@@ -259,8 +271,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 }
                 break;
             case 1:
-                shareLayout.setBackgroundColor(getResources().getColor(R.color.custom_theme_dark));
-
+          //      shareLayout.setBackgroundColor(getResources().getColor(R.color.custom_theme_dark));
+                shareImg.setImageResource(R.mipmap.main_bottom_share_select);
                 if(shareFragment == null){
                     shareFragment = new ShareFragment();
                     transaction.add(R.id.main_content,shareFragment);
@@ -269,7 +281,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 }
                 break;
             case 2:
-                playLayout.setBackgroundColor(getResources().getColor(R.color.custom_theme_dark));
+            //    playLayout.setBackgroundColor(getResources().getColor(R.color.custom_theme_dark));
+                playImg.setImageResource(R.mipmap.main_bottom_inform_select);
                 if(playFragment ==null ){
                     playFragment = new PlayFragment();
                     transaction.add(R.id.main_content,playFragment);
@@ -282,7 +295,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
             case 3:
             default:
-                meLayout.setBackgroundColor(getResources().getColor(R.color.custom_theme_dark));
+                //meLayout.setBackgroundColor(getResources().getColor(R.color.custom_theme_dark));
+               meImg.setImageResource(R.mipmap.main_bottom_me_select);
                 if(meFragment == null){
                     meFragment = new MeFragment();
                     transaction.add(R.id.main_content,meFragment);
@@ -299,11 +313,17 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
      * 清除底部当前选中状态，将颜色设置为浅色
      */
     private void clearSelection(){
+        /*
         homeLayout.setBackgroundColor(getResources().getColor(R.color.custom_theme_darker));
         shareLayout.setBackgroundColor(getResources().getColor(R.color.custom_theme_darker));
         meLayout.setBackgroundColor(getResources().getColor(R.color.custom_theme_darker));
         playLayout.setBackgroundColor(getResources().getColor(R.color.custom_theme_darker));
+        */
 
+        homeImg.setImageResource(R.mipmap.main_bottom_home);
+        shareImg.setImageResource(R.mipmap.main_bottom_share);
+        playImg.setImageResource(R.mipmap.main_bottom_inform);
+        meImg.setImageResource(R.mipmap.main_bottom_me);
     }
 
     /**
