@@ -65,12 +65,6 @@ public class GuideActivity extends FragmentActivity {
                 convertView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             }
 
-            if(position == 2){
-                btn.setVisibility(View.VISIBLE);
-            }else{
-                btn.setVisibility(View.GONE);
-            }
-
             convertView.setBackgroundResource(images[position]);
             return convertView;
         }

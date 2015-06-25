@@ -2,6 +2,7 @@ package com.zero.hkdnews.beans;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.datatype.BmobRelation;
 
 /**
  * Created by luowei on 15/4/16.
@@ -15,6 +16,10 @@ public class HnustUser extends BmobUser {
     private String intro;
 
     private String location;
+
+    private BmobRelation groups;
+
+    private BmobRelation informs;
 
     public BmobFile getHead() {
         return head;
@@ -46,5 +51,21 @@ public class HnustUser extends BmobUser {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public BmobRelation getGroups() {
+        return groups;
+    }
+
+    public void setGroups(BmobRelation groups) {
+        this.groups = groups;
+    }
+
+    public BmobRelation getInforms() {
+        return informs;
+    }
+
+    public void setInforms(BmobRelation informs) {
+        this.informs = informs;
     }
 }

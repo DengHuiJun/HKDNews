@@ -2,14 +2,20 @@ package com.zero.hkdnews.beans;
 
 import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.datatype.BmobRelation;
 
 /**
  * Created by luowei on 15/6/15.
  */
 public class Group extends BmobObject{
     private String name;
+
     private BmobFile img;
+
     private String intro;
+
+    private BmobRelation users;
+
 
     public Group(){}
     public Group(String name,String intro){
@@ -39,5 +45,13 @@ public class Group extends BmobObject{
 
     public void setIntro(String intro) {
         this.intro = intro;
+    }
+
+    public BmobRelation getUsers() {
+        return users;
+    }
+
+    public void setUsers(BmobRelation users) {
+        this.users = users;
     }
 }
