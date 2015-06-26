@@ -23,6 +23,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.zero.hkdnews.R;
+import com.zero.hkdnews.adapter.NavigationAdapter;
+import com.zero.hkdnews.beans.LeftMenu;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -55,6 +60,8 @@ public class NavigationDrawerFragment extends Fragment {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerListView;
     private View mFragmentContainerView;
+    private NavigationAdapter adapter;
+    private List<LeftMenu> datas;
 
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
@@ -99,19 +106,32 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                new String[]{
-                        getString(R.string.title_section1),
-                        getString(R.string.title_section2),
-                        getString(R.string.title_section3),
-                        getString(R.string.title_section4),
-                        getString(R.string.title_section5),
-                }));
+
+        initData();
+
+        adapter = new NavigationAdapter(datas,getActivity());
+
+        mDrawerListView.setAdapter(adapter);
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
+    }
+
+    /**
+     * 初始化菜单列表
+     */
+    private void initData() {
+        datas = new ArrayList<>();
+        LeftMenu item1 = new LeftMenu("首页",R.mipmap.main_bottom_home);
+        LeftMenu item2 = new LeftMenu("登录",R.mipmap.main_bottom_me);
+        LeftMenu item3 = new LeftMenu("注销",R.mipmap.main_bottom_me);
+        LeftMenu item4 = new LeftMenu("定位",R.mipmap.main_left_bar_position);
+        LeftMenu item5 = new LeftMenu("清除缓存",R.mipmap.main_bottom_inform);
+
+        datas.add(item1);
+        datas.add(item2);
+        datas.add(item3);
+        datas.add(item4);
+        datas.add(item5);
     }
 
     public boolean isDrawerOpen() {
