@@ -14,7 +14,7 @@ import com.zero.hkdnews.R;
 import com.zero.hkdnews.common.UIHelper;
 
 /**
- * 引导界面
+ * 引导界面，利用viewPager显示3个view
  * Created by 邓慧 on 15/6/20.
  */
 public class GuideActivity extends FragmentActivity {

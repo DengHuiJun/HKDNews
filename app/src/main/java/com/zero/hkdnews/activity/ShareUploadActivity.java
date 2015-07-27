@@ -34,7 +34,7 @@ import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
 /**
- * Created by luowei on 15/5/26.
+ * Created by zero on 15/5/26.
  */
 public class ShareUploadActivity extends BaseActivity {
 

@@ -25,6 +25,9 @@ import com.zero.hkdnews.fragment.ShareFragment;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 
+/**
+ * 主界面
+ */
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener,NavigationDrawerFragment.NavigationDrawerCallbacks {
 

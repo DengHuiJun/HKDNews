@@ -24,7 +24,7 @@ import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
 /**
- * Created by luowei on 15/5/6.
+ * Created by zero on 15/5/6.
  */
 public class RegisterActivity extends BaseActivity{
 
