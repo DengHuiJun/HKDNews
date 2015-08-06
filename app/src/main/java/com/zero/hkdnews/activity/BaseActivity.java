@@ -9,7 +9,8 @@ import com.zero.hkdnews.common.ActivityCollector;
 import butterknife.ButterKnife;
 
 /**
- * Created by luowei on 15/5/4.
+ * Activity的基类
+ * Created by 邓慧 on 15/5/4.
  */
 public class BaseActivity extends Activity {
     @Override

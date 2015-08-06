@@ -50,7 +50,7 @@ import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 
 /**
- * 新闻详情
+ * 新闻详情页
  * Created by luowei on 15/4/11.
  */
 public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener,AdapterView.OnItemClickListener{

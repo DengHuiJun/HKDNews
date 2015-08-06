@@ -12,7 +12,7 @@ import android.os.Handler;
 
 /**
  * 启动界面
- * Created by Guzz on /17.
+ * Created by zero on /15/4
  */
 public class StartActivity extends BaseActivity {
 

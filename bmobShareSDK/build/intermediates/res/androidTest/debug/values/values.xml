@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/Users/luowei/AndroidStudioProjects/HKDNews/bmobShareSDK/build/intermediates/bundles/debug/res/values/values.xml -->
+    <!-- From: file:/home/zero/AndroidStudioProjects/HKDNews/bmobShareSDK/build/intermediates/bundles/debug/res/values/values.xml -->
     <eat-comment/>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>

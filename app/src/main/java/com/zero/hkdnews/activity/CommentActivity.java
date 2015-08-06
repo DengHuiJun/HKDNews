@@ -17,8 +17,8 @@ import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 
 /**
- * 回复评论
- * Created by luowei on 15/5/8.
+ * 回复评论的界面
+ * Created by 邓慧 on 15/5/8.
  */
 public class CommentActivity extends BaseActivity {
 
