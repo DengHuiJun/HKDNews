@@ -28,6 +28,8 @@ import cn.bmob.v3.BmobUser;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener,NavigationDrawerFragment.NavigationDrawerCallbacks {
 
+    private static final String TAG = "MainActivity";
+
     //首页新闻的fragment,嵌入了一个viewpager
     private HomePagerFragment homePagerFragment;
 
@@ -71,7 +73,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("BaseActivity", getClass().getSimpleName());
+        Log.d(TAG, getClass().getSimpleName());
         ActivityCollector.addActivity(this);
 
         setContentView(R.layout.activity_main);

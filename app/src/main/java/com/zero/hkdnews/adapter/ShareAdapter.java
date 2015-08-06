@@ -13,6 +13,7 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.squareup.picasso.Picasso;
 import com.zero.hkdnews.R;
 import com.zero.hkdnews.beans.UploadNews;
+import com.zero.hkdnews.util.T;
 
 import java.util.List;
 
@@ -65,6 +66,9 @@ public class ShareAdapter extends BaseAdapter {
             viewHolder.time = (TextView) convertView.findViewById(R.id.share_list_view_item_time);
             viewHolder.content = (TextView) convertView.findViewById(R.id.share_list_view_item_content);
             viewHolder.photo = (ImageView) convertView.findViewById(R.id.share_list_view_item_img);
+            viewHolder.share = convertView.findViewById(R.id.share_list_view_item_bottom_share);
+            viewHolder.comment = convertView.findViewById(R.id.share_list_view_item_bottom_comment);
+            viewHolder.love = convertView.findViewById(R.id.share_list_view_item_bottom_love);
 
             convertView.setTag(viewHolder);
 
@@ -75,6 +79,10 @@ public class ShareAdapter extends BaseAdapter {
         viewHolder.author.setText(data.getAuthor());
         viewHolder.time.setText(data.getUpdatedAt());
         viewHolder.content.setText(data.getContent());
+
+        viewHolder.share.setOnClickListener(shareClickListener);
+        viewHolder.comment.setOnClickListener(comClickListener);
+        viewHolder.love.setOnClickListener(loveClickListener);
 
         if(data.getHead() == null){
             viewHolder.head.setImageResource(R.mipmap.default_me);
@@ -94,11 +102,38 @@ public class ShareAdapter extends BaseAdapter {
         return convertView;
     }
 
+
     static class ViewHolder{
         ImageView head;
         TextView author;
         TextView time;
         TextView content;
         ImageView photo;
+        View share;
+        View comment;
+        View love; //赞
     }
+
+
+    private View.OnClickListener shareClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            T.showShort(context,"share");
+        }
+    };
+
+
+    private View.OnClickListener comClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            T.showShort(context,"com");
+        }
+    };
+
+    private View.OnClickListener loveClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            T.showShort(context,"love");
+        }
+    };
 }
