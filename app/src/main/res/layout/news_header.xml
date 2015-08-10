@@ -3,7 +3,7 @@
     android:id="@+id/news_header"
     android:layout_width="match_parent"
     android:layout_height="40dp"
-    android:background="@color/custom_theme_primary"
+    android:background="@color/big_title"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingLeft="10dp"
@@ -22,7 +22,7 @@
         android:id="@+id/news_header_title"
         style="@style/detail_head_title"
         android:layout_gravity="center"
-        android:textColor="@color/PETER_RIVER"
+        android:textColor="@color/white"
         android:text="@string/news_detail_head_title" />
 
     <ImageView

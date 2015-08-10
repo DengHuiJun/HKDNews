@@ -12,7 +12,7 @@
 
     <color name="font_gray">#969696</color>
 
-    <color name="TURQUOISE">#1ABC9C</color>
+
     <color name="GREEN_SEA">#16A085</color>
 
     <color name="CLOUDS">#ECF0F1</color>
@@ -52,6 +52,7 @@
 
     <color name="big_title">#93f0c3</color>
     <color name="select_ic">#abdebd</color>
+    <color name="select_font">#1ABC9C</color>
 
     <color name="love_or_special">#ffa283</color>
     <color name="warning_news">#e8333a</color>

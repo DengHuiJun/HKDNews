@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
-        android:background="@color/custom_theme_primary">
+        android:background="@color/big_title">
 
         <ImageView
             android:padding="5dp"
@@ -25,7 +25,7 @@
             android:id="@+id/group_header_title"
             style="@style/detail_head_title"
             android:layout_gravity="center"
-            android:textColor="@color/PETER_RIVER"
+            android:textColor="@color/white"
             android:text="发布通知" />
 
         <ImageView

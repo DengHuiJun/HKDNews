@@ -22,7 +22,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by luowei on 15/5/29.
+ * 定位选择界面
+ * Created by zero on 15/5/29.
  */
 public class LocationActivity extends Activity implements AdapterView.OnItemClickListener{
     private ArrayList<String> mItems;
