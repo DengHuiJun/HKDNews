@@ -28,7 +28,8 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 
 /**
- * Created by luowei on 15/5/17.
+ * 新闻适配Fragment中的子Fragment，现改为存放招聘信息
+ * Created by zero on 15/5/17.
  */
 public class TeseFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,AdapterView.OnItemClickListener{
 
@@ -47,8 +48,7 @@ public class TeseFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 homeAdapter.setDataList(dataList);
                 homeAdapter.notifyDataSetChanged();
 
-            }
-            if(msg.what == REFRESH_DATA){
+            }else if(msg.what == REFRESH_DATA){
                 dataList = (List<News>) msg.obj;
                 homeAdapter.setDataList(dataList);
                 homeAdapter.notifyDataSetChanged();
@@ -58,14 +58,11 @@ public class TeseFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         }
     };
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tese,container,false);
         return view;
     }
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -81,42 +78,7 @@ public class TeseFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         homeAdapter.setDataList(dataList);
         mList.setAdapter(homeAdapter);
 
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                BmobQuery<News> query = new BmobQuery<>();
-
-                //判断是否有缓存
-                boolean isCache = query.hasCachedResult(getActivity());
-
-                if(isCache){  //此为举个例子，并不一定按这种方式来设置缓存策略
-                    query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);    // 如果有缓存的话，则设置策略为CACHE_ELSE_NETWORK
-                }else{
-                    query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);    // 如果没有缓存的话，则设置策略为NETWORK_ELSE_CACHE
-                }
-
-                query.order("-createdAt");
-                query.addWhereEqualTo("code",2);
-                query.findObjects(getActivity(),new FindListener<News>() {
-                    @Override
-                    public void onSuccess(List<News> list) {
-                        Message msg = Message.obtain();
-                        msg.obj = list;
-                        msg.what = ADD_DATA;
-                        mHandler.sendMessage(msg);
-                    }
-
-                    @Override
-                    public void onError(int i, String s) {
-
-                    }
-                });
-            }
-
-        });
-
-        thread.start();
-
+        queryData();
         // Setting the refresh listener will enable the refresh progressbar
         mList.setRefreshListener(this);
         mList.setOnItemClickListener(this);
@@ -126,37 +88,62 @@ public class TeseFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Bundle bundle = new Bundle();
-
         bundle.putSerializable("news", dataList.get(position));
-
         UIHelper.showNewsDetail(getActivity(), bundle);
     }
 
     @Override
     public void onRefresh() {
-        mHandler.postDelayed(new Runnable() {
-            public void run() {
-                BmobQuery<News> query = new BmobQuery<>();
+        queryForRefresh();
+    }
 
-                query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);    // 设置策略为NETWORK_ELSE_CACHE
-                query.order("-createdAt");
-                query.setLimit(15);
-                query.addWhereEqualTo("code",2);
-                query.findObjects(getActivity(), new FindListener<News>() {
-                    @Override
-                    public void onSuccess(List<News> list) {
-                        Message msg = Message.obtain();
-                        msg.obj = list;
-                        msg.what = REFRESH_DATA;
-                        mHandler.sendMessage(msg);
-                    }
-
-                    @Override
-                    public void onError(int i, String s) {
-
-                    }
-                });
+    /**
+     * 初始化查询数据
+     */
+    private void queryData(){
+        BmobQuery<News> query = new BmobQuery<>();
+        //判断是否有缓存
+        boolean isCache = query.hasCachedResult(getActivity());
+        if(isCache){  //此为举个例子，并不一定按这种方式来设置缓存策略
+            query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);    // 如果有缓存的话，则设置策略为CACHE_ELSE_NETWORK
+        }else{
+            query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);    // 如果没有缓存的话，则设置策略为NETWORK_ELSE_CACHE
+        }
+        query.order("-createdAt");
+        query.addWhereEqualTo("code",2);
+        query.findObjects(getActivity(),new FindListener<News>() {
+            @Override
+            public void onSuccess(List<News> list) {
+                Message msg = Message.obtain();
+                msg.obj = list;
+                msg.what = ADD_DATA;
+                mHandler.sendMessage(msg);
             }
-        }, 500);
+            @Override
+            public void onError(int i, String s) {}
+        });
+    }
+
+
+    /**
+     * 刷新查询
+     */
+    private void queryForRefresh(){
+        BmobQuery<News> query = new BmobQuery<>();
+        query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);    // 设置策略为NETWORK_ELSE_CACHE
+        query.order("-createdAt");
+        query.setLimit(15);
+        query.addWhereEqualTo("code",2);
+        query.findObjects(getActivity(), new FindListener<News>() {
+            @Override
+            public void onSuccess(List<News> list) {
+                Message msg = Message.obtain();
+                msg.obj = list;
+                msg.what = REFRESH_DATA;
+                mHandler.sendMessage(msg);
+            }
+            @Override
+            public void onError(int i, String s) {}
+        });
     }
 }
