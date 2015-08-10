@@ -28,8 +28,8 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 
 /**
- * 推荐列表
- * Created by luowei on 15/5/17.
+ * 新闻适配Fragment的子Fragment之一，推荐的新闻，处于中间
+ * Created by zero on 15/5/17.
  */
 public class RecomFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,AdapterView.OnItemClickListener{
     private SuperListview mList;

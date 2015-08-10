@@ -28,8 +28,8 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 
 /**
- * 关于我的分享
- * Created by luowei on 15/4/11.
+ * 校园分享Fragment
+ * Created by zero on 15/4/11.
  */
 public class ShareFragment extends Fragment{
 

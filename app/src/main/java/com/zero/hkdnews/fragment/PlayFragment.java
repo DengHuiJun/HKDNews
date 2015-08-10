@@ -30,7 +30,8 @@ import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.listener.FindListener;
 
 /**
- * Created by luowei on 15/4/11.
+ * 通知消息Fragment
+ * Created by zero on 15/4/11.
  */
 public class PlayFragment extends Fragment {
 
@@ -83,9 +84,6 @@ public class PlayFragment extends Fragment {
                 getActivity().startActivity(intent);
             }
         });
-
-
-
     }
 
     private void initDatas() {
@@ -108,15 +106,14 @@ public class PlayFragment extends Fragment {
     }
 
 
+    /**
+     * 第一次查询数据
+     */
     private void addData(){
         BmobQuery<Inform> query = new BmobQuery<>();
-
         HnustUser user = BmobUser.getCurrentUser(getActivity(),HnustUser.class);
-
         query.addWhereRelatedTo("informs",new BmobPointer(user));
-
         query.order("created");
-
         query.findObjects(getActivity(), new FindListener<Inform>() {
             @Override
             public void onSuccess(List<Inform> list) {
@@ -125,14 +122,10 @@ public class PlayFragment extends Fragment {
                 msg.what =11;
                 mHandler.sendMessage(msg);
             }
-
             @Override
             public void onError(int i, String s) {
 
             }
         });
-
-
-
     }
 }

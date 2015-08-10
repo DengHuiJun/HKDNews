@@ -22,7 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by luowei on 15/5/16.
+ * 新闻适配Fragment，内嵌3个Fragment
+ * Created by zero on 15/5/16.
  */
 public class HomePagerFragment extends Fragment {
 

@@ -25,7 +25,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
- * Created by luowei on 15/4/11.
+ * 个人信息Fragment
+ * Created by zero on 15/4/11.
  */
 public class MeFragment extends Fragment{
     public static final int READ_INFO_OK = 12;
@@ -52,17 +53,8 @@ public class MeFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View meLayout = inflater.inflate(R.layout.fragment_me,container,false);
         ButterKnife.inject(this, meLayout);
-        return meLayout;
-    }
-
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
         initData();
-
-
+        return meLayout;
     }
 
     /**
@@ -98,7 +90,6 @@ public class MeFragment extends Fragment{
 
         meAdapter = new MeAdapter(getActivity(),list);
         meListView.setAdapter(meAdapter);
-
         //添加各种响应事件
         meListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -123,7 +114,6 @@ public class MeFragment extends Fragment{
                         break;
                     default:
                         break;
-
                 }
 
             }
