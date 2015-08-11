@@ -1,22 +1,15 @@
 package com.zero.hkdnews.fragment;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.shizhefei.view.indicator.FixedIndicatorView;
-import com.shizhefei.view.indicator.Indicator;
-import com.shizhefei.view.indicator.IndicatorViewPager;
-import com.shizhefei.view.indicator.slidebar.SpringBar;
-import com.shizhefei.view.indicator.transition.OnTransitionTextListener;
 import com.zero.hkdnews.R;
-import com.zero.hkdnews.adapter.HomePagerAdapter;
+import com.zero.hkdnews.adapter.HomePagerFragmentAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,15 +20,15 @@ import java.util.List;
  */
 public class HomePagerFragment extends Fragment {
 
-    private IndicatorViewPager indicatorViewPager;
-    private LayoutInflater inflater;
+    private TabLayout mTabLayout;
 
-    private ViewPager viewPager;
-    private Indicator indicator;
+    private ViewPager mViewPager;
 
+    private List<Fragment> mFragmentsList;
 
-    private List<Fragment> list;
+    private List<String>   mTabNames;
 
+    private HomePagerFragmentAdapter mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,38 +42,41 @@ public class HomePagerFragment extends Fragment {
 
         initData();
 
-        viewPager = (ViewPager) getActivity().findViewById(R.id.home_pager_view_pager);
-        indicator = (Indicator) getActivity().findViewById(R.id.home_pager_indicator);
+        mViewPager = (ViewPager) getActivity().findViewById(R.id.home_pager_view_pager);
 
-        int selectColorId = Color.parseColor("#f8f8f8");
-        int unSelectColorId = Color.parseColor("#010101");
+        mTabLayout = (TabLayout) getActivity().findViewById(R.id.home_pager_tabs);
 
-        indicator.setOnTransitionListener(new OnTransitionTextListener().setColor(selectColorId, unSelectColorId));
-        indicator.setScrollBar(new SpringBar(getActivity(), Color.GRAY));
-        viewPager.setOffscreenPageLimit(3);
+     //   mViewPager.setOffscreenPageLimit(3);
 
-        indicatorViewPager = new IndicatorViewPager(indicator,viewPager);
+        mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        mTabLayout.setTabMode(TabLayout.MODE_FIXED);
+        mTabLayout.addTab(mTabLayout.newTab().setText(mTabNames.get(0)));
+        mTabLayout.addTab(mTabLayout.newTab().setText(mTabNames.get(1)));
+        mTabLayout.addTab(mTabLayout.newTab().setText(mTabNames.get(2)));
 
-        inflater = LayoutInflater.from(getActivity());
+        mAdapter = new HomePagerFragmentAdapter(getFragmentManager(),mFragmentsList,mTabNames);
 
-        HomePagerAdapter adapter = new HomePagerAdapter(getFragmentManager(),list,getActivity());
-
-        indicatorViewPager.setAdapter(adapter);
-
-        indicatorViewPager.setCurrentItem(1,false);
-
+        mViewPager.setAdapter(mAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.setTabsFromPagerAdapter(mAdapter);
     }
 
+    /**
+     * 初始化内嵌的Fragments和Tabs的文本内容
+     */
     private void initData() {
-        list = new ArrayList<>();
+        mFragmentsList = new ArrayList<>();
         HomeFragment newst = new HomeFragment();
-        list.add(newst);
-
+        mFragmentsList.add(newst);
         RecomFragment recom = new RecomFragment();
-        list.add(recom);
-
+        mFragmentsList.add(recom);
         TeseFragment tese = new TeseFragment();
-        list.add(tese);
+        mFragmentsList.add(tese);
+
+        mTabNames = new ArrayList<>();
+        mTabNames.add("最新");
+        mTabNames.add("推荐");
+        mTabNames.add("招聘");
     }
 
 }
