@@ -113,16 +113,13 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
     public void initData() {
         infoUser = BmobUser.getCurrentUser(this,HnustUser.class);
         if(infoUser !=null){
-
             //将用户信息全局保留下来
             AppContext.setCurrentUserId(infoUser.getObjectId());
             AppContext.setUserName(infoUser.getNickname());
             AppContext.setIntro(infoUser.getIntro());
-
             if(infoUser.getHead()!=null){
                 AppContext.setMyHead(infoUser.getHead());
             }
-
 
             Intent i = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(i);
@@ -138,9 +135,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 
 
     /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
+     *登录，带错误提示
      */
     public void attemptLogin() {
 
@@ -190,13 +185,10 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
             user.login(LoginActivity.this,new SaveListener() {
                 @Override
                 public void onSuccess() {
-
                     initData();
                 }
-
                 @Override
                 public void onFailure(int i, String s) {
-
                     showProgress(false);
                     T.showShort(getApplicationContext(),s+"登录失败！");
                 }
@@ -294,7 +286,6 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
                 ContactsContract.CommonDataKinds.Email.ADDRESS,
                 ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
         };
-
         int ADDRESS = 0;
         int IS_PRIMARY = 1;
     }
@@ -305,7 +296,6 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<String>(LoginActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
-
         mEmailView.setAdapter(adapter);
     }
 

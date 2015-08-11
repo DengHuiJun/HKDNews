@@ -45,15 +45,12 @@ public class CommentActivity extends BaseActivity {
 
         btn.setOnClickListener(onClickListener);
 
-
         initdata();
     }
 
     private void initdata() {
-
         tv_author.setText("回复："+ comment.getAuthor());
         tv_content.setText(comment.getContent());
-
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -62,7 +59,6 @@ public class CommentActivity extends BaseActivity {
             T.showShort(getApplicationContext(), "huifu");
             updateReply();
             finish();
-
         }
     };
 
@@ -70,32 +66,26 @@ public class CommentActivity extends BaseActivity {
      * 将回复更新至服务器的线程，
      */
     private void updateReply(){
-        new Thread(){
-            public void run(){
-                Reply reply = new Reply();
-                reply.setAuthor("tt");
-                reply.setContent(et_content.getText().toString());
-                reply.setComment(comment);
-                reply.save(getApplicationContext(), new SaveListener() {
-                    @Override
-                    public void onSuccess() {
-                        T.showShort(getApplicationContext(),"回复成功！");
-                    }
-
-                    @Override
-                    public void onFailure(int i, String s) {
-                        L.d(s);
-                    }
-                });
-                addReplyToComment(reply);
-
+        Reply reply = new Reply();
+        reply.setAuthor("tt");
+        reply.setContent(et_content.getText().toString());
+        reply.setComment(comment);
+        reply.save(getApplicationContext(), new SaveListener() {
+            @Override
+            public void onSuccess() {
+                T.showShort(getApplicationContext(),"回复成功！");
             }
-        }.start();
+
+            @Override
+            public void onFailure(int i, String s) {
+                L.d(s);
+            }
+        });
+        addReplyToComment(reply);
     }
 
 
     private void addReplyToComment(Reply reply){
-
         BmobRelation replies = new BmobRelation();
         replies.add(reply);
         comment.setReplies(replies);

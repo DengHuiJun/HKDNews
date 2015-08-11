@@ -1,6 +1,5 @@
 package com.zero.hkdnews.activity;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Message;
 import android.widget.EditText;
@@ -125,7 +124,6 @@ public class AddGroupActivity extends BaseActivity {
 
             }
         });
-
     }
 
 

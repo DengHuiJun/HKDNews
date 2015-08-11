@@ -24,7 +24,6 @@ public class GuideActivity extends FragmentActivity {
 
     private Button btn;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
