@@ -21,6 +21,7 @@ import com.zero.hkdnews.adapter.GroupAdapter;
 import com.zero.hkdnews.beans.Group;
 import com.zero.hkdnews.beans.HnustUser;
 import com.zero.hkdnews.common.UIHelper;
+import com.zero.hkdnews.util.L;
 import com.zero.hkdnews.util.T;
 
 import java.util.ArrayList;
@@ -68,7 +69,7 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
-
+        L.d(TAG,"onCreate()");
         initView();
 
         initData();
@@ -148,8 +149,8 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
         listPopupWindow.setVerticalOffset(100);
 
         //设置对话框的宽高
-        listPopupWindow.setWidth(300);
-        listPopupWindow.setHeight(600);
+        listPopupWindow.setWidth(350);
+        listPopupWindow.setHeight(500);
         listPopupWindow.setModal(false);
 
         listPopupWindow.show();
