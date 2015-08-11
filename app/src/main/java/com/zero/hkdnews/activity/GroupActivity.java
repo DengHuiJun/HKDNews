@@ -5,11 +5,14 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListPopupWindow;
 import android.widget.PopupWindow;
 
 import com.quentindommerc.superlistview.SuperListview;
@@ -30,28 +33,14 @@ import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.listener.FindListener;
 
 /**
- * Created by luowei on 15/6/15.
+ * 通知组实体类
+ * Created by zero on 15/6/15.
  */
 public class GroupActivity extends BaseActivity implements AdapterView.OnItemClickListener{
-
+    private static final String TAG = "GroupActivity";
     private SuperListview listview;
     private List<Group> datas;
     private GroupAdapter adapter;
-
-    //弹出菜单
-    private PopupWindow popupWindow;
-
-    //发布通知按钮
-    private Button btn_inform;
-
-    //邀请成员
-    private Button btn_add_meb;
-
-    //查看成员
-    private Button btn_check_meb;
-
-    //历史通知记录
-    private Button btn_check_history;
 
     private ImageView back;
     private ImageView addGroup;
@@ -81,8 +70,6 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
         setContentView(R.layout.activity_group);
 
         initView();
-
-        initPopup();
 
         initData();
 
@@ -123,31 +110,49 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
 
     }
 
-    /**
-     * 初始化弹出框
-     */
-    private void initPopup() {
-        View popupView = getLayoutInflater().inflate(R.layout.group_popup_view, null);
-        popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT,true);
-        popupWindow.setTouchable(true);
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
-
-        btn_inform = (Button) popupView.findViewById(R.id.btn_group_view_inform);
-        btn_add_meb = (Button) popupView.findViewById(R.id.btn_group_view_add);
-        btn_check_meb = (Button) popupView.findViewById(R.id.btn_group_view_check);
-        btn_check_history = (Button) popupView.findViewById(R.id.btn_group_view_history);
-
-        btn_inform.setOnClickListener(informListener);
-        btn_add_meb.setOnClickListener(addMebListener);
-        btn_check_meb.setOnClickListener(checkMebListener);
-        btn_check_history.setOnClickListener(historyListener);
-    }
-
     private void initData() {
         datas = new ArrayList<>();
-
         groupId = "";
+
+    }
+
+    public void showListPopup(View view) {
+        String items[] = {"发布通知", "邀请成员", "查看成员", "历史通知"};
+        final ListPopupWindow listPopupWindow = new ListPopupWindow(this);
+
+        //设置ListView类型的适配器
+        listPopupWindow.setAdapter(new ArrayAdapter<>(GroupActivity.this, android.R.layout.simple_list_item_1, items));
+
+        //给每个item设置监听事件
+        listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+//                listPopupWindow.dismiss();
+                final Snackbar snackbar = Snackbar.make(addGroup,"测试Snackbar弹出提示",Snackbar.LENGTH_LONG);
+                snackbar.show();
+                snackbar.setAction("取消",new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        snackbar.dismiss();
+                    }
+                });
+            }
+        });
+
+        //设置ListPopupWindow的锚点,也就是弹出框的位置是相对当前参数View的位置来显示，
+        listPopupWindow.setAnchorView(view);
+
+        //ListPopupWindow 距锚点的距离，也就是相对锚点View的位置
+        listPopupWindow.setHorizontalOffset(100);
+        listPopupWindow.setVerticalOffset(100);
+
+        //设置对话框的宽高
+        listPopupWindow.setWidth(300);
+        listPopupWindow.setHeight(600);
+        listPopupWindow.setModal(false);
+
+        listPopupWindow.show();
 
     }
 
@@ -183,58 +188,8 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
         groupId = datas.get(position).getObjectId();
         groupName = datas.get(position).getName();
 
-
-        popupWindow.showAsDropDown(view);
+        showListPopup(view);
     }
-
-    /**
-     * 发布通知监听事件
-     */
-    private View.OnClickListener informListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-           // T.showShort(getApplicationContext(),"发布通知");
-            Intent intent = new Intent(GroupActivity.this,SendInformActivity.class);
-
-            intent.putExtra("id",groupId);
-            intent.putExtra("name",groupName);
-
-            startActivity(intent);
-        }
-    };
-
-    /**
-     * 添加成员监听事件
-     */
-    private View.OnClickListener addMebListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-           // T.showShort(getApplicationContext(),"添加成员");
-            UIHelper.jumbActivity(GroupActivity.this,AddMemberActivity.class);
-        }
-    };
-
-    /**
-     * 查看成员监听事件
-     */
-    private View.OnClickListener checkMebListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            T.showShort(getApplicationContext(),"查看成员");
-        }
-    };
-
-    /**
-     * 查看历史监听事件
-     */
-    private View.OnClickListener historyListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            T.showShort(getApplicationContext(),"查看历史");
-        }
-    };
-
-
 
 
 }

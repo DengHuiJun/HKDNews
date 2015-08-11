@@ -13,10 +13,11 @@ import butterknife.ButterKnife;
  * Created by 邓慧 on 15/5/4.
  */
 public class BaseActivity extends Activity {
+    private static final String TAG = "BaseActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("BaseActivity", getClass().getSimpleName());
+        Log.d(TAG, getClass().getSimpleName());
         ActivityCollector.addActivity(this);
 
     }
