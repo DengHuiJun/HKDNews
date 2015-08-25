@@ -4,10 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.view.View;
@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
 import com.zero.hkdnews.R;
 import com.zero.hkdnews.app.AppContext;
 import com.zero.hkdnews.beans.UploadNews;
@@ -27,8 +26,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.lang.ref.WeakReference;
 
-import android.os.Handler;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UploadFileListener;
@@ -39,104 +38,97 @@ import cn.bmob.v3.listener.UploadFileListener;
 public class ShareUploadActivity extends BaseActivity {
 
     //上传的进度框
-    private ProgressDialog progressDialog;
+    private ProgressDialog mProgressDialog;
+    private Button mTakePhotoBtn;
+    private Button mUsePhotoBtn;
+    private Button mUploadBtn;
+    private EditText mContentEt;
+    private ImageView mPhotoIv;
 
-    private Button takePhotoBtn;
-    private Button usePhotoBtn;
-    private Button okBtn;
+    private Uri mImageUri;
+    private File mOutputImage;
 
-    private EditText contentEt;
-    private ImageView imageView;
+    private WeakReferenceHander weakReferenceHander;
 
-    private Uri imageUri;
-
-    private File outputImage;
-
-    private Handler mHandler;
-
-    private Bitmap upload_bp;
+    private Bitmap mUploadBp;
 
     private static final int TAKE_PHOTO_CODE = 1;
+
+    static class WeakReferenceHander extends Handler {
+        private final WeakReference<ShareUploadActivity> mActivity;
+
+        public WeakReferenceHander(ShareUploadActivity activity) {
+            mActivity = new WeakReference<ShareUploadActivity>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            if (mActivity.get() != null) {
+               mActivity.get().handleReceiveMessage(msg);
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shareupload);
         initView();
-
-        initData();
-
+        weakReferenceHander = new WeakReferenceHander(this);
 
         //点击拍照，调用相机
-        takePhotoBtn.setOnClickListener(new View.OnClickListener() {
+        mTakePhotoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 String sdStatus = Environment.getExternalStorageState();
                 if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { // 检测sd是否可用
-                    L.v("TestFile",
-                            "SD card is not avaiable/writeable right now.");
+                    L.v("TestFile","SD card is not avaiable/writeable right now.");
                     T.showShort(ShareUploadActivity.this,"SD卡不可用！");
                     return;
                 }
 
-
                 final double r = Math.random()*100000000+1;
                 final String name = (int)r + "";
-                outputImage = new File(Environment.getExternalStorageDirectory(), "/hkdnews/"+name+"_img.jpg");
+                mOutputImage = new File(Environment.getExternalStorageDirectory(), "/hkdnews/"+name+"_img.jpg");
 
                 try {
-                    if (outputImage.exists()) {
-                        outputImage.delete();
+                    if (mOutputImage.exists()) {
+                        mOutputImage.delete();
                     }
-                    outputImage.createNewFile();
+                    mOutputImage.createNewFile();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
                 startActivityForResult(intent, TAKE_PHOTO_CODE);
-
-
             }
         });
 
-
         //点击上传
-        okBtn.setOnClickListener(new View.OnClickListener() {
+        mUploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!contentEt.getText().toString().equals("") && outputImage.exists()) {
-
+                if(!mContentEt.getText().toString().equals("") && mOutputImage.exists()) {
                     showPd();
-
-                  Thread uploadPic = new Thread(new Runnable() {
+                    Thread uploadPic = new Thread(new Runnable() {
                       @Override
                       public void run() {
-
-                          final BmobFile photo = new BmobFile(outputImage);
-
+                          final BmobFile photo = new BmobFile(mOutputImage);
                           photo.uploadblock(getApplicationContext(), new UploadFileListener() {
                               @Override
                               public void onSuccess() {
                                   Message msg = Message.obtain();
                                   msg.obj = photo;
                                   msg.what = 0x22;
-                                  mHandler.sendMessage(msg);
+                                  weakReferenceHander.sendMessage(msg);
                               }
                               @Override
-                              public void onFailure(int i, String s) {
-
-                              }
+                              public void onFailure(int i, String s) {}
                           });
-
-                      }
-                  });
+                      }});
                     uploadPic.start();
-
-                }else{
+                } else {
                     T.showShort(getApplicationContext(),"输入有误！");
                 }
             }
@@ -144,70 +136,58 @@ public class ShareUploadActivity extends BaseActivity {
     }
 
     //上传完照片后，存储记录到Bmob中
-    private void initData() {
-        mHandler = new Handler() {
-            public void  handleMessage(Message msg){
-                if (msg.what == 0x22){
-                    UploadNews data = new UploadNews();
-                    data.setAuthor(AppContext.getUserName());
-
-                    if (AppContext.getMyHead()!=null)
-                        data.setHead(AppContext.getMyHead());
-
-                    data.setPhoto((BmobFile) msg.obj);
-                    data.setContent(contentEt.getText().toString());
-                    data.setLove(0);
-
-                    data.save(getApplicationContext(), new SaveListener() {
-                        @Override
-                        public void onSuccess() {
-                            closePd();
-                            T.showShort(getApplicationContext(), "上传成功");
-                            finish();
-                        }
-
-                        @Override
-                        public void onFailure(int i, String s) {
-                            closePd();
-                            T.showShort(getApplicationContext(),s+" 失败！");
-
-                        }
-                    });
-                }
-
+    public void handleReceiveMessage(Message msg) {
+        if (msg.what == 0x22){
+            UploadNews data = new UploadNews();
+            data.setAuthor(AppContext.getUserName());
+            if (AppContext.getMyHead()!=null) {
+                data.setHead(AppContext.getMyHead());
             }
-        };
+            data.setPhoto((BmobFile) msg.obj);
+            data.setContent(mContentEt.getText().toString());
+            data.setLove(0);
+            data.save(getApplicationContext(), new SaveListener() {
+                @Override
+                public void onSuccess() {
+                    closePd();
+                    T.showShort(getApplicationContext(), "上传成功");
+                    finish();
+                }
+                @Override
+                public void onFailure(int i, String s) {
+                    closePd();
+                    T.showShort(getApplicationContext(),s+" 失败！");
+                }
+            });
+        }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
+//        super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case TAKE_PHOTO_CODE:
                 if(resultCode == RESULT_OK){
 //                   upload_bp = decodeFile(imageUri);
-
                     Uri uri = data.getData();
                     if (uri != null) {
 //                        upload_bp = BitmapFactory.decodeFile(uri.getPath());
-                        upload_bp = decodeFile(uri);
+                        mUploadBp = decodeFile(uri);
                     }
-                    if (upload_bp == null) {
+                    if (mUploadBp == null) {
                         Bundle bundle = data.getExtras();
                         if (bundle != null) {
-                            upload_bp = (Bitmap) bundle.get("data");
+                            mUploadBp = (Bitmap) bundle.get("data");
                         } else {
                             T.showShort(ShareUploadActivity.this,"读取错误！");
                             return;
                         }
                     }
 
-                    if(upload_bp != null){
-                        imageView.setImageBitmap(upload_bp);
-                        imageView.setVisibility(View.VISIBLE);
-                        bitmapToFile(upload_bp);
+                    if(mUploadBp != null){
+                        mPhotoIv.setImageBitmap(mUploadBp);
+                        mPhotoIv.setVisibility(View.VISIBLE);
+                        bitmapToFile(mUploadBp);
                     }else{
                         T.showShort(this,"设备错误！");
                     }
@@ -235,20 +215,19 @@ public class ShareUploadActivity extends BaseActivity {
             final String name = (int)r+ "";
             String saveDir = Environment.getExternalStorageDirectory()
                     + "/hkdnews";
-
             //创建hkdnews目录
             File dir = new File(saveDir);
             if (!dir.exists()) {
                 dir.mkdir();
             }
 
-            outputImage = new File(saveDir, name+"_img.jpg");
+            mOutputImage = new File(saveDir, name+"_img.jpg");
 
-            if (!outputImage.exists()) {
-                outputImage.createNewFile();
+            if (!mOutputImage.exists()) {
+                mOutputImage.createNewFile();
             }
 
-            fos = new FileOutputStream(outputImage);
+            fos = new FileOutputStream(mOutputImage);
             bos = new BufferedOutputStream(fos);
             bos.write(byteArray);
 //            pictureDir = outputImage.getPath();
@@ -281,13 +260,13 @@ public class ShareUploadActivity extends BaseActivity {
     }
 
     private void initView() {
-        takePhotoBtn = (Button) findViewById(R.id.share_upload_take_photo_btn);
-        usePhotoBtn = (Button) findViewById(R.id.share_upload_use_photo_btn);
-        okBtn = (Button) findViewById(R.id.share_upload_ok_btn);
+        mTakePhotoBtn = (Button) findViewById(R.id.share_upload_take_photo_btn);
+        mUsePhotoBtn = (Button) findViewById(R.id.share_upload_use_photo_btn);
+        mUploadBtn = (Button) findViewById(R.id.share_upload_ok_btn);
 
-        contentEt = (EditText) findViewById(R.id.share_upload_edit_text);
-        imageView = (ImageView) findViewById(R.id.share_upload_imageview);
-        imageView.setImageResource(R.mipmap.login_bg);
+        mContentEt = (EditText) findViewById(R.id.share_upload_edit_text);
+        mPhotoIv = (ImageView) findViewById(R.id.share_upload_imageview);
+        mPhotoIv.setImageResource(R.mipmap.login_bg);
 
     }
 
@@ -322,23 +301,29 @@ public class ShareUploadActivity extends BaseActivity {
         return null;
     }
 
-
+    /**
+     * 显示进度对话框
+     */
     private void showPd(){
-        progressDialog = new ProgressDialog(ShareUploadActivity.this);
-        progressDialog.setTitle("分享");
-        progressDialog.setMessage("正在上传...");
+        mProgressDialog = new ProgressDialog(ShareUploadActivity.this);
+        mProgressDialog.setTitle("分享");
+        mProgressDialog.setMessage("正在上传...");
         // 设置对话框不能用“取消”按钮关闭
-        progressDialog.setCancelable(false);
+        mProgressDialog.setCancelable(false);
         // 设置对话框的进度条风格
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 
-        progressDialog.setIndeterminate(false);
-        progressDialog.show();
+        mProgressDialog.setIndeterminate(false);
+        mProgressDialog.show();
     }
 
+    /**
+     * 关闭进度对话框
+     */
     private void closePd(){
-        progressDialog.dismiss();
-        progressDialog = null;
+        mProgressDialog.dismiss();
+        mProgressDialog = null;
     }
 
 }
+
