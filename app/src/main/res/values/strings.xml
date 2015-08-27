@@ -43,4 +43,10 @@
     <string name="time_error">时间有问题</string>
 
 
+    <string name="tag_share_fragment" >ShareFragment</string>
+    <string name="tag_home_pager_fragment" >HomePagerFragment</string>
+    <string name="tag_me_fragment" >MeFragment</string>
+    <string name="tag_play_fragment" >PlayFragment</string>
+
+
 </resources>

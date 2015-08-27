@@ -151,6 +151,7 @@ public class ShareUploadActivity extends BaseActivity {
                 public void onSuccess() {
                     closePd();
                     T.showShort(getApplicationContext(), "上传成功");
+                    setResult(RESULT_OK);
                     finish();
                 }
                 @Override
