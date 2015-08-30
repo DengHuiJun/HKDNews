@@ -177,31 +177,27 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
 
     /**
-     * 加载评论数据的线程
+     * 加载评论的数据
      */
     private void loadCommentData(){
-        new Thread(){
-            public void run(){
-                BmobQuery<Comment> query = new BmobQuery<Comment>();
-                query.order("-createdAt");
-                query.setLimit(20);
-                query.addWhereEqualTo("newsId",news.getObjectId());
-                query.findObjects(context, new FindListener<Comment>() {
-                    @Override
-                    public void onSuccess(List<Comment> list) {
-                        Message msg = Message.obtain();
-                        msg.what = GET_NEWS_COMMENT;
-                        msg.obj = list;
-                        mCommentHandler.sendMessage(msg);
-                    }
-
-                    @Override
-                    public void onError(int i, String s) {
-                        L.d("get Comments:"+s);
-                    }
-                });
+        BmobQuery<Comment> query = new BmobQuery<Comment>();
+        query.order("-createdAt");
+        query.setLimit(20);
+        query.addWhereEqualTo("newsId",news.getObjectId());
+        query.findObjects(context, new FindListener<Comment>() {
+            @Override
+            public void onSuccess(List<Comment> list) {
+                Message msg = Message.obtain();
+                msg.what = GET_NEWS_COMMENT;
+                msg.obj = list;
+                mCommentHandler.sendMessage(msg);
             }
-        }.start();
+
+            @Override
+            public void onError(int i, String s) {
+                L.d("get Comments:"+s);
+            }
+        });
     }
 
     /**
@@ -211,28 +207,23 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
      */
 
     private void initDate(final String newsId,final boolean isRefresh){
-        new Thread(){
-            public void run(){
-                BmobQuery<NewsBody> query = new BmobQuery<>();
-                query.addWhereEqualTo("newsId",newsId);
-                query.findObjects(getApplicationContext(), new FindListener<NewsBody>() {
-                    @Override
-                    public void onSuccess(List<NewsBody> list) {
-                        if (list.get(0) != null){
-                            Message msg = Message.obtain();
-                            msg.obj = list.get(0);
-                            msg.what = GET_NEWS_CODE;
-                            mHandler.sendMessage(msg);
-                        }
-                    }
-                    @Override
-                    public void onError(int i, String s) {
-                        T.showShort(getApplicationContext(),"ERROR!");
-                    }
-                });
+        BmobQuery<NewsBody> query = new BmobQuery<>();
+        query.addWhereEqualTo("newsId",newsId);
+        query.findObjects(getApplicationContext(), new FindListener<NewsBody>() {
+            @Override
+            public void onSuccess(List<NewsBody> list) {
+                if (list.get(0) != null){
+                    Message msg = Message.obtain();
+                    msg.obj = list.get(0);
+                    msg.what = GET_NEWS_CODE;
+                    mHandler.sendMessage(msg);
+                }
             }
-
-        }.start();
+            @Override
+            public void onError(int i, String s) {
+                T.showShort(getApplicationContext(),"ERROR!");
+            }
+        });
     }
 
     private void initView() {
@@ -315,7 +306,6 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private View.OnClickListener toNewsClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-//            T.showShort(context,"ToNews");
             switchIsComment(VIEWSWITCH_TYPE_DETAIL);
         }
     };
@@ -326,7 +316,6 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private View.OnClickListener commentListClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-//            T.showShort(getApplicationContext(),"commentList");
             loadCommentData();
             switchIsComment(VIEWSWITCH_TYPE_COMMENT);
         }
@@ -348,7 +337,6 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private View.OnClickListener shareClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          //  T.showShort(getApplicationContext(), "share");
             ShareData shareData = new ShareData();
             shareData.setTitle(news.getNewsTitle());
             shareData.setDescription(news.getNewsTitle());
@@ -394,7 +382,6 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private View.OnClickListener pubClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-//            T.showShort(getApplicationContext(),"Btn");
             commitComment();
         }
     };
@@ -420,41 +407,35 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         }
     }
     /**
-     * 上传评论至服务器线程
+     * 上传评论至Bmob服务器
      */
     private void commitComment(){
-        new Thread(){
-            public void run(){
-                if (!mCommentContent.getText().toString().equals("")) {
-                    Comment temp = new Comment();
-                    temp.setNews(news);
-                    temp.setAuthor(AppContext.getUserName());
-                    temp.setAuthorId(AppContext.currentUserId);
-                    temp.setNewsId(news.getObjectId());
-                    temp.setFace(AppContext.getMyHead());
-                    temp.setContent(mCommentContent.getText().toString());
-                    temp.save(context, new SaveListener() {
-                        @Override
-                        public void onSuccess() {
-                            T.showShort(context, "评论成功！");
-                            mFootViewSwitcher.setDisplayedChild(0);
-                            mCommentContent.setText("");
-                        }
-                        @Override
-                        public void onFailure(int i, String s) {
-                            L.d(s);
-                            T.showShort(context, "评论失败！");
-                        }
-                    });
-                    addCommentToNews(temp);
-
-                }else{
-                    T.showShort(context,"请输入评论内容！");
+        if (!mCommentContent.getText().toString().equals("")) {
+            Comment temp = new Comment();
+            temp.setNews(news);
+            temp.setAuthor(AppContext.getUserName());
+            temp.setAuthorId(AppContext.currentUserId);
+            temp.setNewsId(news.getObjectId());
+            temp.setFace(AppContext.getMyHead());
+            temp.setContent(mCommentContent.getText().toString());
+            temp.save(context, new SaveListener() {
+                @Override
+                public void onSuccess() {
+                    mFootViewSwitcher.setDisplayedChild(0);
+                    mCommentContent.setText("");
                 }
-            }
-        }.start();
-    }
+                @Override
+                public void onFailure(int i, String s) {
+                    L.d(s);
+                    T.showShort(context, "评论失败！");
+                }
+            });
+            addCommentToNews(temp);
 
+        }else{
+            T.showShort(context,"请输入评论内容！");
+        }
+    }
 
     /**
      * 将评论绑定至新闻
@@ -467,7 +448,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         news.update(context, new UpdateListener() {
             @Override
             public void onSuccess() {
-                T.showShort(context,"绑定到news");
+                T.showShort(context, "评论成功！");
             }
 
             @Override
@@ -475,7 +456,6 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 L.d(s);
             }
         });
-
     }
 
     /**
