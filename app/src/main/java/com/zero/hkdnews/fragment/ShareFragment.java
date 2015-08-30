@@ -31,7 +31,7 @@ import cn.bmob.v3.listener.FindListener;
  * 校园分享Fragment
  * Created by zero on 15/4/11.
  */
-public class ShareFragment extends Fragment{
+public class ShareFragment extends Fragment {
 
     private ListView mListView;
 
@@ -47,6 +47,7 @@ public class ShareFragment extends Fragment{
     private static final int GET_DATA_FAIL = 0x02;
 
     private static final int REQUEST_CODE_OK = 0x03;
+    private static final int REFRESH_CODE = 0x04;
 
     private Handler mHandler =  new Handler(){
         public void handleMessage(Message msg){
@@ -59,6 +60,13 @@ public class ShareFragment extends Fragment{
             if (msg.what == GET_DATA_FAIL) {
                 mLoadPw.setVisibility(View.GONE);
                 T.showShort(getActivity(),"更新失败！");
+            }
+
+            if (msg.what == REFRESH_CODE) {
+                mDataList = (List<UploadNews>) msg.obj;
+                mAdapter.setDatalist(mDataList);
+                mAdapter.notifyDataSetChanged();
+                T.showShort(getActivity(),"刷新至最新！");
             }
         }
     };
@@ -83,9 +91,8 @@ public class ShareFragment extends Fragment{
         mListView.setAdapter(mAdapter);
 
 //        mUploadPhotoFAB.attachToListView(mListView);
-
         //查询数据
-        queryData();
+        queryData(false);
 
         mUploadPhotoFAB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +109,7 @@ public class ShareFragment extends Fragment{
         mUploadPhotoFAB = (FloatingActionButton) getActivity().findViewById(R.id.fab);
     }
 
-    private void queryData() {
+    private void queryData(final boolean isReferensh) {
         BmobQuery<UploadNews> query = new BmobQuery<>();
 
         //判断是否有缓存
@@ -121,7 +128,11 @@ public class ShareFragment extends Fragment{
             public void onSuccess(List<UploadNews> list) {
                 Message msg = Message.obtain();
                 msg.obj = list;
-                msg.what = GET_DATA_OK;
+                if (isReferensh) {
+                    msg.what = REFRESH_CODE;
+                } else {
+                    msg.what = GET_DATA_OK;
+                }
                 mHandler.sendMessage(msg);
             }
             @Override
@@ -138,7 +149,7 @@ public class ShareFragment extends Fragment{
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_OK && resultCode == getActivity().RESULT_OK) {
             mLoadPw.setVisibility(View.VISIBLE);
-            queryData();
+            queryData(true);
         }
     }
 }
