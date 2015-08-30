@@ -57,7 +57,6 @@ public class CommentActivity extends BaseActivity {
         }
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,7 +140,7 @@ public class CommentActivity extends BaseActivity {
         });
     }
 
-    public void handleReceiveMessage(Message msg){
+    private void handleReceiveMessage(Message msg){
         if (msg.what == UPDATE_REPLY_OK_MSG) {
             addReplyToComment(reply);
         } else if (msg.what == ADD_REPLY_TO_COM_OK_MSG) {
