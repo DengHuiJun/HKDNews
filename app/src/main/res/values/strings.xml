@@ -13,7 +13,7 @@
 
     <string name="news_detail_detail">详情</string>
     <string name="news_detail_list">评论列表</string>
-    <string name="news_detail_love">喜爱</string>
+    <string name="news_detail_love">收藏</string>
     <string name="news_detail_share">分享</string>
 
     <string name="drawer_open">drawer_open</string>
@@ -41,6 +41,12 @@
     <string name="updated_at">上次更新于%1$s前</string>
     <string name="updated_just_now">刚刚更新</string>
     <string name="time_error">时间有问题</string>
+
+
+    <string name="tag_share_fragment" >ShareFragment</string>
+    <string name="tag_home_pager_fragment" >HomePagerFragment</string>
+    <string name="tag_me_fragment" >MeFragment</string>
+    <string name="tag_play_fragment" >PlayFragment</string>
 
 
 </resources>

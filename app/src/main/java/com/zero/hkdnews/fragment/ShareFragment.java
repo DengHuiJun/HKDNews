@@ -31,32 +31,42 @@ import cn.bmob.v3.listener.FindListener;
  * 校园分享Fragment
  * Created by zero on 15/4/11.
  */
-public class ShareFragment extends Fragment{
+public class ShareFragment extends Fragment {
 
-    private ListView listview;
+    private ListView mListView;
 
-    private List<UploadNews> datalist;
-    private ShareAdapter adapter;
+    private List<UploadNews> mDataList;
+    private ShareAdapter mAdapter;
 
     //浮动的按钮
-    private FloatingActionButton fab;
+    private FloatingActionButton mUploadPhotoFAB;
 
-    //加载分享数据线程
-    private Thread addThread;
+    private ProgressWheel mLoadPw;
 
-    private ProgressWheel pw;
+    private static final int GET_DATA_OK = 0x01;
+    private static final int GET_DATA_FAIL = 0x02;
 
-    private static final int UP_DATA = 0x11;
-    private static final int REFRESH_DATA = 0x22;
+    private static final int REQUEST_CODE_OK = 0x03;
+    private static final int REFRESH_CODE = 0x04;
 
     private Handler mHandler =  new Handler(){
         public void handleMessage(Message msg){
-            if(msg.what == UP_DATA){
-                datalist = (List<UploadNews>) msg.obj;
-                adapter.setDatalist(datalist);
-                adapter.notifyDataSetChanged();
-                pw.setVisibility(View.GONE);
+            if(msg.what == GET_DATA_OK) {
+                mDataList = (List<UploadNews>) msg.obj;
+                mAdapter.setDatalist(mDataList);
+                mAdapter.notifyDataSetChanged();
+                mLoadPw.setVisibility(View.GONE);
+            }
+            if (msg.what == GET_DATA_FAIL) {
+                mLoadPw.setVisibility(View.GONE);
+                T.showShort(getActivity(),"更新失败！");
+            }
 
+            if (msg.what == REFRESH_CODE) {
+                mDataList = (List<UploadNews>) msg.obj;
+                mAdapter.setDatalist(mDataList);
+                mAdapter.notifyDataSetChanged();
+                T.showShort(getActivity(),"刷新至最新！");
             }
         }
     };
@@ -72,66 +82,74 @@ public class ShareFragment extends Fragment{
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        pw = (ProgressWheel) getActivity().findViewById(R.id.fragment_share_pb);
+        findView();
 
-        listview = (ListView) getActivity().findViewById(R.id.share_list_view);
+        mDataList = new ArrayList<>();
+        mAdapter = new ShareAdapter(mDataList, getActivity());
 
-        fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        mAdapter.setDatalist(mDataList);
+        mListView.setAdapter(mAdapter);
 
-        datalist = new ArrayList<>();
+//        mUploadPhotoFAB.attachToListView(mListView);
+        //查询数据
+        queryData(false);
 
-        adapter = new ShareAdapter(datalist,getActivity());
-
-        adapter.setDatalist(datalist);
-
-        listview.setAdapter(adapter);
-
-        fab.attachToListView(listview);
-
-        //查询数据的线程
-        addThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                BmobQuery<UploadNews> query = new BmobQuery<>();
-
-                //判断是否有缓存
-                boolean isCache = query.hasCachedResult(getActivity());
-
-                if(isCache){  //此为举个例子，并不一定按这种方式来设置缓存策略
-                    query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);    // 如果有缓存的话，则设置策略为CACHE_ELSE_NETWORK
-                }else{
-                    query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);    // 如果没有缓存的话，则设置策略为NETWORK_ELSE_CACHE
-                }
-
-                query.order("-createdAt");
-                query.setLimit(10);
-                query.findObjects(getActivity(),new FindListener<UploadNews>() {
-                    @Override
-                    public void onSuccess(List<UploadNews> list) {
-                        Message msg = Message.obtain();
-                        msg.obj = list;
-                        msg.what = UP_DATA;
-                        mHandler.sendMessage(msg);
-                    }
-                    @Override
-                    public void onError(int i, String s) {
-
-                    }
-                });
-            }
-
-        });
-
-        addThread.start();
-
-        fab.setOnClickListener(new View.OnClickListener() {
+        mUploadPhotoFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ShareUploadActivity.class);
-                getActivity().startActivity(intent);
+                getActivity().startActivityForResult(intent, REQUEST_CODE_OK);
             }
         });
-
     }
 
+    private void findView() {
+        mLoadPw = (ProgressWheel) getActivity().findViewById(R.id.fragment_share_pb);
+        mListView = (ListView) getActivity().findViewById(R.id.share_list_view);
+        mUploadPhotoFAB = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+    }
+
+    private void queryData(final boolean isReferensh) {
+        BmobQuery<UploadNews> query = new BmobQuery<>();
+
+        //判断是否有缓存
+//        boolean isCache = query.hasCachedResult(getActivity());
+//
+//        if(isCache){  //此为举个例子，并不一定按这种方式来设置缓存策略
+//            query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);    // 如果有缓存的话，则设置策略为CACHE_ELSE_NETWORK
+//        }else{
+//            query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);    // 如果没有缓存的话，则设置策略为NETWORK_ELSE_CACHE
+//        }
+
+        query.order("-createdAt");
+        query.setLimit(10);
+        query.findObjects(getActivity(),new FindListener<UploadNews>() {
+            @Override
+            public void onSuccess(List<UploadNews> list) {
+                Message msg = Message.obtain();
+                msg.obj = list;
+                if (isReferensh) {
+                    msg.what = REFRESH_CODE;
+                } else {
+                    msg.what = GET_DATA_OK;
+                }
+                mHandler.sendMessage(msg);
+            }
+            @Override
+            public void onError(int i, String s) {
+                Message msg =Message.obtain();
+                msg.what = GET_DATA_FAIL;
+                mHandler.sendMessage(msg);
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_OK && resultCode == getActivity().RESULT_OK) {
+            mLoadPw.setVisibility(View.VISIBLE);
+            queryData(true);
+        }
+    }
 }

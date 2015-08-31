@@ -14,22 +14,32 @@
         android:id="@+id/play_item_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
         android:text="来自it2班的通知"
         android:textColor="@color/love_or_special"
         android:textSize="19dp"
         android:gravity="center"/>
 
     <TextView
-        android:padding="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:id="@+id/play_item_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="17dp"
         android:minHeight="90dp"
-        android:text="@string/play_content"/>
+        android:text="@string/play_content" />
+
+
+    <View
+        android:background="@color/gray"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
 
     <LinearLayout
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -41,8 +51,9 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:layout_gravity="center"
-            android:gravity="center"
-            android:text="发布者：邓慧"/>
+            android:paddingLeft="20dp"
+            android:singleLine="true"
+            android:text="发布者：邓慧" />
 
         <TextView
             android:id="@+id/play_item_time"
@@ -51,12 +62,12 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:layout_gravity="center"
-            android:gravity="center"
-            android:text="6-26 12:00"/>
+            android:gravity="right"
+            android:singleLine="true"
+            android:paddingRight="20dp"
+            android:text="6-26 12:00" />
 
     </LinearLayout>
-
-
 
     <LinearLayout
         android:background="@color/ic_bg"

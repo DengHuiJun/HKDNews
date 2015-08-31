@@ -8,13 +8,13 @@ import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -32,11 +32,10 @@ import com.zero.hkdnews.common.UIHelper;
 import com.zero.hkdnews.util.L;
 import com.zero.hkdnews.util.T;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import cn.bmob.social.share.core.BMShareListener;
 import cn.bmob.social.share.core.ErrorInfo;
 import cn.bmob.social.share.core.data.BMPlatform;
@@ -45,15 +44,15 @@ import cn.bmob.social.share.view.BMShare;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobRelation;
 import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.GetListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 
 /**
  * 新闻详情页
- * Created by luowei on 15/4/11.
+ * Created by zero on 15/4/11.
  */
 public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener,AdapterView.OnItemClickListener{
+    private static final String TAG = "NewsActivity";
 
     private Context context ;
 
@@ -66,32 +65,26 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private ViewSwitcher mViewSwitcher;
     private ProgressBar loadPB;
 
-    //评论
-    private View mComment;
-
-    //回到新闻界面
-    private View mDetail;
-
-    //查看评论列表
-    private View mCommentList;
-
-    //点赞
-    private View mLove;
-
-    //一键分享
-    private View mShare;
+    private View mCommentV; // 评论
+    private View mDetailV; // 回到新闻界面
+    private View mCommentListV; // 查看评论列表
+    private View mLoveV; //收藏
+    private View mShareV; // 一键分享
 
     private ViewSwitcher mFootViewSwitcher;
     private EditText mCommentContent;
     private Button mCommentBtn;
 
     private WebView mWebView;
-    private Handler mHandler;
 
     private News  news;
+    private Comment mComment;
 
     private static final int GET_NEWS_COMMENT = 1;
     private static final int GET_NEWS_CODE = 2;
+    private static final int UPLOAD_NEWS_COMMENT_MSG = 3;
+    private static final int ADD_COM_TO_NEWS_MSG = 4;
+    private static final int REFRENSH_COMMENTS_MSG = 5;
 
     private static final int VIEWSWITCH_TYPE_DETAIL = 0x001;
     private static final int VIEWSWITCH_TYPE_COMMENT = 0x002;
@@ -99,13 +92,79 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     //是否评论模式
     private boolean isCommented = false;
 
-
     private CommentAdapter commentAdapter;
     private SuperListview commentListView;
     private List<Comment> comments = new ArrayList<>();
-    private Handler mCommentHandler;
 
+    private WeakReferenceHander mWeakHandler;
 
+    static class WeakReferenceHander extends Handler {
+        private final WeakReference<NewsActivity> mActivity;
+
+        public WeakReferenceHander(NewsActivity activity) {
+            mActivity = new WeakReference<NewsActivity>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            if (mActivity.get() != null) {
+                mActivity.get().handleReceiveMessage(msg);
+            }
+        }
+    }
+
+    private void handleReceiveMessage(Message msg) {
+        switch (msg.what) {
+
+            //webView显示新闻内容
+            case GET_NEWS_CODE:
+                NewsBody body = (NewsBody) msg.obj;
+                mWebView.loadDataWithBaseURL(null,body.getBody(),"text/html","utf-8",null);
+                mWebView.setWebViewClient(new WebViewClient(){
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                        view.loadUrl(url);
+                        return super.shouldOverrideUrlLoading(view,url);
+                    }
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                        loadPB.setVisibility(View.GONE);
+                        mWebView.setVisibility(View.VISIBLE);
+                    }
+                    @Override
+                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                        super.onPageStarted(view, url, favicon);
+                    }
+                });
+                break;
+            //第一次加载评论列表
+            case GET_NEWS_COMMENT:
+                comments = (List<Comment>) msg.obj;
+                commentAdapter.setListItems(comments);
+                commentAdapter.notifyDataSetChanged();
+                break;
+
+            //刷新评论列表
+            case REFRENSH_COMMENTS_MSG:
+                comments = (List<Comment>) msg.obj;
+                commentAdapter.setListItems(comments);
+                commentAdapter.notifyDataSetChanged();
+                T.showShort(context, "刷新成功!");
+                break;
+
+            case UPLOAD_NEWS_COMMENT_MSG:
+                addCommentToNews(mComment);
+                break;
+
+            case ADD_COM_TO_NEWS_MSG:
+                T.showShort(context, "评论成功！");
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(mCommentV.getWindowToken(), 0);
+                switchIsComment(VIEWSWITCH_TYPE_DETAIL);
+                break;
+        }
+    }
 
 
     @Override
@@ -113,147 +172,27 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news2);
 
+        mWeakHandler = new WeakReferenceHander(this);
+        findView();
         initView();
-        initData();
-        initCommentData();
-
+        initData(news.getObjectId());
 
     }
 
-    //初始化文章内容
-    private void initData() {
-        mHandler = new Handler() {
-            public void handleMessage(Message msg){
-                if(msg.what == GET_NEWS_CODE){
-                    NewsBody body = (NewsBody) msg.obj;
-                    mWebView.loadDataWithBaseURL(null,body.getBody(),"text/html","utf-8",null);
-                    mWebView.setWebViewClient(new WebViewClient(){
-                        @Override
-                        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                            view.loadUrl(url);
-                            return super.shouldOverrideUrlLoading(view,url);
-                        }
-
-                        @Override
-                        public void onPageFinished(WebView view, String url) {
-                            super.onPageFinished(view, url);
-                            loadPB.setVisibility(View.GONE);
-                            mWebView.setVisibility(View.VISIBLE);
-                        }
-
-                        @Override
-                        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                            super.onPageStarted(view, url, favicon);
-                        }
-                    });
-
-                }
-            }
-        };
-
-        initDate(news.getObjectId(), false);
-
-    }
-
-    /**
-     * 初始化评论列表数据
-     */
-    private void initCommentData(){
-        commentAdapter = new CommentAdapter(context,comments);
-        commentListView.setAdapter(commentAdapter);
-        commentListView.setRefreshListener(this);
-        commentListView.setOnItemClickListener(this);
-
-        mCommentHandler = new Handler(){
-          public void handleMessage(Message msg){
-              if(msg.what == GET_NEWS_COMMENT){
-                        comments = (List<Comment>) msg.obj;
-                        commentAdapter.setListItems(comments);
-                        commentAdapter.notifyDataSetChanged();
-              }
-          }
-        };
-    }
-
-
-    /**
-     * 加载评论数据的线程
-     */
-    private void loadCommentData(){
-        new Thread(){
-            public void run(){
-                BmobQuery<Comment> query = new BmobQuery<Comment>();
-                query.order("-createdAt");
-                query.setLimit(20);
-                query.addWhereEqualTo("newsId",news.getObjectId());
-                query.findObjects(context, new FindListener<Comment>() {
-                    @Override
-                    public void onSuccess(List<Comment> list) {
-                        Message msg = Message.obtain();
-                        msg.what = GET_NEWS_COMMENT;
-                        msg.obj = list;
-                        mCommentHandler.sendMessage(msg);
-                    }
-
-                    @Override
-                    public void onError(int i, String s) {
-                        L.d("get Comments:"+s);
-                    }
-                });
-            }
-        }.start();
-    }
-
-    /**
-     * 加载新闻内容
-     * @param newsId
-     * @param isRefresh
-     */
-
-    private void initDate(final String newsId,final boolean isRefresh){
-        new Thread(){
-            public void run(){
-                BmobQuery<NewsBody> query = new BmobQuery<>();
-                query.addWhereEqualTo("newsId",newsId);
-                query.findObjects(getApplicationContext(), new FindListener<NewsBody>() {
-                    @Override
-                    public void onSuccess(List<NewsBody> list) {
-                        if (list.get(0) != null){
-                            Message msg = Message.obtain();
-                            msg.obj = list.get(0);
-                            msg.what = GET_NEWS_CODE;
-                            mHandler.sendMessage(msg);
-                        }
-                    }
-                    @Override
-                    public void onError(int i, String s) {
-                        T.showShort(getApplicationContext(),"ERROR!");
-                    }
-                });
-            }
-
-        }.start();
-    }
-
-    private void initView() {
-
-        context =this;
-        //获取传递过来news
-       news = (News) getIntent().getBundleExtra("data").getSerializable("news");
-
+    private void findView() {
         //顶部的控件绑定
         mHome = (ImageView) findViewById(R.id.news_header_home);
         mRefresh = (ImageView) findViewById(R.id.news_header_refresh);
         mHeadTitle = (TextView) findViewById(R.id.news_header_title);
 
         //底部的控件绑定
-        mFootViewSwitcher= (ViewSwitcher) findViewById(R.id.news_detail_foot_view_switcher);
+        mFootViewSwitcher = (ViewSwitcher) findViewById(R.id.news_detail_foot_view_switcher);
 
-        mComment = findViewById(R.id.news_detail_comment);
-        mDetail = findViewById(R.id.news_detail_comment_detail);
-        mCommentList = findViewById(R.id.news_detail_comment_list);
-        mLove=findViewById(R.id.news_detail_love);
-        mShare=findViewById(R.id.news_detail_share);
+        mCommentV = findViewById(R.id.news_detail_comment);
+        mDetailV = findViewById(R.id.news_detail_comment_detail);
+        mCommentListV = findViewById(R.id.news_detail_comment_list);
+        mLoveV = findViewById(R.id.news_detail_love);
+        mShareV = findViewById(R.id.news_detail_share);
 
         //评论模块2个控件
         mCommentContent = (EditText) findViewById(R.id.news_detail_foot_editer);
@@ -265,6 +204,15 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         loadPB = (ProgressBar) findViewById(R.id.news_detail_pb);
 
         mWebView = (WebView) findViewById(R.id.news_detail_webview);
+    }
+
+
+    private void initView() {
+
+        context = this;
+        //获取传递过来news
+        news = (News) getIntent().getBundleExtra("data").getSerializable("news");
+
         mWebView.getSettings().setSupportZoom(true);
         mWebView.getSettings().setBuiltInZoomControls(true);
         mWebView.getSettings().setDefaultFontSize(15);
@@ -274,16 +222,74 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         mRefresh.setOnClickListener(refreshClickListener);
 
         //最底部设置监听事件
-        mComment.setOnClickListener(commentClickListener);
-        mCommentList.setOnClickListener(commentListClickListener);
-        mLove.setOnClickListener(loveClickListener);
-        mShare.setOnClickListener(shareClickListener);
+        mCommentV.setOnClickListener(commentClickListener);
+        mCommentListV.setOnClickListener(commentListClickListener);
+        mLoveV.setOnClickListener(loveClickListener);
+        mShareV.setOnClickListener(shareClickListener);
         mCommentBtn.setOnClickListener(pubClickListener);
-        mDetail.setOnClickListener(toNewsClickListener);
+        mDetailV.setOnClickListener(toNewsClickListener);
 
         //评论列表
         commentListView = (SuperListview) findViewById(R.id.comment_list_listview);
+
+        commentAdapter = new CommentAdapter(context,comments);
+        commentListView.setAdapter(commentAdapter);
+        commentListView.setRefreshListener(this);
+        commentListView.setOnItemClickListener(this);
     }
+
+    /**
+     * 加载评论的数据
+     */
+    private void loadCommentData(final boolean isFirst){
+        BmobQuery<Comment> query = new BmobQuery<Comment>();
+        query.order("-createdAt");
+        query.setLimit(20);
+        query.addWhereEqualTo("newsId",news.getObjectId());
+        query.findObjects(context, new FindListener<Comment>() {
+            @Override
+            public void onSuccess(List<Comment> list) {
+                Message msg = Message.obtain();
+                if (isFirst) {
+                    msg.what = GET_NEWS_COMMENT;
+                } else {
+                    msg.what = REFRENSH_COMMENTS_MSG;
+                }
+                msg.obj = list;
+                mWeakHandler.sendMessage(msg);
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                L.d("get Comments:" + s);
+            }
+        });
+    }
+
+    /**
+     * 加载新闻内容
+     * @param newsId
+     */
+    private void initData(final String newsId){
+        BmobQuery<NewsBody> query = new BmobQuery<>();
+        query.addWhereEqualTo("newsId",newsId);
+        query.findObjects(getApplicationContext(), new FindListener<NewsBody>() {
+            @Override
+            public void onSuccess(List<NewsBody> list) {
+                if (list.get(0) != null){
+                    Message msg = Message.obtain();
+                    msg.obj = list.get(0);
+                    msg.what = GET_NEWS_CODE;
+                    mWeakHandler.sendMessage(msg);
+                }
+            }
+            @Override
+            public void onError(int i, String s) {
+                T.showShort(getApplicationContext(),"ERROR!");
+            }
+        });
+    }
+
     private View.OnClickListener homeClickListenter = new View.OnClickListener(){
 
         @Override
@@ -297,7 +303,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
         @Override
         public void onClick(View v) {
-            initDate(news.getObjectId(), true);
+            initData(news.getObjectId());
             Toast.makeText(context,"refresh",Toast.LENGTH_SHORT).show();
         }
     };
@@ -315,7 +321,6 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private View.OnClickListener toNewsClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-//            T.showShort(context,"ToNews");
             switchIsComment(VIEWSWITCH_TYPE_DETAIL);
         }
     };
@@ -326,14 +331,13 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private View.OnClickListener commentListClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-//            T.showShort(getApplicationContext(),"commentList");
-            loadCommentData();
+            loadCommentData(true);
             switchIsComment(VIEWSWITCH_TYPE_COMMENT);
         }
     };
 
     /**
-     * 点赞事件
+     * 收藏事件
      */
     private View.OnClickListener loveClickListener = new View.OnClickListener() {
         @Override
@@ -348,7 +352,6 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private View.OnClickListener shareClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          //  T.showShort(getApplicationContext(), "share");
             ShareData shareData = new ShareData();
             shareData.setTitle(news.getNewsTitle());
             shareData.setDescription(news.getNewsTitle());
@@ -389,12 +392,11 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     };
 
     /**
-     * 点击评论监听事件
+     * 点击上传评论，监听事件
      */
     private View.OnClickListener pubClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-//            T.showShort(getApplicationContext(),"Btn");
             commitComment();
         }
     };
@@ -405,56 +407,52 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private void switchIsComment(int type){
         switch (type){
             case VIEWSWITCH_TYPE_DETAIL:
-                mDetail.setEnabled(false);
-                mCommentList.setEnabled(true);
+                mDetailV.setEnabled(false);
+                mCommentListV.setEnabled(true);
                 mHeadTitle.setText("新闻正文");
                 mViewSwitcher.setDisplayedChild(0);
                 break;
 
             case VIEWSWITCH_TYPE_COMMENT:
-                mDetail.setEnabled(true);
-                mCommentList.setEnabled(false);
+                mDetailV.setEnabled(true);
+                mCommentListV.setEnabled(false);
                 mHeadTitle.setText("网友评论");
                 mViewSwitcher.setDisplayedChild(1);
                 break;
         }
     }
     /**
-     * 上传评论至服务器线程
+     * 上传评论至Bmob服务器
      */
     private void commitComment(){
-        new Thread(){
-            public void run(){
-                if (!mCommentContent.getText().toString().equals("")) {
-                    Comment temp = new Comment();
-                    temp.setNews(news);
-                    temp.setAuthor(AppContext.getUserName());
-                    temp.setAuthorId(AppContext.currentUserId);
-                    temp.setNewsId(news.getObjectId());
-                    temp.setFace(AppContext.getMyHead());
-                    temp.setContent(mCommentContent.getText().toString());
-                    temp.save(context, new SaveListener() {
-                        @Override
-                        public void onSuccess() {
-                            T.showShort(context, "评论成功！");
-                            mFootViewSwitcher.setDisplayedChild(0);
-                            mCommentContent.setText("");
-                        }
-                        @Override
-                        public void onFailure(int i, String s) {
-                            L.d(s);
-                            T.showShort(context, "评论失败！");
-                        }
-                    });
-                    addCommentToNews(temp);
-
-                }else{
-                    T.showShort(context,"请输入评论内容！");
+        if (!mCommentContent.getText().toString().equals("")) {
+            mComment = new Comment();
+            mComment.setNews(news);
+            mComment.setAuthor(AppContext.getUserName());
+            mComment.setAuthorId(AppContext.currentUserId);
+            mComment.setNewsId(news.getObjectId());
+            mComment.setFace(AppContext.getMyHead());
+            mComment.setContent(mCommentContent.getText().toString());
+            mComment.save(context, new SaveListener() {
+                @Override
+                public void onSuccess() {
+                    mFootViewSwitcher.setDisplayedChild(0);
+                    mCommentContent.setText("");
+                    Message msg = Message.obtain();
+                    msg.what = UPLOAD_NEWS_COMMENT_MSG;
+                    mWeakHandler.sendMessage(msg);
                 }
-            }
-        }.start();
-    }
 
+                @Override
+                public void onFailure(int i, String s) {
+                    L.d(s);
+                    T.showShort(context, "评论失败！");
+                }
+            });
+        } else {
+            T.showShort(context,"请输入评论内容！");
+        }
+    }
 
     /**
      * 将评论绑定至新闻
@@ -467,7 +465,9 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         news.update(context, new UpdateListener() {
             @Override
             public void onSuccess() {
-                T.showShort(context,"绑定到news");
+                Message msg = Message.obtain();
+                msg.what = ADD_COM_TO_NEWS_MSG;
+                mWeakHandler.sendMessage(msg);
             }
 
             @Override
@@ -475,7 +475,6 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 L.d(s);
             }
         });
-
     }
 
     /**
@@ -486,12 +485,12 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK){
-            if(isCommented){
+        if(keyCode == KeyEvent.KEYCODE_BACK) {
+            if(isCommented) {
                 mFootViewSwitcher.setDisplayedChild(0);
                 isCommented = false;
                 return false;
-            }else{
+            } else {
                 finish();
             }
         }
@@ -500,8 +499,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
-
-        T.showShort(context,"刷新数据");
+        loadCommentData(false);
     }
 
     //网友评论的点击事件

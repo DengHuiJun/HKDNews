@@ -1,5 +1,6 @@
 package com.zero.hkdnews.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -29,7 +30,6 @@ import cn.bmob.v3.BmobUser;
 /**
  * 主界面
  */
-
 public class MainActivity extends ActionBarActivity implements View.OnClickListener,NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     private static final String TAG = "MainActivity";
@@ -67,7 +67,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private TextView mMeTv;
 
     private FragmentManager fragmentManager;
-
+    private String mCurrentFragmentTag = "";
+    private static final String TAG_SHARE_TAG = "ShareFragment";
+    private static final String TAG_HOME_TAG = "HomePagerFragment";
+    private static final String TAG_PLAY_TAG = "PlayFragment";
+    private static final String TAG_ME_TAG = "MeFragment";
 
     /**
      * 左侧滑块
@@ -77,23 +81,21 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     //标题
     private CharSequence mTitle;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, getClass().getSimpleName());
-        ActivityCollector.addActivity(this);
 
+        ActivityCollector.addActivity(this);
         setContentView(R.layout.activity_main);
 
         initNav();
-
         initView();
 
         fragmentManager = getSupportFragmentManager();
         //第一次选中首页
         setBottomSelection(0);
-
+        mCurrentFragmentTag = TAG_HOME_TAG;
     }
 
     /**
@@ -121,7 +123,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
             //定位功能
             case 0:
-
                 break;
 
             //登录功能
@@ -190,9 +191,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         actionBar.setTitle(mTitle);
     }
 
-
     private void initView() {
-
         homeLayout = findViewById(R.id.bottom_home);
         shareLayout = findViewById(R.id.bottom_share);
         playLayout = findViewById(R.id.bottom_play);
@@ -208,15 +207,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         mPlayTv = (TextView) findViewById(R.id.play_text);
         mMeTv = (TextView) findViewById(R.id.me_text);
 
-
         homeLayout.setOnClickListener(this);
         shareLayout.setOnClickListener(this);
         playLayout.setOnClickListener(this);
         meLayout.setOnClickListener(this);
-
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -238,31 +233,56 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.bottom_home:
                 setBottomSelection(0);
+                mCurrentFragmentTag = TAG_HOME_TAG;
                 break;
             case R.id.bottom_share:
                 setBottomSelection(1);
+                mCurrentFragmentTag = TAG_SHARE_TAG;
                 break;
             case R.id.bottom_play:
                 setBottomSelection(2);
+                mCurrentFragmentTag = TAG_PLAY_TAG;
                 break;
             case R.id.bottom_me:
                 setBottomSelection(3);
+                mCurrentFragmentTag = TAG_ME_TAG;
                 break;
             default:
                 break;
         }
     }
 
+    /**
+     *为了调用子Fragment中的onActivityResult
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (mCurrentFragmentTag) {
+            case TAG_HOME_TAG:
+                homePagerFragment.onActivityResult(requestCode,resultCode,data);
+                break;
+            case TAG_SHARE_TAG:
+                shareFragment.onActivityResult(requestCode,resultCode,data);
+                break;
+            case TAG_PLAY_TAG:
+                playFragment.onActivityResult(requestCode,resultCode,data);
+                break;
+            case TAG_ME_TAG:
+                meFragment.onActivityResult(requestCode,resultCode,data);
+                break;
+        }
+    }
 
     /**
      * 选择底部功能
@@ -278,52 +298,47 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             case 0:
                 homeImg.setImageResource(R.mipmap.main_bottom_home_select);
                 mHomeTv.setTextColor(getResources().getColor(R.color.select_font));
-                if(homePagerFragment == null){
+                if(homePagerFragment == null) {
                     homePagerFragment = new HomePagerFragment();
                     transaction.add(R.id.main_content,homePagerFragment);
-                }else{
+                } else {
                     transaction.show(homePagerFragment);
                 }
                 break;
             case 1:
-
                 shareImg.setImageResource(R.mipmap.main_bottom_share_select);
                 mShareTv.setTextColor(getResources().getColor(R.color.select_font));
-                if(shareFragment == null){
+                if(shareFragment == null) {
                     shareFragment = new ShareFragment();
                     transaction.add(R.id.main_content,shareFragment);
-                }else{
+                } else {
                     transaction.show(shareFragment);
                 }
                 break;
             case 2:
-
                 playImg.setImageResource(R.mipmap.main_bottom_inform_select);
                 mPlayTv.setTextColor(getResources().getColor(R.color.select_font));
-                if(playFragment ==null ){
+                if(playFragment == null) {
                     playFragment = new PlayFragment();
                     transaction.add(R.id.main_content,playFragment);
 
-                }else{
+                } else {
                     transaction.show(playFragment);
                 }
                 break;
-
-
             case 3:
             default:
                 meImg.setImageResource(R.mipmap.main_bottom_me_select);
                 mMeTv.setTextColor(getResources().getColor(R.color.select_font));
-                if(meFragment == null){
+                if(meFragment == null) {
                     meFragment = new MeFragment();
                     transaction.add(R.id.main_content,meFragment);
-                }else{
+                } else {
                     transaction.show(meFragment);
                 }
                 break;
         }
         transaction.commit();
-
     }
 
     /**
@@ -344,18 +359,17 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     /**
      * 隐藏主页所有的Fragment
      */
-    private void hideAllFragment(FragmentTransaction transaction){
-        if(homePagerFragment != null){
+    private void hideAllFragment(FragmentTransaction transaction) {
+        if(homePagerFragment != null) {
             transaction.hide(homePagerFragment);
         }
-
-        if(meFragment != null){
+        if(meFragment != null) {
             transaction.hide(meFragment);
         }
-        if(playFragment != null){
+        if(playFragment != null) {
             transaction.hide(playFragment);
         }
-        if(shareFragment != null){
+        if(shareFragment != null) {
             transaction.hide(shareFragment);
         }
     }

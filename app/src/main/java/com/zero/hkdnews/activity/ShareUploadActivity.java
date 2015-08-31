@@ -136,7 +136,7 @@ public class ShareUploadActivity extends BaseActivity {
     }
 
     //上传完照片后，存储记录到Bmob中
-    public void handleReceiveMessage(Message msg) {
+    private void handleReceiveMessage(Message msg) {
         if (msg.what == 0x22){
             UploadNews data = new UploadNews();
             data.setAuthor(AppContext.getUserName());
@@ -151,6 +151,7 @@ public class ShareUploadActivity extends BaseActivity {
                 public void onSuccess() {
                     closePd();
                     T.showShort(getApplicationContext(), "上传成功");
+                    setResult(RESULT_OK);
                     finish();
                 }
                 @Override
