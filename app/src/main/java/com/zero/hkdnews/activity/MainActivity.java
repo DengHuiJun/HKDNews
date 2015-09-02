@@ -31,7 +31,6 @@ import cn.bmob.v3.BmobUser;
  * 主界面
  */
 public class MainActivity extends ActionBarActivity implements View.OnClickListener,NavigationDrawerFragment.NavigationDrawerCallbacks {
-
     private static final String TAG = "MainActivity";
 
     //首页新闻的fragment,嵌入了一个viewpager
@@ -72,6 +71,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private static final String TAG_HOME_TAG = "HomePagerFragment";
     private static final String TAG_PLAY_TAG = "PlayFragment";
     private static final String TAG_ME_TAG = "MeFragment";
+
+    private int mCurrentFragmentId; // 用来判断动画效果
 
     /**
      * 左侧滑块
@@ -293,9 +294,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         hideAllFragment(transaction);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 
         switch (index){
             case 0:
+                setTransactionAnimation(transaction, 0);
                 homeImg.setImageResource(R.mipmap.main_bottom_home_select);
                 mHomeTv.setTextColor(getResources().getColor(R.color.select_font));
                 if(homePagerFragment == null) {
@@ -304,8 +307,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 } else {
                     transaction.show(homePagerFragment);
                 }
+                mCurrentFragmentId = 0;
                 break;
             case 1:
+                setTransactionAnimation(transaction, 1);
                 shareImg.setImageResource(R.mipmap.main_bottom_share_select);
                 mShareTv.setTextColor(getResources().getColor(R.color.select_font));
                 if(shareFragment == null) {
@@ -314,8 +319,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 } else {
                     transaction.show(shareFragment);
                 }
+                mCurrentFragmentId = 1;
                 break;
             case 2:
+                setTransactionAnimation(transaction, 2);
                 playImg.setImageResource(R.mipmap.main_bottom_inform_select);
                 mPlayTv.setTextColor(getResources().getColor(R.color.select_font));
                 if(playFragment == null) {
@@ -325,9 +332,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 } else {
                     transaction.show(playFragment);
                 }
+                mCurrentFragmentId = 2;
                 break;
             case 3:
             default:
+                setTransactionAnimation(transaction, 3);
                 meImg.setImageResource(R.mipmap.main_bottom_me_select);
                 mMeTv.setTextColor(getResources().getColor(R.color.select_font));
                 if(meFragment == null) {
@@ -336,9 +345,27 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 } else {
                     transaction.show(meFragment);
                 }
+                mCurrentFragmentId = 3;
                 break;
         }
         transaction.commit();
+    }
+
+    /**
+     * 设置转场动画
+     * @param transaction
+     * @param nextId
+     */
+    private void setTransactionAnimation(FragmentTransaction transaction,int nextId) {
+//        if (nextId > mCurrentFragmentId) {
+//            transaction.setCustomAnimations(
+//                    R.anim.fragment_slide_left_enter,
+//                    R.anim.fragment_slide_right_exit);
+//        } else {
+//            transaction.setCustomAnimations(
+//                    R.anim.fragment_slide_right_enter,
+//                    R.anim.fragment_slide_left_exit);
+//        }
     }
 
     /**

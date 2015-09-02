@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">校园微圈</string>
+    <string name="app_name">微圈</string>
 
     <string name="action_login">登录</string>
     <string name="action_out">注销</string>
@@ -9,16 +9,13 @@
     <string name="bottom_me">我</string>
     <string name="news_detail_head_title">新闻正文</string>
 
-
-
+    <!--新闻内容底部-->
     <string name="news_detail_detail">详情</string>
     <string name="news_detail_list">评论列表</string>
     <string name="news_detail_love">收藏</string>
     <string name="news_detail_share">分享</string>
 
-    <string name="drawer_open">drawer_open</string>
-    <string name="drawer_close">drawer_close</string>
-
+    <!--左测滑块菜单-->
     <string name="title_section1">首页</string>
     <string name="title_section2">登录</string>
     <string name="title_section3">注销</string>
@@ -28,8 +25,8 @@
     <string name="navigation_drawer_open">打开侧滑</string>
     <string name="navigation_drawer_close">关闭侧滑</string>
 
+    <!-- ActionBar菜单-->
     <string name="action_example">搜索</string>
-
     <string name="action_settings">设置</string>
 
     <string name="play_content">请所有同学于明天上午8点在体育馆集合，收到回复！</string>
