@@ -14,11 +14,8 @@ import com.pnikosis.materialishprogress.ProgressWheel;
 import com.zero.hkdnews.R;
 import com.zero.hkdnews.activity.GroupActivity;
 import com.zero.hkdnews.adapter.PlayAdapter;
-import com.zero.hkdnews.app.AppContext;
-import com.zero.hkdnews.beans.Group;
 import com.zero.hkdnews.beans.HnustUser;
 import com.zero.hkdnews.beans.Inform;
-import com.zero.hkdnews.util.T;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +28,10 @@ import cn.bmob.v3.listener.FindListener;
 
 /**
  * 通知消息Fragment
+ * 改过名字，由Play -> Inform
  * Created by zero on 15/4/11.
  */
-public class PlayFragment extends Fragment {
+public class InformFragment extends Fragment {
 
     private PlayAdapter adapter;
     private ListView listView;
@@ -60,7 +58,7 @@ public class PlayFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View playLayout = inflater.inflate(R.layout.fragment_play,container,false);
+        View playLayout = inflater.inflate(R.layout.fragment_inform,container,false);
         return playLayout;
     }
 

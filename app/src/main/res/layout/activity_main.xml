@@ -34,7 +34,7 @@
         android:background="@color/CLOUDS">
 
         <RelativeLayout
-            android:id="@+id/bottom_home"
+            android:id="@+id/bottom_home_rl"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -66,7 +66,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/bottom_share"
+            android:id="@+id/bottom_share_rl"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
@@ -97,7 +97,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/bottom_play"
+            android:id="@+id/bottom_inform_rl"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
@@ -128,7 +128,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/bottom_me"
+            android:id="@+id/bottom_me_rl"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">

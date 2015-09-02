@@ -336,7 +336,6 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 T.showShort(getApplicationContext(), "ERROR!"+s);
             }
         });
-
     }
 
     /**
@@ -451,6 +450,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                     T.showShort(context,"取消分享");
                 }
             };
+
             BMShare share = new BMShare(NewsActivity.this);
             share.setShareData(shareData);
             share.addListener(BMPlatform.PLATFORM_WECHAT, whiteViewListener);
@@ -459,7 +459,6 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             share.addListener(BMPlatform.PLATFORM_RENN, whiteViewListener);
             share.addListener(BMPlatform.PLATFORM_TENCENTWEIBO, whiteViewListener);
             share.addListener(BMPlatform.PLATFORM_QQ, whiteViewListener);
-            share.addListener(BMPlatform.PLATFORM_QZONE, whiteViewListener);
             share.show();
            // Log.d("bmob", "分享end");
         }

@@ -126,12 +126,14 @@ public class NavigationDrawerFragment extends Fragment {
         LeftMenu item3 = new LeftMenu("注销",R.mipmap.main_bottom_me);
         LeftMenu item4 = new LeftMenu("定位",R.mipmap.main_left_bar_position);
         LeftMenu item5 = new LeftMenu("清除缓存",R.mipmap.main_bottom_inform);
+        LeftMenu item6 = new LeftMenu("个人设置",R.mipmap.main_bottom_inform);
 
         datas.add(item1);
         datas.add(item2);
         datas.add(item3);
         datas.add(item4);
         datas.add(item5);
+        datas.add(item6);
     }
 
     public boolean isDrawerOpen() {

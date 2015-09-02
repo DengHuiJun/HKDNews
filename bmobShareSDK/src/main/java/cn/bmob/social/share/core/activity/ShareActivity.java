@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -235,12 +236,13 @@ public class ShareActivity extends Activity implements IWeiboHandler.Response {
 	private void initView(String platformName, final BMPlatform platform) {
 		LinearLayout mainLinear = new LinearLayout(this);
 		mainLinear.setOrientation(LinearLayout.VERTICAL);
-		mainLinear.setBackgroundColor(0xffe9ecff);
+//		mainLinear.setBackgroundColor(0xffe9ecff);
+		mainLinear.setBackgroundColor(0xff1ABC9C);
 		//
 		RelativeLayout headerLayout = new RelativeLayout(this);
 		RelativeLayout.LayoutParams headerLinearParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, Util.dip2px(this, 50));
 		headerLayout.setLayoutParams(headerLinearParams);
-		headerLayout.setBackgroundColor(0xff66c0ff);
+		headerLayout.setBackgroundColor(0xff16A085);
 
 		// 返回键
 		LinearLayout back = new LinearLayout(this);

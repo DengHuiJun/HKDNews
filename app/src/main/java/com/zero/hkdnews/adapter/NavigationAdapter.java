@@ -14,6 +14,7 @@ import com.zero.hkdnews.beans.LeftMenu;
 import java.util.List;
 
 /**
+ * 左侧滑块
  * Created by 邓慧 on 15/6/26.
  */
 public class NavigationAdapter extends BaseAdapter {

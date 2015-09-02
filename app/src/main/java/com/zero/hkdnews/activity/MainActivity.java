@@ -20,8 +20,8 @@ import com.zero.hkdnews.beans.HnustUser;
 import com.zero.hkdnews.common.ActivityCollector;
 import com.zero.hkdnews.common.UIHelper;
 import com.zero.hkdnews.fragment.HomePagerFragment;
-import com.zero.hkdnews.fragment.MeFragment;
-import com.zero.hkdnews.fragment.PlayFragment;
+import com.zero.hkdnews.fragment.InformFragment;
+import com.zero.hkdnews.fragment.MainFragment;
 import com.zero.hkdnews.fragment.ShareFragment;
 
 import cn.bmob.v3.BmobQuery;
@@ -37,40 +37,40 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private HomePagerFragment homePagerFragment;
 
     //分享界面的fragment
-    private ShareFragment shareFragment;
+    private ShareFragment mShareFragment;
 
     //通知服务界面的Fragment
-    private PlayFragment playFragment;
+    private InformFragment mInformFragment;
 
     //我的资料界面的Fragment
-    private MeFragment meFragment;
+    private MainFragment mMainFragment;
 
     //新闻布局
-    private View homeLayout;
+    private View mBottomHomeRl;
     private ImageView homeImg;
     private TextView mHomeTv;
 
     //分享布局
-    private View shareLayout;
+    private View mBottomShareRL;
     private ImageView shareImg;
     private TextView mShareTv;
 
     //通知服务布局
-    private View playLayout;
+    private View mBottomInformRl;
     private ImageView playImg;
     private TextView mPlayTv;
 
-    //我的资料布局
-    private View meLayout;
+    //我的资料布局->改为main
+    private View mBottomInMeRl;
     private ImageView meImg;
     private TextView mMeTv;
 
     private FragmentManager fragmentManager;
     private String mCurrentFragmentTag = "";
-    private static final String TAG_SHARE_TAG = "ShareFragment";
+    private static final String TAG_SHARE_TAG = "mShareFragment";
     private static final String TAG_HOME_TAG = "HomePagerFragment";
-    private static final String TAG_PLAY_TAG = "PlayFragment";
-    private static final String TAG_ME_TAG = "MeFragment";
+    private static final String TAG_PLAY_TAG = "mInformFragment";
+    private static final String TAG_ME_TAG = "mMainFragment";
 
     private int mCurrentFragmentId; // 用来判断动画效果
 
@@ -119,39 +119,34 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
      */
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-
         switch (position){
-
-            //定位功能
+            //home
             case 0:
                 break;
-
             //登录功能
             case 1:
                 if(LoginActivity.infoUser == null) {
                     UIHelper.showLogin(this);
                     finish();
-                }else{
+                } else {
                     Toast.makeText(this, "你已经登录！", Toast.LENGTH_SHORT).show();
                 }
                 break;
-
             //注销功能
             case 2:
-                if(LoginActivity.infoUser != null){
+                if(LoginActivity.infoUser != null) {
                     HnustUser.logOut(this);
                     HnustUser temp = BmobUser.getCurrentUser(this, HnustUser.class);
-                    if(temp == null){
+                    if(temp == null) {
                         UIHelper.showLogin(this);
                         finish();
-                    }else{
+                    } else {
                         Toast.makeText(this,"退出失败！",Toast.LENGTH_SHORT).show();
                     }
-                }else{
+                } else {
                     Toast.makeText(this,"您未登录！",Toast.LENGTH_SHORT).show();
                 }
                 break;
-
             //定位
             case 3:
                 UIHelper.showLocation(this);
@@ -160,6 +155,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
             //一键清除缓存
             case 4:
                 BmobQuery.clearAllCachedResults(this);
+                break;
+
+            case 5:
+                UIHelper.toAnActivity(this, SettingActivity.class);
                 break;
         }
     }
@@ -193,10 +192,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     }
 
     private void initView() {
-        homeLayout = findViewById(R.id.bottom_home);
-        shareLayout = findViewById(R.id.bottom_share);
-        playLayout = findViewById(R.id.bottom_play);
-        meLayout = findViewById(R.id.bottom_me);
+        mBottomHomeRl = findViewById(R.id.bottom_home_rl);
+        mBottomShareRL = findViewById(R.id.bottom_share_rl);
+        mBottomInformRl = findViewById(R.id.bottom_inform_rl);
+        mBottomInMeRl = findViewById(R.id.bottom_me_rl);
 
         homeImg = (ImageView) findViewById(R.id.home_image);
         shareImg = (ImageView) findViewById(R.id.share_image);
@@ -208,10 +207,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         mPlayTv = (TextView) findViewById(R.id.play_text);
         mMeTv = (TextView) findViewById(R.id.me_text);
 
-        homeLayout.setOnClickListener(this);
-        shareLayout.setOnClickListener(this);
-        playLayout.setOnClickListener(this);
-        meLayout.setOnClickListener(this);
+        mBottomHomeRl.setOnClickListener(this);
+        mBottomShareRL.setOnClickListener(this);
+        mBottomInformRl.setOnClickListener(this);
+        mBottomInMeRl.setOnClickListener(this);
     }
 
     @Override
@@ -241,19 +240,19 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.bottom_home:
+            case R.id.bottom_home_rl:
                 setBottomSelection(0);
                 mCurrentFragmentTag = TAG_HOME_TAG;
                 break;
-            case R.id.bottom_share:
+            case R.id.bottom_share_rl:
                 setBottomSelection(1);
                 mCurrentFragmentTag = TAG_SHARE_TAG;
                 break;
-            case R.id.bottom_play:
+            case R.id.bottom_inform_rl:
                 setBottomSelection(2);
                 mCurrentFragmentTag = TAG_PLAY_TAG;
                 break;
-            case R.id.bottom_me:
+            case R.id.bottom_me_rl:
                 setBottomSelection(3);
                 mCurrentFragmentTag = TAG_ME_TAG;
                 break;
@@ -274,13 +273,13 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 homePagerFragment.onActivityResult(requestCode,resultCode,data);
                 break;
             case TAG_SHARE_TAG:
-                shareFragment.onActivityResult(requestCode,resultCode,data);
+                mShareFragment.onActivityResult(requestCode,resultCode,data);
                 break;
             case TAG_PLAY_TAG:
-                playFragment.onActivityResult(requestCode,resultCode,data);
+                mInformFragment.onActivityResult(requestCode,resultCode,data);
                 break;
             case TAG_ME_TAG:
-                meFragment.onActivityResult(requestCode,resultCode,data);
+                mMainFragment.onActivityResult(requestCode,resultCode,data);
                 break;
         }
     }
@@ -313,11 +312,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 setTransactionAnimation(transaction, 1);
                 shareImg.setImageResource(R.mipmap.main_bottom_share_select);
                 mShareTv.setTextColor(getResources().getColor(R.color.select_font));
-                if(shareFragment == null) {
-                    shareFragment = new ShareFragment();
-                    transaction.add(R.id.main_content,shareFragment);
+                if(mShareFragment == null) {
+                    mShareFragment = new ShareFragment();
+                    transaction.add(R.id.main_content,mShareFragment);
                 } else {
-                    transaction.show(shareFragment);
+                    transaction.show(mShareFragment);
                 }
                 mCurrentFragmentId = 1;
                 break;
@@ -325,12 +324,12 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 setTransactionAnimation(transaction, 2);
                 playImg.setImageResource(R.mipmap.main_bottom_inform_select);
                 mPlayTv.setTextColor(getResources().getColor(R.color.select_font));
-                if(playFragment == null) {
-                    playFragment = new PlayFragment();
-                    transaction.add(R.id.main_content,playFragment);
+                if(mInformFragment == null) {
+                    mInformFragment = new InformFragment();
+                    transaction.add(R.id.main_content,mInformFragment);
 
                 } else {
-                    transaction.show(playFragment);
+                    transaction.show(mInformFragment);
                 }
                 mCurrentFragmentId = 2;
                 break;
@@ -339,11 +338,11 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 setTransactionAnimation(transaction, 3);
                 meImg.setImageResource(R.mipmap.main_bottom_me_select);
                 mMeTv.setTextColor(getResources().getColor(R.color.select_font));
-                if(meFragment == null) {
-                    meFragment = new MeFragment();
-                    transaction.add(R.id.main_content,meFragment);
+                if(mMainFragment == null) {
+                    mMainFragment = new MainFragment();
+                    transaction.add(R.id.main_content,mMainFragment);
                 } else {
-                    transaction.show(meFragment);
+                    transaction.show(mMainFragment);
                 }
                 mCurrentFragmentId = 3;
                 break;
@@ -390,14 +389,14 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         if(homePagerFragment != null) {
             transaction.hide(homePagerFragment);
         }
-        if(meFragment != null) {
-            transaction.hide(meFragment);
+        if(mMainFragment != null) {
+            transaction.hide(mMainFragment);
         }
-        if(playFragment != null) {
-            transaction.hide(playFragment);
+        if(mInformFragment != null) {
+            transaction.hide(mInformFragment);
         }
-        if(shareFragment != null) {
-            transaction.hide(shareFragment);
+        if(mShareFragment != null) {
+            transaction.hide(mShareFragment);
         }
     }
 

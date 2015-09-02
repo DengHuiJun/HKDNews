@@ -24,13 +24,13 @@ public class UIHelper {
      * @param context
      * @param bundle
      */
-    public static void showNewsDetail(Context context,Bundle bundle){
+    public static void showNewsDetail(Context context,Bundle bundle) {
         Intent intent = new Intent(context, NewsActivity.class);
         intent.putExtra("data",bundle);
         context.startActivity(intent);
     }
 
-    public static void jumbActivity(Context context,Class<?> tClass){
+    public static void jumbActivity(Context context,Class<?> tClass) {
         Intent intent = new Intent(context,tClass);
         context.startActivity(intent);
     }
@@ -41,8 +41,13 @@ public class UIHelper {
      * 跳转到主界面
      * @param context
      */
-    public static void showHome(Context context){
+    public static void showHome(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void toAnActivity(Context context, Class<?> activity) {
+        Intent intent = new Intent(context, activity);
         context.startActivity(intent);
     }
 
