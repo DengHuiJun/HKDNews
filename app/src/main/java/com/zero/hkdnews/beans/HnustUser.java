@@ -5,7 +5,8 @@ import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.datatype.BmobRelation;
 
 /**
- * Created by luowei on 15/4/16.
+ * 用户表
+ * Created by zero on 15/4/16.
  */
 public class HnustUser extends BmobUser {
 

@@ -48,6 +48,11 @@
 
     </ViewSwitcher>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/font_gray" />
+
     <include layout="@layout/news_detail_footer" />
 
 

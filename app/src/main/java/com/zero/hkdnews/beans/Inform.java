@@ -4,7 +4,8 @@ import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.datatype.BmobRelation;
 
 /**
- * Created by luowei on 15/6/15.
+ * 通知服务的消息表
+ * Created by zero on 15/6/15.
  */
 public class Inform extends BmobObject{
 

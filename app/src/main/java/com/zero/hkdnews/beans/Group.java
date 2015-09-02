@@ -5,7 +5,8 @@ import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.datatype.BmobRelation;
 
 /**
- * Created by luowei on 15/6/15.
+ * 通知服务的分组信息表
+ * Created by zero on 15/6/15.
  */
 public class Group extends BmobObject{
     private String name;

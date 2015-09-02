@@ -22,15 +22,15 @@
 
     </FrameLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/font_gray"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/font_gray"/>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="@dimen/main_bottom_bar"
         android:background="@color/CLOUDS">
 
         <RelativeLayout

@@ -25,6 +25,7 @@ import com.quentindommerc.superlistview.SuperListview;
 import com.zero.hkdnews.R;
 import com.zero.hkdnews.adapter.CommentAdapter;
 import com.zero.hkdnews.app.AppContext;
+import com.zero.hkdnews.beans.CollectNews;
 import com.zero.hkdnews.beans.Comment;
 import com.zero.hkdnews.beans.News;
 import com.zero.hkdnews.beans.NewsBody;
@@ -56,7 +57,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     private Context context ;
 
-    private ImageView mHome;  //头部的home
+    private ImageView mHome;  // 头部的home
     private ImageView mRefresh;
     private TextView mHeadTitle;
 
@@ -68,7 +69,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private View mCommentV; // 评论
     private View mDetailV; // 回到新闻界面
     private View mCommentListV; // 查看评论列表
-    private View mLoveV; //收藏
+    private View mLoveV; // 收藏
     private View mShareV; // 一键分享
 
     private ViewSwitcher mFootViewSwitcher;
@@ -85,6 +86,9 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private static final int UPLOAD_NEWS_COMMENT_MSG = 3;
     private static final int ADD_COM_TO_NEWS_MSG = 4;
     private static final int REFRENSH_COMMENTS_MSG = 5;
+    private static final int NO_COLLECTED = 6;  // 未收藏新闻
+    private static final int IS_COLLECTED = 7;  // 已经收藏过
+    private static final int COLLECTED_OK = 8;
 
     private static final int VIEWSWITCH_TYPE_DETAIL = 0x001;
     private static final int VIEWSWITCH_TYPE_COMMENT = 0x002;
@@ -95,6 +99,8 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private CommentAdapter commentAdapter;
     private SuperListview commentListView;
     private List<Comment> comments = new ArrayList<>();
+
+    private List<CollectNews> mCollectedNewsList = new ArrayList<>();
 
     private WeakReferenceHander mWeakHandler;
 
@@ -113,6 +119,10 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         }
     }
 
+    /**
+     * UI线程处理消息
+     * @param msg
+     */
     private void handleReceiveMessage(Message msg) {
         switch (msg.what) {
 
@@ -163,6 +173,18 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 imm.hideSoftInputFromWindow(mCommentV.getWindowToken(), 0);
                 switchIsComment(VIEWSWITCH_TYPE_DETAIL);
                 break;
+
+            case NO_COLLECTED:
+                collectThisNews();
+                break;
+
+            case IS_COLLECTED:
+                T.showShort(context, "亲，您已经收藏过了哦！");
+                break;
+
+            case COLLECTED_OK:
+                T.showShort(context, "收藏成功！");
+                break;
         }
     }
 
@@ -170,7 +192,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_news2);
+        setContentView(R.layout.activity_news);
 
         mWeakHandler = new WeakReferenceHander(this);
         findView();
@@ -235,7 +257,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         commentAdapter = new CommentAdapter(context,comments);
         commentListView.setAdapter(commentAdapter);
         commentListView.setRefreshListener(this);
-        commentListView.setOnItemClickListener(this);
+//        commentListView.setOnItemClickListener(this);   // 暂时关闭回复评论功能，未想好显示的方式
     }
 
     /**
@@ -285,7 +307,59 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             }
             @Override
             public void onError(int i, String s) {
-                T.showShort(getApplicationContext(),"ERROR!");
+                T.showShort(getApplicationContext(), "ERROR!" + s);
+            }
+        });
+    }
+
+
+    /**
+     * 查询新闻是否已收藏
+     */
+    private void queryCollectedNews() {
+        BmobQuery<CollectNews> query = new BmobQuery<>();
+        query.addWhereEqualTo("userId",AppContext.currentUserId);
+        query.addWhereEqualTo("newsId",news.getObjectId());
+        query.findObjects(getApplicationContext(), new FindListener<CollectNews>() {
+            @Override
+            public void onSuccess(List<CollectNews> list) {
+                Message msg = Message.obtain();
+                if (list.size() > 0) {
+                    msg.what = IS_COLLECTED;
+                } else {
+                    msg.what = NO_COLLECTED;
+                }
+                mWeakHandler.sendMessage(msg);
+            }
+            @Override
+            public void onError(int i, String s) {
+                T.showShort(getApplicationContext(), "ERROR!"+s);
+            }
+        });
+
+    }
+
+    /**
+     * 上传至服务器，收藏列表
+     */
+    private void collectThisNews() {
+        CollectNews cn = new CollectNews();
+        cn.setUserId(AppContext.currentUserId);
+        cn.setNewsId(news.getObjectId());
+        cn.setNewsTitle(news.getNewsTitle());
+        cn.setNewsSource(news.getNewsSource());
+        cn.setCode(news.getCode());
+        cn.save(getApplicationContext(), new SaveListener() {
+            @Override
+            public void onSuccess() {
+                Message msg = Message.obtain();
+                msg.what = COLLECTED_OK;
+                mWeakHandler.sendMessage(msg);
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                T.showShort(getApplicationContext(), "ERROR!"+s);
             }
         });
     }
@@ -337,12 +411,12 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     };
 
     /**
-     * 收藏事件
+     * 收藏新闻
      */
     private View.OnClickListener loveClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            T.showShort(getApplicationContext(), "love");
+            queryCollectedNews();
         }
     };
 
