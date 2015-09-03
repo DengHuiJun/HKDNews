@@ -37,11 +37,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bmob.social.share.core.BMShareListener;
-import cn.bmob.social.share.core.ErrorInfo;
-import cn.bmob.social.share.core.data.BMPlatform;
-import cn.bmob.social.share.core.data.ShareData;
-import cn.bmob.social.share.view.BMShare;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.datatype.BmobRelation;
 import cn.bmob.v3.listener.FindListener;
@@ -425,42 +420,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private View.OnClickListener shareClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            ShareData shareData = new ShareData();
-            shareData.setTitle(news.getNewsTitle());
-            shareData.setDescription(news.getNewsTitle());
-            shareData.setText("分享");
-            shareData.setTarget_url(news.getStrUrl());
-            shareData.setImageUrl(news.getNewsImage().getFileUrl(context));
-
-            BMShareListener whiteViewListener = new BMShareListener() {
-                @Override
-                public void onPreShare() {
-                    T.showShort(context,"开始分享");
-                }
-                @Override
-                public void onSuccess() {
-                    T.showShort(context,"分享成功！");
-                }
-                @Override
-                public void onError(ErrorInfo error) {
-                    T.showShort(context,"分享失败"+ error);
-                }
-                @Override
-                public void onCancel() {
-                    T.showShort(context,"取消分享");
-                }
-            };
-
-            BMShare share = new BMShare(NewsActivity.this);
-            share.setShareData(shareData);
-            share.addListener(BMPlatform.PLATFORM_WECHAT, whiteViewListener);
-            share.addListener(BMPlatform.PLATFORM_WECHATMOMENTS, whiteViewListener);
-            share.addListener(BMPlatform.PLATFORM_SINAWEIBO, whiteViewListener);
-            share.addListener(BMPlatform.PLATFORM_RENN, whiteViewListener);
-            share.addListener(BMPlatform.PLATFORM_TENCENTWEIBO, whiteViewListener);
-            share.addListener(BMPlatform.PLATFORM_QQ, whiteViewListener);
-            share.show();
-           // Log.d("bmob", "分享end");
+            T.showShort(getApplicationContext(),"No");
         }
     };
 

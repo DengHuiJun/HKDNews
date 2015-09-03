@@ -85,8 +85,6 @@
         <activity android:name=".activity.SettingActivity"
             android:windowSoftInputMode="stateHidden" />
 
-
-
         <service
             android:name="cn.bmob.push.lib.service.PushService"
             android:exported="true"
@@ -109,60 +107,7 @@
             </intent-filter>
         </receiver>
 
-        <!-- 微信分享需要注册该activity -->
-        <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true"
-            android:launchMode="singleTask"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-        </activity>
 
-        <!-- qq回调需要注册该activity -->
-        <activity
-            android:name="com.tencent.connect.common.AssistActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
-        <!-- qq授权需要注册该activity -->
-        <activity
-            android:name="com.tencent.tauth.AuthActivity"
-            android:launchMode="singleTask"
-            android:noHistory="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="tencent100442925" />
-            </intent-filter>
-        </activity>
-
-        <!-- 人人授权需要注册的activity -->
-        <activity
-            android:name="com.renn.rennsdk.oauth.OAuthActivity"
-            android:configChanges="orientation|navigation|keyboardHidden" />
-
-        <!-- 分享界面 -->
-        <activity
-            android:name="cn.bmob.social.share.core.activity.ShareActivity"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-
-            <!-- 新浪微博分享回调需要设置 -->
-            <intent-filter>
-                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="cn.bmob.social.share.core.login.AuthActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
     </application>
 
 </manifest>

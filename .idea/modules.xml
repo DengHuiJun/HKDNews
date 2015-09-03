@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/HKDNews.iml" filepath="$PROJECT_DIR$/HKDNews.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/bmobShareSDK/bmobShareSDK.iml" filepath="$PROJECT_DIR$/bmobShareSDK/bmobShareSDK.iml" />
     </modules>
   </component>
 </project>
