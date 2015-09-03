@@ -6,8 +6,6 @@ import android.util.Log;
 
 import com.zero.hkdnews.common.ActivityCollector;
 
-import butterknife.ButterKnife;
-
 /**
  * Activity的基类
  * Created by 邓慧 on 15/5/4.

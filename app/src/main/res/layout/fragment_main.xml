@@ -4,5 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/main_banner_viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.shizhefei.view.indicator.FixedIndicatorView
+            android:id="@+id/main_banner_indicator"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_gravity="center_horizontal|bottom"
+            />
+    </FrameLayout>
+
+
+
 
 </LinearLayout>

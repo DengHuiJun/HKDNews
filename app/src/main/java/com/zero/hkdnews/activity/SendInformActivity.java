@@ -2,6 +2,8 @@ package com.zero.hkdnews.activity;
 
 import android.os.Bundle;
 import android.os.Message;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.zero.hkdnews.R;
@@ -14,9 +16,6 @@ import com.zero.hkdnews.util.T;
 
 import android.os.Handler;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-import butterknife.OnClick;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobRelation;
 import cn.bmob.v3.listener.SaveListener;
@@ -32,8 +31,8 @@ public class SendInformActivity extends BaseActivity {
 
     private String groupName;
 
-    @InjectView(R.id.send_inform_content)
-    EditText et_content;
+    private EditText mContentEt;
+    private Button   mSendBtn;
 
     private Handler mHandler = new Handler(){
         @Override
@@ -96,9 +95,17 @@ public class SendInformActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_inform);
-        ButterKnife.inject(this);
 
+        mContentEt = (EditText) findViewById(R.id.send_inform_content);
+        mSendBtn = (Button) findViewById(R.id.send_inform_btn);
         getDatas();
+
+        mSendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendInform();
+            }
+        });
     }
 
     /**
@@ -109,12 +116,10 @@ public class SendInformActivity extends BaseActivity {
         groupId = getIntent().getStringExtra("id");
         groupName = getIntent().getStringExtra("name");
 
-        L.d(groupId+"%"+groupName);
+        L.d(groupId + "%" + groupName);
 
     }
 
-
-    @OnClick(R.id.send_inform_btn)
     public void sendInform(){
         Group group = new Group();
         group.setObjectId(groupId);
@@ -122,7 +127,7 @@ public class SendInformActivity extends BaseActivity {
 
         final Inform inform = new Inform();
         inform.setAuthor(AppContext.getUserName());
-        inform.setContent(et_content.getText().toString());
+        inform.setContent(mContentEt.getText().toString());
         inform.setTitle(groupName);
         inform.setGroup(group);
 
@@ -131,7 +136,7 @@ public class SendInformActivity extends BaseActivity {
             public void onSuccess() {
                 Message msg = Message.obtain();
                 msg.what = 11;
-                msg.obj =inform;
+                msg.obj = inform;
                 mHandler.sendMessage(msg);
             }
 
@@ -140,13 +145,5 @@ public class SendInformActivity extends BaseActivity {
 
             }
         });
-
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ButterKnife.reset(this);
-    }
-
 }

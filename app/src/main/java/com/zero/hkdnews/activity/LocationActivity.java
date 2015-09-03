@@ -18,9 +18,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
  * 定位选择界面
  * Created by zero on 15/5/29.
@@ -34,8 +31,6 @@ public class LocationActivity extends Activity implements AdapterView.OnItemClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
-
-        ButterKnife.inject(this);
 
         mItems = new ArrayList<>();
         mItems.add("北京");
@@ -88,7 +83,7 @@ public class LocationActivity extends Activity implements AdapterView.OnItemClic
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(this,"切换到"+ mItems.get(position), Toast.LENGTH_SHORT).show();
-        toBack();
+//        toBack();
     }
 
 
@@ -134,10 +129,10 @@ public class LocationActivity extends Activity implements AdapterView.OnItemClic
             return sections;
         }
     }
-
-    @OnClick(R.id.position_btn)
-    public void toBack(){
-        UIHelper.showHome(this);
-        finish();
-    }
+//
+//    @OnClick(R.id.position_btn)
+//    public void toBack(){
+//        UIHelper.showHome(this);
+//        finish();
+//    }
 }
