@@ -4,7 +4,7 @@ import cn.bmob.v3.BmobObject;
 
 /**
  * 回复评论实体类
- * Created by luowei on 15/5/10.
+ * Created by zero on 15/5/10.
  */
 public class Reply extends BmobObject {
     private String content;

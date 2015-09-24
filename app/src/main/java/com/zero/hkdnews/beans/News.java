@@ -1,6 +1,5 @@
 package com.zero.hkdnews.beans;
 
-import java.io.File;
 import java.io.Serializable;
 
 import cn.bmob.v3.BmobObject;
@@ -9,7 +8,7 @@ import cn.bmob.v3.datatype.BmobRelation;
 
 /**
  * 新闻消息实体类
- * Created by luowei on 15/4/13.
+ * Created by zero on 15/4/13.
  */
 public class News extends BmobObject implements Serializable{
 

@@ -3,6 +3,8 @@ package com.zero.hkdnews.app;
 import android.app.Application;
 import android.content.Context;
 
+import com.squareup.leakcanary.LeakCanary;
+
 import cn.bmob.v3.datatype.BmobFile;
 
 /**
@@ -25,6 +27,8 @@ public class AppContext extends Application {
 
     @Override
     public void onCreate() {
+        super.onCreate();
+        LeakCanary.install(this);
         context = getApplicationContext();
     }
 
