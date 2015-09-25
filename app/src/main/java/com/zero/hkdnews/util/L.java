@@ -3,7 +3,7 @@ package com.zero.hkdnews.util;
 import android.util.Log;
 
 /**
- * Created by luowei on 15/5/4.
+ * Created by zero on 15/5/4.
  */
 public class L {
     private L()

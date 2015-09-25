@@ -8,14 +8,6 @@
     android:padding="16dp"
     >
 
-    <!-- Login progress -->
-    <ProgressBar android:id="@+id/register_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone" />
-
     <ImageView
         android:layout_width="120dp"
         android:layout_height="120dp"
@@ -29,6 +21,18 @@
         android:textColor="@color/CLOUDS"
         android:textSize="18sp"
         android:text="校园微圈注册"/>
+
+    <FrameLayout
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+    <!-- Login progress -->
+    <ProgressBar android:id="@+id/register_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:visibility="gone" />
 
     <ScrollView android:id="@+id/register_form"
         android:layout_width="match_parent"
@@ -75,7 +79,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:background="@mipmap/login_btn_bg"
-                android:hint="@string/prompt_password"
+                android:hint="重复密码"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:singleLine="true" />
@@ -88,7 +92,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:background="@mipmap/login_btn_bg"
-                android:hint="邮箱"
+                android:hint="输入邮箱"
                 android:inputType="textEmailAddress"
                 />
 
@@ -97,14 +101,16 @@
                 android:layout_width="220dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="20dp"
+                android:textSize="18sp"
                 android:text="提交"
                 android:textStyle="bold"
                 android:layout_gravity="center"
-                android:textColor="@color/CLOUDS"
+                android:textColor="@color/font_gray"
                 android:gravity="center"
-                android:background="@mipmap/login_btn_bg"/>
+                android:background="@color/custom_theme_primary"/>
 
         </LinearLayout>
     </ScrollView>
+    </FrameLayout>
 
 </LinearLayout>
