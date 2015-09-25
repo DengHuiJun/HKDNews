@@ -1,7 +1,7 @@
 package com.zero.hkdnews.beans;
 
 /**
- * Created by luowei on 15/5/11.
+ * Created by zero on 15/5/11.
  */
 public class MeItem {
     private int resId;

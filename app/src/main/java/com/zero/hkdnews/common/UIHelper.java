@@ -15,7 +15,7 @@ import com.zero.hkdnews.activity.RegisterActivity;
 import com.zero.hkdnews.util.T;
 
 /**
- * Created by luowei on 15/4/16.
+ * Created by zero on 15/4/16.
  */
 public class UIHelper {
 
@@ -24,18 +24,11 @@ public class UIHelper {
      * @param context
      * @param bundle
      */
-    public static void showNewsDetail(Context context,Bundle bundle) {
+    public static void showNewsDetail(Context context, Bundle bundle) {
         Intent intent = new Intent(context, NewsActivity.class);
         intent.putExtra("data",bundle);
         context.startActivity(intent);
     }
-
-    public static void jumbActivity(Context context,Class<?> tClass) {
-        Intent intent = new Intent(context,tClass);
-        context.startActivity(intent);
-    }
-
-
 
     /**
      * 跳转到主界面
@@ -50,7 +43,6 @@ public class UIHelper {
         Intent intent = new Intent(context, activity);
         context.startActivity(intent);
     }
-
 
     /**
      * 跳转至登录界面
@@ -88,16 +80,6 @@ public class UIHelper {
         intent.putExtra("data",bundle);
         context.startActivity(intent);
     }
-
-    public static WebViewClient getWebViewClient(){
-        return new WebViewClient(){
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                return  true;
-            }
-        };
-    }
-
 
 
 }

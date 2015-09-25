@@ -1,10 +1,12 @@
 package com.zero.hkdnews.util;
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
+import android.view.View;
 import android.widget.Toast;
 
 /**
- * Created by luowei on 15/5/4.
+ * Created by zero on 15/5/4.
  */
 public class T {
     private T()
@@ -24,6 +26,11 @@ public class T {
     {
         if (isShow)
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public static void showShortBar(View view, CharSequence message) {
+        if (isShow)
+            Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
 
     /**
@@ -47,6 +54,11 @@ public class T {
     {
         if (isShow)
             Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+    }
+
+    public static void showLongBar(View view, CharSequence message) {
+        if (isShow)
+            Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
     }
 
     /**

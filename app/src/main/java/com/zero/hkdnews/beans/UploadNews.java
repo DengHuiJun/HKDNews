@@ -1,12 +1,10 @@
 package com.zero.hkdnews.beans;
 
-import com.bmob.BmobProFile;
-
 import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.datatype.BmobFile;
 
 /**
- * Created by luowei on 15/5/26.
+ * Created by zero on 15/5/26.
  */
 public class UploadNews extends BmobObject{
     private String author;

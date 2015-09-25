@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical" >
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/font_gray" />
+        android:background="@color/PETER_RIVER" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -55,19 +55,21 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/font_gray" />
+        android:background="@color/PETER_RIVER" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="150dp"
         android:orientation="horizontal"
         >
 
         <ImageView
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/day_share_divider"
+            android:id="@+id/main_daily_share_img"
             android:layout_width="150dp"
             android:layout_height="150dp"
+            android:scaleType="fitCenter"
             android:src="@mipmap/ic_launcher" />
 
         <View
@@ -89,10 +91,13 @@
 
     </RelativeLayout>
 
+    </LinearLayout>
+
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/font_gray"
+        android:background="@color/PETER_RIVER"
         />
 
     <LinearLayout
@@ -116,26 +121,24 @@
         android:layout_marginBottom="5dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/font_gray" />
+        android:background="@color/PETER_RIVER" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="150dp"
+        android:orientation="vertical" >
 
         <TextView
-            android:paddingLeft="5dp"
-            android:layout_width="301dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center_horizontal"
-            android:text="这里显示通知消息的内容"
-            android:background="@color/lightblue"
-            />
-        <LinearLayout
-            android:layout_width="301dp"
-            android:paddingLeft="5dp"
-            android:layout_gravity="center_horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxHeight="140dp"
+            android:minHeight="80dp"
+            android:text="  请各支部书记（包括研究生）通知各支部党员（包括预备党员）交一下本年度6-12月份的党费，1.2元，支付宝号：13054154367，转账时备注成“xxx党支部xxx”-如“计算机第一学生党支部朱政雄”，请务必在9月24日（本周四）晚上之前弄好，收到请回复，谢谢"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:orientation="horizontal" >
 
             <TextView
@@ -143,21 +146,29 @@
                 android:layout_height="40dp"
                 android:gravity="center_vertical|left"
                 android:layout_gravity="center"
-                android:layout_weight="3"
+                android:layout_weight="2"
                 android:singleLine="true"
-                android:text="发布者和时间"/>
+                android:text="发布者：邓慧" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="2015年9月25日" />
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:gravity="center"
                 android:layout_weight="1"
-                android:text="收到" />
-
+                android:text="收到"
+                android:textColor="@color/font_gray"
+                android:background="@drawable/round_button"
+                />
         </LinearLayout>
-
-    </LinearLayout>
-
     </LinearLayout>
 
 </ScrollView>

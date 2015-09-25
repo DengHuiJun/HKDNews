@@ -3,7 +3,7 @@
 
     <!-- Strings related to login -->
     <string name="prompt_email">输入用户名</string>
-    <string name="prompt_password">密码</string>
+    <string name="prompt_password">输入密码</string>
     <string name="action_sign_in">登录</string>
     <string name="action_sign_up">注册</string>
 

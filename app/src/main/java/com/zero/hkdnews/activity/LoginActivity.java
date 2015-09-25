@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -23,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -44,37 +46,39 @@ import cn.bmob.v3.listener.SaveListener;
  * IDE自带生成的登录界面
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends BaseActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends BaseActivity implements LoaderCallbacks<Cursor>,View.OnClickListener {
+    private static final String TAG = "LoginActivity";
 
+    private static final String APP_KEY = "a1a712de02b00df3a5e8d9553d33f431";
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
 
-    public static HnustUser infoUser;
+    private ImageView mQQLoginIv;
+    private ImageView mSinaLoginIv;
 
+    private Button mEmailSignInButton;
+    private Button mRegisterBtn;
+
+    public static HnustUser infoUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bmob.initialize(this, "a1a712de02b00df3a5e8d9553d33f431");
-        // 使用推送服务时的初始化操作
+        Bmob.initialize(this, APP_KEY); // 使用推送服务时的初始化操作
         BmobInstallation.getCurrentInstallation(this).save();
-        // 启动推送服务
-        BmobPush.startWork(this, "a1a712de02b00df3a5e8d9553d33f431");
-
+        BmobPush.startWork(this, APP_KEY); // 启动推送服务
 
         setContentView(R.layout.activity_login);
 
         initData();
+        findView();
 
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
-
-        mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -86,25 +90,21 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
+        mEmailSignInButton.setOnClickListener(this);
+        mRegisterBtn.setOnClickListener(this);
+        mQQLoginIv.setOnClickListener(this);
+        mSinaLoginIv.setOnClickListener(this);
+    }
 
-        Button registerBtn = (Button) findViewById(R.id.email_sign_up_button);
-        registerBtn.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UIHelper.showRegister(LoginActivity.this);
-             //   finish();
-            }
-        });
-
+    private void findView() {
+        mPasswordView = (EditText) findViewById(R.id.password);
+        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        mQQLoginIv = (ImageView) findViewById(R.id.login_qq_iv);
+        mSinaLoginIv = (ImageView) findViewById(R.id.login_sina_iv);
+        mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        mRegisterBtn = (Button) findViewById(R.id.email_sign_up_button);
     }
 
     /**
@@ -117,15 +117,13 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
             AppContext.setCurrentUserId(infoUser.getObjectId());
             AppContext.setUserName(infoUser.getNickname());
             AppContext.setIntro(infoUser.getIntro());
-            if(infoUser.getHead()!=null){
+            if(infoUser.getHead() != null) {
                 AppContext.setMyHead(infoUser.getHead());
             }
 
             Intent i = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(i);
             finish();
-        }else{
-
         }
     }
 
@@ -133,12 +131,10 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         getLoaderManager().initLoader(0, null, this);
     }
 
-
     /**
      *登录，带错误提示
      */
     public void attemptLogin() {
-
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
@@ -149,7 +145,6 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 
         boolean cancel = false;
         View focusView = null;
-
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
@@ -281,6 +276,28 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            // 登录
+            case R.id.email_sign_in_button:
+                attemptLogin();
+                break;
+            // 注册
+            case R.id.email_sign_up_button:
+                UIHelper.showRegister(LoginActivity.this);
+                break;
+            case R.id.login_qq_iv:
+                T.showShortBar(mQQLoginIv, "暂未开通，敬请期待~");
+                break;
+            case R.id.login_sina_iv:
+                T.showShortBar(mQQLoginIv, "暂未开通，敬请期待~");
+                break;
+            default:
+                break;
+        }
+    }
+
     private interface ProfileQuery {
         String[] PROJECTION = {
                 ContactsContract.CommonDataKinds.Email.ADDRESS,
@@ -290,7 +307,6 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
         int IS_PRIMARY = 1;
     }
 
-
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
@@ -298,7 +314,6 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
         mEmailView.setAdapter(adapter);
     }
-
 }
 
 

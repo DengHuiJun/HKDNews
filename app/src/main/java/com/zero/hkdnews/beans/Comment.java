@@ -9,7 +9,7 @@ import cn.bmob.v3.datatype.BmobRelation;
 
 /**
  * 评论类实体
- * Created by luowei on 15/5/7.
+ * Created by zero on 15/5/7.
  */
 public class Comment extends BmobObject implements Serializable{
 
