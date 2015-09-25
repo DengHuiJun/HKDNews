@@ -293,8 +293,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         hideAllFragment(transaction);
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-
+//        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         switch (index){
             case 0:
                 setTransactionAnimation(transaction, 0);

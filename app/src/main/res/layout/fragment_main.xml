@@ -37,11 +37,23 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
-        android:background="@color/big_title"
+        android:background="@color/CLOUDS"
+        android:gravity="center"
         >
+        <TextView
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:textSize="28sp"
+            android:text="38"
+            android:gravity="center"
+            android:layout_gravity="right"
+            android:textColor="@color/CLOUDS"
+            android:background="@drawable/red_point"
+            android:layout_marginRight="8dp"
+            />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:singleLine="true"
             android:text="每日最美分享"
@@ -60,6 +72,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
+        android:paddingTop="4dp"
+        android:layout_marginBottom="16dp"
         android:orientation="horizontal"
         >
 
@@ -70,7 +84,7 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:scaleType="fitCenter"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/beauty" />
 
         <View
             android:id="@+id/day_share_divider"
@@ -82,17 +96,16 @@
 
         <TextView
             android:layout_centerVertical="true"
-            android:layout_margin="5dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="10dp"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="center"
+            android:textSize="16sp"
             android:layout_toRightOf="@+id/day_share_divider"
-            android:text="这里介绍改图片" />
+            android:text="水边的女孩，优雅的姿势，绝美的风景，迷人的色彩组合。号称全球最美的50张照片之一。" />
 
     </RelativeLayout>
-
-    </LinearLayout>
-
 
     <View
         android:layout_width="match_parent"
@@ -104,10 +117,23 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
-        android:background="@color/big_title" >
+        android:gravity="center"
+        android:background="@color/CLOUDS" >
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:textSize="28sp"
+            android:text="1"
+            android:textColor="@color/CLOUDS"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/red_point"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:singleLine="true"
             android:text="最新通知消息"
@@ -126,12 +152,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
+        android:paddingTop="4dp"
         android:orientation="vertical" >
 
         <TextView
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxHeight="140dp"
+            android:maxHeight="110dp"
             android:minHeight="80dp"
             android:text="  请各支部书记（包括研究生）通知各支部党员（包括预备党员）交一下本年度6-12月份的党费，1.2元，支付宝号：13054154367，转账时备注成“xxx党支部xxx”-如“计算机第一学生党支部朱政雄”，请务必在9月24日（本周四）晚上之前弄好，收到请回复，谢谢"
             />
@@ -139,6 +168,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:orientation="horizontal" >
 
             <TextView
@@ -169,6 +200,9 @@
                 android:background="@drawable/round_button"
                 />
         </LinearLayout>
+
+    </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>
