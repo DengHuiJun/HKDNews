@@ -29,7 +29,6 @@
     </FrameLayout>
 
     <View
-        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/font_gray" />
@@ -37,7 +36,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/big_title"
+        >
 
         <TextView
             android:layout_width="match_parent"
@@ -52,35 +53,43 @@
     </LinearLayout>
 
     <View
-        android:layout_marginBottom="5dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/font_gray" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:orientation="horizontal"
         >
 
         <ImageView
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/day_share_divider"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:src="@mipmap/ic_launcher" />
 
+        <View
+            android:id="@+id/day_share_divider"
+            android:layout_centerInParent="true"
+            android:layout_width="1dp"
+            android:layout_height="150dp"
+            android:background="@color/font_gray"
+            />
+
         <TextView
+            android:layout_centerVertical="true"
             android:layout_margin="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_gravity="center"
+            android:layout_toRightOf="@+id/day_share_divider"
             android:text="这里介绍改图片" />
 
-    </LinearLayout>
-
-
+    </RelativeLayout>
 
     <View
-        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/font_gray"
@@ -89,7 +98,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/big_title" >
 
         <TextView
             android:layout_width="match_parent"
@@ -114,14 +124,19 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:layout_width="301dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal"
             android:text="这里显示通知消息的内容"
+            android:background="@color/lightblue"
             />
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="301dp"
+            android:paddingLeft="5dp"
+            android:layout_gravity="center_horizontal"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal" >
 
             <TextView
                 android:layout_width="0dp"
@@ -137,7 +152,7 @@
                 android:layout_height="40dp"
                 android:gravity="center"
                 android:layout_weight="1"
-                android:text="收到"/>
+                android:text="收到" />
 
         </LinearLayout>
 
