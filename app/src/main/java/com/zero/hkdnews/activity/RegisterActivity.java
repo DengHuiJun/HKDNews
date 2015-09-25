@@ -28,7 +28,7 @@ import cn.bmob.v3.listener.UploadFileListener;
  */
 public class RegisterActivity extends BaseActivity{
 
-    private EditText mAccout;
+    private EditText mAccount;
     private EditText mPwd;
     private EditText mRePwd;
     private EditText mEmail;
@@ -52,20 +52,20 @@ public class RegisterActivity extends BaseActivity{
     }
 
     private void toRegister() {
-      final  String name = mAccout.getText().toString();
+      final  String name = mAccount.getText().toString();
       final  String pwd = mPwd.getText().toString();
       final  String repwd = mRePwd.getText().toString();
       final  String email = mEmail.getText().toString();
 
         boolean cancel = false;
         if( TextUtils.isEmpty(name) || TextUtils.isEmpty(pwd) || TextUtils.isEmpty(repwd)){
-            T.showShort(this,"有一项为空！");
+            T.showShort(this,"请填写完整！");
             cancel = true;
         }else if(!pwd.equals(repwd)){
             T.showShort(this,"密码输入不一致！");
             cancel = true;
         }else if(!email.contains("@")){
-            T.showShort(this,"邮箱填写不正确！");
+            T.showShort(this,"邮箱格式不正确！");
         }
 
         if(cancel){
@@ -78,7 +78,7 @@ public class RegisterActivity extends BaseActivity{
             user.setEmail(email);
 
             user.setNickname(name);
-            user.setIntro("什么也没有");
+            user.setIntro("什么也没有留下=。=");
             user.signUp(RegisterActivity.this, new SaveListener() {
                 @Override
                 public void onSuccess() {
@@ -99,7 +99,7 @@ public class RegisterActivity extends BaseActivity{
     }
 
     private void initView() {
-        mAccout = (EditText) findViewById(R.id.register_username);
+        mAccount = (EditText) findViewById(R.id.register_username);
         mPwd = (EditText) findViewById(R.id.register_password);
         mRePwd = (EditText) findViewById(R.id.register_re_password);
         mEmail = (EditText) findViewById(R.id.register_email);

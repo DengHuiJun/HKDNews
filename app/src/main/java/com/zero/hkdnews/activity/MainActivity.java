@@ -95,7 +95,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         fragmentManager = getSupportFragmentManager();
         //第一次选中首页
-        setBottomSelection(0);
+        setBottomSelection(3);
         mCurrentFragmentTag = TAG_HOME_TAG;
     }
 
