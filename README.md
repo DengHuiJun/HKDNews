@@ -14,10 +14,10 @@
 建一个分支，11月底之前，完成科大版微圈（为了尽快上线，会考虑删除一些功能），上线到市场应用。
 重点完成：通知服务模块，推送直接使用Bomb，（本人会学习自己搭建）
 
-![效果展示]（http://7xjung.com1.z0.glb.clouddn.com/hkdnews_v2.0.gif）
+![效果展示](http://7xjung.com1.z0.glb.clouddn.com/hkdnews_v2.0.gif)
 
 
-下载体验 ： (http://7xiblx.com1.z0.glb.clouddn.com/WQ_v2.0.apk) ［绝无恶意代码！］
+下载体验 ：http://7xiblx.com1.z0.glb.clouddn.com/WQ_v2.0.apk ［绝无恶意代码！］
 
 ## 项目目的
 - 咨询模块：针对大学生开拓视野，专业相关知识推荐。
