@@ -34,6 +34,7 @@ import cn.bmob.v3.listener.FindListener;
 public class ShareFragment extends Fragment {
 
     private ListView mListView;
+    private SwipeRefreshLayout mSwipeLayout;
 
     private List<UploadNews> mDataList;
     private ShareAdapter mAdapter;
@@ -63,10 +64,12 @@ public class ShareFragment extends Fragment {
             }
 
             if (msg.what == REFRESH_CODE) {
+                mLoadPw.setVisibility(View.GONE);
                 mDataList = (List<UploadNews>) msg.obj;
                 mAdapter.setDatalist(mDataList);
                 mAdapter.notifyDataSetChanged();
-                T.showShort(getActivity(),"刷新至最新！");
+                mSwipeLayout.setRefreshing(false);
+                T.showShort(getActivity(),"更新完毕！");
             }
         }
     };
@@ -81,15 +84,18 @@ public class ShareFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         findView();
-
         mDataList = new ArrayList<>();
         mAdapter = new ShareAdapter(mDataList, getActivity());
 
         mAdapter.setDatalist(mDataList);
         mListView.setAdapter(mAdapter);
 
+        mSwipeLayout.setOnRefreshListener(shareRefreshListener);
+        mSwipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 //        mUploadPhotoFAB.attachToListView(mListView);
         //查询数据
         queryData(false);
@@ -107,6 +113,7 @@ public class ShareFragment extends Fragment {
         mLoadPw = (ProgressWheel) getActivity().findViewById(R.id.fragment_share_pb);
         mListView = (ListView) getActivity().findViewById(R.id.share_list_view);
         mUploadPhotoFAB = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        mSwipeLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipe_container);
     }
 
     private void queryData(final boolean isReferensh) {
@@ -152,4 +159,11 @@ public class ShareFragment extends Fragment {
             queryData(true);
         }
     }
+
+    private SwipeRefreshLayout.OnRefreshListener shareRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            queryData(true);
+        }
+    };
 }
