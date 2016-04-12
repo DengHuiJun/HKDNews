@@ -1,22 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardBackgroundColor="@color/white"
-    card_view:cardPreventCornerOverlap="true"
-    card_view:cardUseCompatPadding="true"
-    android:clickable="false"
-    android:layout_gravity="center"
-    >
-
-    <LinearLayout
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
+    android:orientation="vertical">
 
     <LinearLayout
         android:padding="5dp"
@@ -170,6 +158,4 @@
 
     </LinearLayout>
 
-    </LinearLayout>
-
-</android.support.v7.widget.CardView>
+</LinearLayout>

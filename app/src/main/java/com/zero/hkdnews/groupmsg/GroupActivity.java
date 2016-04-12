@@ -1,32 +1,27 @@
-package com.zero.hkdnews.activity;
+package com.zero.hkdnews.groupmsg;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.Snackbar;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListPopupWindow;
-import android.widget.PopupWindow;
 
 import com.quentindommerc.superlistview.SuperListview;
 import com.zero.hkdnews.R;
+import com.zero.hkdnews.activity.BaseActivity;
 import com.zero.hkdnews.adapter.GroupAdapter;
 import com.zero.hkdnews.beans.Group;
 import com.zero.hkdnews.beans.HnustUser;
 import com.zero.hkdnews.common.UIHelper;
+import com.zero.hkdnews.myview.TitleBar;
 import com.zero.hkdnews.util.L;
 import com.zero.hkdnews.util.T;
 
 import java.util.ArrayList;
 import java.util.List;
-import android.os.Handler;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
@@ -43,13 +38,11 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
     private List<Group> datas;
     private GroupAdapter adapter;
 
-    private ImageView back;
-    private ImageView addGroup;
+    private TitleBar mTitleBar;
 
     //存储群组的id,name
     private String groupId;
     private String groupName;
-
 
     private Handler mHandler = new Handler(){
         @Override
@@ -61,6 +54,10 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
                 adapter.setList(datas);
                 adapter.notifyDataSetChanged();
                 T.showShort(GroupActivity.this,"跟新完毕！");
+            } else if (msg.what == 2) {
+                adapter.setList(null);
+                adapter.notifyDataSetChanged();
+                T.showShort(GroupActivity.this, "暂未加入群组！");
             }
         }
     };
@@ -84,31 +81,22 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
 
         listview.setOnItemClickListener(this);
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        addGroup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(GroupActivity.this,AddGroupActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
     }
 
     private void initView() {
+
+        mTitleBar = (TitleBar) findViewById(R.id.group_title_bar);
+
+        mTitleBar.setBackClickListener(this);
+        mTitleBar.setTitleText("群组列表");
+        mTitleBar.setRightClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UIHelper.toAnActivity(GroupActivity.this, AddGroupActivity.class);
+            }
+        });
+
         listview = (SuperListview) findViewById(R.id.group_list_view);
-
-        back = (ImageView) findViewById(R.id.group_header_home);
-
-        addGroup = (ImageView) findViewById(R.id.group_header_add);
-
     }
 
     private void initData() {
@@ -130,14 +118,15 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 //                listPopupWindow.dismiss();
-                final Snackbar snackbar = Snackbar.make(addGroup,"测试Snackbar弹出提示",Snackbar.LENGTH_LONG);
-                snackbar.show();
-                snackbar.setAction("取消",new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        snackbar.dismiss();
-                    }
-                });
+//                final Snackbar snackbar = Snackbar.make(addGroup,"测试Snackbar弹出提示",Snackbar.LENGTH_LONG);
+//                snackbar.show();
+//                snackbar.setAction("取消",new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        snackbar.dismiss();
+//                    }
+//                });
+                listPopupListener(position);
             }
         });
 
@@ -170,8 +159,13 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
             @Override
             public void onSuccess(List<Group> list) {
                     Message msg =Message.obtain();
-                    msg.obj =list;
-                    msg.what = 1 ;
+
+                    if (list.size() == 0) {
+                        msg.what = 2;
+                    } else {
+                        msg.obj =list;
+                        msg.what = 1 ;
+                    }
                     mHandler.sendMessage(msg);
             }
 
@@ -190,6 +184,28 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
         groupName = datas.get(position).getName();
 
         showListPopup(view);
+    }
+
+    private void listPopupListener(int position) {
+        switch (position) {
+            // 发布通知
+            case 0:
+                break;
+
+            // 邀请成员
+            case 1:
+                Intent toInvite = new Intent(this, InviteMemberActivity.class);
+                startActivity(toInvite);
+                break;
+
+            // 查看成员
+            case 2:
+                break;
+
+            // 历史通知
+            case 3:
+                break;
+        }
     }
 
 

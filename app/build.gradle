@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
 
     lintOptions {
         disable 'InvalidPackage'
@@ -30,16 +30,14 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('src/libs/Bmob_Push_V0.6beta_20150408.jar')
     compile files('src/libs/BmobSDK_V3.3.5_0408.jar')
-    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'com.android.support:appcompat-v7:23.2.0'
+    compile 'com.android.support:design:23.2.0'
     compile 'com.quentindommerc.superlistview:library:1.5.2'
     compile files('src/libs/picasso-2.5.0.jar')
     compile 'com.android.support:support-v4:22.0.0'
     compile files('src/libs/viewpager_indicator.jar')
     compile 'com.pnikosis:materialish-progress:1.5'
-    compile 'com.melnykov:floatingactionbutton:1.3.0'
-    compile 'com.android.support:cardview-v7:21.+'
     compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.1.3'
-    compile 'com.android.support:design:22.2.0'
+    compile files('src/libs/Bmob_Push_V0.8beta_20160315.jar')
 }

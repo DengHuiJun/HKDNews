@@ -1,4 +1,4 @@
-package com.zero.hkdnews.activity;
+package com.zero.hkdnews.groupmsg;
 
 import android.os.Bundle;
 import android.os.Message;
@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.zero.hkdnews.R;
+import com.zero.hkdnews.activity.BaseActivity;
 import com.zero.hkdnews.app.AppContext;
 import com.zero.hkdnews.beans.Group;
 import com.zero.hkdnews.beans.HnustUser;

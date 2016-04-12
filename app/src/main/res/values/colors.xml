@@ -57,6 +57,9 @@
 
     <color name="love_or_special">#ffa283</color>
     <color name="warning_news">#e8333a</color>
-    
-    
+
+    <color name="color_100">#b2dfdb</color>
+    <color name="color_500">#009688</color>
+    <color name="color_700">#00796b</color>
+
 </resources>

@@ -4,40 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+    <com.zero.hkdnews.myview.TitleBar
+        android:id="@+id/group_title_bar"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:background="@color/big_title">
-
-        <ImageView
-            android:padding="5dp"
-            android:id="@+id/group_header_home"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|center"
-            android:background="@mipmap/news_detail_top_back"
-            android:clickable="true" />
-
-        <TextView
-            android:id="@+id/group_header_title"
-            style="@style/detail_head_title"
-            android:layout_gravity="center"
-            android:textColor="@color/white"
-            android:text="群组列表" />
-
-        <ImageView
-            android:padding="5dp"
-            android:id="@+id/group_header_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|center"
-            android:background="@mipmap/ic_add_white"
-            android:clickable="true" />
-
-    </LinearLayout>
+        android:layout_height="wrap_content" />
 
 
 

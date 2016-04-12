@@ -26,6 +26,10 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
 
+    <!--推送所需的权限-->
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/app_icon"
@@ -37,7 +41,7 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".activity.NewsActivity"
+            android:name=".news.NewsActivity"
             android:label="HKDnews" />
         <activity
             android:name=".activity.LoginActivity"
@@ -49,7 +53,7 @@
         </activity>
 
         <activity
-            android:name=".activity.CommentActivity"
+            android:name=".news.CommentActivity"
             android:label="@string/app_name" >
         </activity>
 
@@ -68,18 +72,20 @@
             android:name=".activity.LocationActivity"
             android:label="@string/app_name" />
 
-        <activity android:name=".activity.GroupActivity"
+        <activity android:name=".groupmsg.GroupActivity"
             android:label="@string/app_name"/>
 
         <activity android:name=".activity.MeSetActivity"/>
 
         <activity android:name=".activity.GuideActivity"/>
 
-        <activity android:name=".activity.SendInformActivity"/>
+        <activity android:name=".groupmsg.SendInformActivity"/>
 
-        <activity android:name=".activity.AddGroupActivity"/>
+        <activity android:name=".groupmsg.AddGroupActivity"/>
 
-        <activity android:name=".activity.AddMemberActivity"/>
+        <activity android:name=".groupmsg.AddMemberActivity"/>
+
+        <activity android:name=".groupmsg.InviteMemberActivity"/>
 
         <activity
             android:name=".activity.StartActivity">
@@ -93,24 +99,29 @@
             android:windowSoftInputMode="stateHidden" />
 
         <service
-            android:name="cn.bmob.push.lib.service.PushService"
-            android:exported="true"
             android:label="PushService"
-            android:permission="cn.bmob.permission.push"
-            android:process="cn.bmob.push" >
+            android:name="cn.bmob.push.lib.service.PushService"
+            android:process="cn.bmob.push"
+            android:exported="true">
             <intent-filter>
-                <action android:name="cn.bmob.push.lib.service.PushService" />
+                <action android:name="cn.bmob.push.lib.service.PushService"/>
             </intent-filter>
         </service>
 
         <receiver android:name="cn.bmob.push.PushReceiver" >
-            <intent-filter android:priority="2147483647" > <!-- 优先级加最高 -->
+            <intent-filter>
                 <!-- 系统启动完成后会调用 -->
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <!-- 解锁完成后会调用 -->
                 <action android:name="android.intent.action.USER_PRESENT" />
                 <!-- 监听网络连通性 -->
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".common.MyPushMessageReceiver">
+            <intent-filter >
+                <action android:name="cn.bmob.push.action.MESSAGE"/>
             </intent-filter>
         </receiver>
 

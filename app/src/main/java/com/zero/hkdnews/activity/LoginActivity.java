@@ -70,7 +70,7 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 
         Bmob.initialize(this, APP_KEY); // 使用推送服务时的初始化操作
         BmobInstallation.getCurrentInstallation(this).save();
-        BmobPush.startWork(this, APP_KEY); // 启动推送服务
+        BmobPush.startWork(this); // 启动推送服务
 
         setContentView(R.layout.activity_login);
 

@@ -1,4 +1,4 @@
-package com.zero.hkdnews.activity;
+package com.zero.hkdnews.news;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.zero.hkdnews.R;
+import com.zero.hkdnews.activity.BaseActivity;
 import com.zero.hkdnews.beans.Comment;
 import com.zero.hkdnews.beans.Reply;
 import com.zero.hkdnews.util.L;

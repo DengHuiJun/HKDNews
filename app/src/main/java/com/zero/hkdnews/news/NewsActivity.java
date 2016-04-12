@@ -1,4 +1,4 @@
-package com.zero.hkdnews.activity;
+package com.zero.hkdnews.news;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -14,15 +14,14 @@ import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.quentindommerc.superlistview.SuperListview;
 import com.zero.hkdnews.R;
+import com.zero.hkdnews.activity.BaseActivity;
 import com.zero.hkdnews.adapter.CommentAdapter;
 import com.zero.hkdnews.app.AppContext;
 import com.zero.hkdnews.beans.CollectNews;
@@ -30,6 +29,7 @@ import com.zero.hkdnews.beans.Comment;
 import com.zero.hkdnews.beans.News;
 import com.zero.hkdnews.beans.NewsBody;
 import com.zero.hkdnews.common.UIHelper;
+import com.zero.hkdnews.myview.TitleBar;
 import com.zero.hkdnews.util.L;
 import com.zero.hkdnews.util.T;
 
@@ -52,9 +52,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     private Context context ;
 
-    private ImageView mHome;  // 头部的home
-    private ImageView mRefresh;
-    private TextView mHeadTitle;
+    private TitleBar mTitleBar;
 
     //包裹webView
     private ScrollView mScrollView;
@@ -198,9 +196,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
     private void findView() {
         //顶部的控件绑定
-        mHome = (ImageView) findViewById(R.id.news_header_home);
-        mRefresh = (ImageView) findViewById(R.id.news_header_refresh);
-        mHeadTitle = (TextView) findViewById(R.id.news_header_title);
+        mTitleBar = (TitleBar) findViewById(R.id.news_title_bar);
 
         //底部的控件绑定
         mFootViewSwitcher = (ViewSwitcher) findViewById(R.id.news_detail_foot_view_switcher);
@@ -235,8 +231,11 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         mWebView.getSettings().setDefaultFontSize(15);
 
         //最顶部设置事件
-        mHome.setOnClickListener(homeClickListenter);
-        mRefresh.setOnClickListener(refreshClickListener);
+        mTitleBar.setBackClickListener(this);
+        mTitleBar.isShowRight(true);
+        mTitleBar.setTitleText("新闻正文");
+        mTitleBar.setRightClickListener(refreshClickListener);
+        mTitleBar.setRightImage(R.mipmap.news_detail_top_refresh);
 
         //最底部设置监听事件
         mCommentV.setOnClickListener(commentClickListener);
@@ -442,14 +441,14 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
             case VIEWSWITCH_TYPE_DETAIL:
                 mDetailV.setEnabled(false);
                 mCommentListV.setEnabled(true);
-                mHeadTitle.setText("新闻正文");
+                mTitleBar.setTitleText("新闻正文");
                 mViewSwitcher.setDisplayedChild(0);
                 break;
 
             case VIEWSWITCH_TYPE_COMMENT:
                 mDetailV.setEnabled(true);
                 mCommentListV.setEnabled(false);
-                mHeadTitle.setText("网友评论");
+                mTitleBar.setTitleText("网友评论");
                 mViewSwitcher.setDisplayedChild(1);
                 break;
         }

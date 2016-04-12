@@ -40,15 +40,12 @@
     </ListView>
 
 
-    <com.melnykov.fab.FloatingActionButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/play_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
-        android:src="@mipmap/ic_add_white"
-        fab:fab_colorNormal="@color/circle_ic_in"
-        fab:fab_colorPressed="@color/circle_ic_out"
-        fab:fab_colorRipple="@color/custom_theme_light" />
+        android:src="@mipmap/ic_add_white" />
 
 </FrameLayout>

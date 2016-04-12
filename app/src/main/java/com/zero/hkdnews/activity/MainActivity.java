@@ -19,8 +19,8 @@ import com.zero.hkdnews.R;
 import com.zero.hkdnews.beans.HnustUser;
 import com.zero.hkdnews.common.ActivityCollector;
 import com.zero.hkdnews.common.UIHelper;
-import com.zero.hkdnews.fragment.HomePagerFragment;
-import com.zero.hkdnews.fragment.InformFragment;
+import com.zero.hkdnews.news.HomePagerFragment;
+import com.zero.hkdnews.groupmsg.InformFragment;
 import com.zero.hkdnews.fragment.MainFragment;
 import com.zero.hkdnews.fragment.ShareFragment;
 

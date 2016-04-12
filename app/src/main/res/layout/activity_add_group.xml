@@ -4,6 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <com.zero.hkdnews.myview.TitleBar
+        android:id="@+id/add_group_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -53,7 +58,5 @@
         android:layout_height="wrap_content"
         android:text="立即创建"
         />
-
-
 
 </LinearLayout>

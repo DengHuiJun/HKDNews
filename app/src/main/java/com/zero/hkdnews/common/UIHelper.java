@@ -3,16 +3,13 @@ package com.zero.hkdnews.common;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
-import com.zero.hkdnews.activity.CommentActivity;
+import com.zero.hkdnews.news.CommentActivity;
 import com.zero.hkdnews.activity.LocationActivity;
 import com.zero.hkdnews.activity.LoginActivity;
 import com.zero.hkdnews.activity.MainActivity;
-import com.zero.hkdnews.activity.NewsActivity;
+import com.zero.hkdnews.news.NewsActivity;
 import com.zero.hkdnews.activity.RegisterActivity;
-import com.zero.hkdnews.util.T;
 
 /**
  * Created by zero on 15/4/16.

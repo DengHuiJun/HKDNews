@@ -1,20 +1,17 @@
-package com.zero.hkdnews.fragment;
+package com.zero.hkdnews.news;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import com.quentindommerc.superlistview.OnMoreListener;
 import com.quentindommerc.superlistview.SuperListview;
-import com.quentindommerc.superlistview.SwipeDismissListViewTouchListener;
 import com.zero.hkdnews.R;
 import com.zero.hkdnews.adapter.HomeAdapter;
 import com.zero.hkdnews.beans.News;
@@ -28,10 +25,10 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 
 /**
- * 新闻适配Fragment中的子Fragment，现改为存放招聘信息
- * Created by zero on 15/5/17.
+ * 最新模块里面的新闻加载
+ * Created by zero on 15/4/11.
  */
-public class TeseFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,AdapterView.OnItemClickListener{
+public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener ,AdapterView.OnItemClickListener {
 
     private SuperListview mList;
 
@@ -41,27 +38,26 @@ public class TeseFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private static final int ADD_DATA = 1;
     private static final int REFRESH_DATA = 2;
 
-    private Handler mHandler =  new Handler(){
-        public void handleMessage(Message msg){
-            if(msg.what == ADD_DATA){
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            if (msg.what == ADD_DATA) {
                 dataList = (List<News>) msg.obj;
                 homeAdapter.setDataList(dataList);
                 homeAdapter.notifyDataSetChanged();
 
-            }else if(msg.what == REFRESH_DATA){
+            }else if (msg.what == REFRESH_DATA) {
                 dataList = (List<News>) msg.obj;
                 homeAdapter.setDataList(dataList);
                 homeAdapter.notifyDataSetChanged();
                 T.showShort(getActivity(), "刷新完成！");
-
             }
         }
     };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tese,container,false);
-        return view;
+        View homeLayout = inflater.inflate(R.layout.fragment_home, container, false);
+        return homeLayout;
     }
 
     @Override
@@ -69,49 +65,34 @@ public class TeseFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         super.onActivityCreated(savedInstanceState);
 
         dataList = new ArrayList<>();
-        homeAdapter =  new HomeAdapter(dataList,getActivity());
+        homeAdapter = new HomeAdapter(dataList, getActivity());
 
         //绑定fragment_home里面的SuperListView
-        mList = (SuperListview) getActivity().findViewById(R.id.tese_list);
-
+        mList = (SuperListview) getActivity().findViewById(R.id.list);
         //初始化
         homeAdapter.setDataList(dataList);
         mList.setAdapter(homeAdapter);
 
-        queryData();
-        // Setting the refresh listener will enable the refresh progressbar
+        queryNews();
+
         mList.setRefreshListener(this);
         mList.setOnItemClickListener(this);
-
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("news", dataList.get(position));
-        UIHelper.showNewsDetail(getActivity(), bundle);
-    }
-
-    @Override
-    public void onRefresh() {
-        queryForRefresh();
-    }
-
-    /**
-     * 初始化查询数据
-     */
-    private void queryData(){
+    //查询新闻
+    private void queryNews(){
         BmobQuery<News> query = new BmobQuery<>();
         //判断是否有缓存
         boolean isCache = query.hasCachedResult(getActivity());
-        if(isCache){  //此为举个例子，并不一定按这种方式来设置缓存策略
+        if (isCache) {  //此为举个例子，并不一定按这种方式来设置缓存策略
             query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);    // 如果有缓存的话，则设置策略为CACHE_ELSE_NETWORK
-        }else{
+        } else {
             query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);    // 如果没有缓存的话，则设置策略为NETWORK_ELSE_CACHE
         }
         query.order("-createdAt");
-        query.addWhereEqualTo("code",2);
-        query.findObjects(getActivity(),new FindListener<News>() {
+        query.setLimit(15);
+        query.addWhereEqualTo("code", 0);
+        query.findObjects(getActivity(), new FindListener<News>() {
             @Override
             public void onSuccess(List<News> list) {
                 Message msg = Message.obtain();
@@ -124,16 +105,13 @@ public class TeseFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         });
     }
 
-
-    /**
-     * 刷新查询
-     */
-    private void queryForRefresh(){
+    //刷新查询新闻
+    private void queryNewsForRefresh(){
         BmobQuery<News> query = new BmobQuery<>();
         query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);    // 设置策略为NETWORK_ELSE_CACHE
         query.order("-createdAt");
         query.setLimit(15);
-        query.addWhereEqualTo("code",2);
+        query.addWhereEqualTo("code", 0);
         query.findObjects(getActivity(), new FindListener<News>() {
             @Override
             public void onSuccess(List<News> list) {
@@ -143,7 +121,22 @@ public class TeseFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 mHandler.sendMessage(msg);
             }
             @Override
-            public void onError(int i, String s) {}
+            public void onError(int i, String s) {
+            }
         });
     }
+
+    @Override
+    public void onRefresh() {
+        queryNewsForRefresh();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(getActivity(), "OK:" + position, Toast.LENGTH_LONG).show();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("news", dataList.get(position));
+        UIHelper.showNewsDetail(getActivity(), bundle);
+    }
+
 }

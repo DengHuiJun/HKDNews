@@ -4,21 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.melnykov.fab.FloatingActionButton;
 import com.pnikosis.materialishprogress.ProgressWheel;
-import com.quentindommerc.superlistview.SuperListview;
 import com.zero.hkdnews.R;
 import com.zero.hkdnews.activity.ShareUploadActivity;
 import com.zero.hkdnews.adapter.ShareAdapter;
 import com.zero.hkdnews.beans.UploadNews;
-import com.zero.hkdnews.myview.RefreshableView;
 import com.zero.hkdnews.util.T;
 
 import java.util.ArrayList;
@@ -73,7 +70,7 @@ public class ShareFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View shareLayout = inflater.inflate(R.layout.fragment_share,container,false);
+        View shareLayout = inflater.inflate(R.layout.fragment_share, container, false);
         return shareLayout;
     }
 

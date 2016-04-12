@@ -1,4 +1,4 @@
-package com.zero.hkdnews.fragment;
+package com.zero.hkdnews.news;
 
 import android.os.Bundle;
 import android.os.Handler;

@@ -1,4 +1,4 @@
-package com.zero.hkdnews.activity;
+package com.zero.hkdnews.groupmsg;
 
 import android.os.Bundle;
 import android.os.Message;
@@ -7,8 +7,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.zero.hkdnews.R;
+import com.zero.hkdnews.activity.BaseActivity;
 import com.zero.hkdnews.beans.Group;
 import com.zero.hkdnews.beans.HnustUser;
+import com.zero.hkdnews.myview.TitleBar;
 import com.zero.hkdnews.util.T;
 
 import android.os.Handler;
@@ -26,6 +28,8 @@ public class AddGroupActivity extends BaseActivity {
     private EditText mGroupNameEt;
     private EditText mGroupIntroEt;
     private Button   mAddGroupBtn;
+
+    private TitleBar mTitleBar;
 
     private Handler mHandler = new Handler(){
         @Override
@@ -94,6 +98,11 @@ public class AddGroupActivity extends BaseActivity {
         mGroupNameEt = (EditText) findViewById(R.id.add_group_name);
         mGroupIntroEt = (EditText) findViewById(R.id.add_group_intro);
         mAddGroupBtn = (Button) findViewById(R.id.add_group_add_btn);
+
+        mTitleBar = (TitleBar) findViewById(R.id.add_group_title_bar);
+        mTitleBar.setBackClickListener(this);
+        mTitleBar.setTitleText("创建群组");
+        mTitleBar.isShowRight(false);
     }
 
     public void uploadEvent(){

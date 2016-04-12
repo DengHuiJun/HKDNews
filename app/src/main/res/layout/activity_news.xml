@@ -5,7 +5,10 @@
     android:background="#fff"
     android:orientation="vertical">
 
-    <include layout="@layout/news_header" />
+    <com.zero.hkdnews.myview.TitleBar
+        android:id="@+id/news_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <ViewSwitcher
         android:id="@+id/news_detail_viewswitcher"

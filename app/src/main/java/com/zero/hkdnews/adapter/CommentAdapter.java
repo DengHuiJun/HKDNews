@@ -17,7 +17,7 @@ import com.zero.hkdnews.beans.Reply;
 import java.util.List;
 
 /**
- * Created by luowei on 15/5/8.
+ * Created by 邓慧 on 15/5/8.
  */
 public class CommentAdapter extends BaseAdapter {
 
@@ -26,7 +26,7 @@ public class CommentAdapter extends BaseAdapter {
     private LayoutInflater      listContainer;
 
 
-    class ViewHoler{
+    class ViewHoler {
         ImageView face;
         TextView name;
         TextView content;

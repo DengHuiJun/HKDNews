@@ -1,8 +1,8 @@
-package com.zero.hkdnews.fragment;
+package com.zero.hkdnews.groupmsg;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Message;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,10 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.melnykov.fab.FloatingActionButton;
 import com.pnikosis.materialishprogress.ProgressWheel;
 import com.zero.hkdnews.R;
-import com.zero.hkdnews.activity.GroupActivity;
 import com.zero.hkdnews.adapter.PlayAdapter;
 import com.zero.hkdnews.beans.HnustUser;
 import com.zero.hkdnews.beans.Inform;
