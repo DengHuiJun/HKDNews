@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.zero.hkdnews.news.CommentActivity;
 import com.zero.hkdnews.activity.LocationActivity;
 import com.zero.hkdnews.activity.LoginActivity;
 import com.zero.hkdnews.activity.MainActivity;
@@ -67,16 +66,4 @@ public class UIHelper {
         Intent intent = new Intent(context, LocationActivity.class);
         context.startActivity(intent);
     }
-
-    /**
-     * 跳转至评论回复
-     * @param context
-     */
-    public static void showCommentPub(Context context,Bundle bundle){
-        Intent intent = new Intent(context, CommentActivity.class);
-        intent.putExtra("data",bundle);
-        context.startActivity(intent);
-    }
-
-
 }

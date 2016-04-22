@@ -8,6 +8,7 @@ import android.widget.EditText;
 import com.zero.hkdnews.R;
 import com.zero.hkdnews.app.AppContext;
 import com.zero.hkdnews.beans.HnustUser;
+import com.zero.hkdnews.myview.TitleBar;
 import com.zero.hkdnews.util.T;
 
 import cn.bmob.v3.listener.UpdateListener;
@@ -29,6 +30,11 @@ public class MeSetActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_me_set);
+
+        TitleBar titleBar = (TitleBar) findViewById(R.id.me_set_title_bar);
+        titleBar.setTitleText("个人信息");
+        titleBar.setBackClickListener(this);
+        titleBar.isShowRight(false);
 
         findView();
         mSetOkBtn.setOnClickListener(new View.OnClickListener() {

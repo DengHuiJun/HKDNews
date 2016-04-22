@@ -4,6 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <com.zero.hkdnews.myview.TitleBar
+        android:id="@+id/me_set_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <EditText
         android:id="@+id/me_set_nickname"
         android:layout_width="match_parent"

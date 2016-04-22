@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#fff"
+    android:background="@color/white"
     >
-    <com.quentindommerc.superlistview.SuperListview
-        xmlns:superlistview="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/comment_list_listview"
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/comment_list_srl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        superlistview:superlv__listClipToPadding="false"
-        superlistview:superlv__listDivider="@android:color/transparent"
-        superlistview:superlv__listDividerHeight="10dp"
-        superlistview:superlv__listPadding="10dp"
-        superlistview:superlv__empty="@layout/empty_list_view"
-        superlistview:superlv__scrollbarStyle="outsideOverlay" >
-    </com.quentindommerc.superlistview.SuperListview>
+        android:layout_height="wrap_content">
 
+        <ListView
+            android:id="@+id/comment_list_listview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            >
+        </ListView>
 
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

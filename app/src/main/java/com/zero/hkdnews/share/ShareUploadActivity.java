@@ -1,4 +1,4 @@
-package com.zero.hkdnews.activity;
+package com.zero.hkdnews.share;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -16,8 +16,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.zero.hkdnews.R;
+import com.zero.hkdnews.activity.BaseActivity;
 import com.zero.hkdnews.app.AppContext;
 import com.zero.hkdnews.beans.UploadNews;
+import com.zero.hkdnews.myview.TitleBar;
 import com.zero.hkdnews.util.L;
 import com.zero.hkdnews.util.T;
 
@@ -73,6 +75,12 @@ public class ShareUploadActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shareupload);
+
+        TitleBar titleBar = (TitleBar) findViewById(R.id.share_upload_tb);
+        titleBar.setTitleText("分享时刻");
+        titleBar.setBackClickListener(this);
+        titleBar.isShowRight(false);
+
         initView();
         weakReferenceHander = new WeakReferenceHander(this);
 

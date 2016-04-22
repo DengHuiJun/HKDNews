@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:colorBackground"
+    android:orientation="vertical"
+    android:paddingBottom="8dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:theme="@style/AppTheme">
+
+    <TextView
+        android:id="@+id/group_bottom_one"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:text="发布通知" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/colorDivider" />
+
+    <TextView
+        android:id="@+id/group_bottom_two"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:text="邀请成员" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/colorDivider" />
+
+    <TextView
+        android:id="@+id/group_bottom_three"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:text="查看成员" />
+
+</LinearLayout>

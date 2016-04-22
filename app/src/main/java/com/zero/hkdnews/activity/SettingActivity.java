@@ -14,6 +14,7 @@ import com.zero.hkdnews.R;
 import com.zero.hkdnews.adapter.MeAdapter;
 import com.zero.hkdnews.app.AppContext;
 import com.zero.hkdnews.beans.MeItem;
+import com.zero.hkdnews.myview.TitleBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,11 @@ public class SettingActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+
+        TitleBar titleBar = (TitleBar) findViewById(R.id.setting_title_bar);
+        titleBar.setTitleText("个人中心");
+        titleBar.setBackClickListener(this);
+        titleBar.isShowRight(false);
 
         findView();
         initData();

@@ -46,7 +46,7 @@ public class HomePagerFragment extends Fragment {
 
         mTabLayout = (TabLayout) getActivity().findViewById(R.id.home_pager_tabs);
 
-     //   mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setOffscreenPageLimit(3);
 
         mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         mTabLayout.setTabMode(TabLayout.MODE_FIXED);

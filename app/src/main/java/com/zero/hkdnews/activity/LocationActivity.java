@@ -13,6 +13,7 @@ import com.zero.hkdnews.R;
 import com.zero.hkdnews.common.UIHelper;
 import com.zero.hkdnews.myview.IndexableListView;
 import com.zero.hkdnews.myview.StringMatcher;
+import com.zero.hkdnews.myview.TitleBar;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,15 +23,21 @@ import java.util.List;
  * 定位选择界面
  * Created by zero on 15/5/29.
  */
-public class LocationActivity extends Activity implements AdapterView.OnItemClickListener{
+public class LocationActivity extends Activity implements AdapterView.OnItemClickListener {
+
     private ArrayList<String> mItems;
     private IndexableListView indexableListView;
-
+    private TitleBar mTitleBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
+
+        mTitleBar = (TitleBar) findViewById(R.id.location_title_bar);
+        mTitleBar.isShowRight(false);
+        mTitleBar.setTitleText("城市定位");
+        mTitleBar.setBackClickListener(this);
 
         mItems = new ArrayList<>();
         mItems.add("北京");
@@ -77,13 +84,12 @@ public class LocationActivity extends Activity implements AdapterView.OnItemClic
         indexableListView.setFastScrollEnabled(true);
         indexableListView.setOnItemClickListener(this);
 
-
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(this,"切换到"+ mItems.get(position), Toast.LENGTH_SHORT).show();
-//        toBack();
+        finish();
     }
 
 
@@ -129,10 +135,4 @@ public class LocationActivity extends Activity implements AdapterView.OnItemClic
             return sections;
         }
     }
-//
-//    @OnClick(R.id.position_btn)
-//    public void toBack(){
-//        UIHelper.showHome(this);
-//        finish();
-//    }
 }

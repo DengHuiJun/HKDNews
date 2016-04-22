@@ -1,20 +1,16 @@
 package com.zero.hkdnews.news;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.quentindommerc.superlistview.OnMoreListener;
-import com.quentindommerc.superlistview.SuperListview;
-import com.quentindommerc.superlistview.SwipeDismissListViewTouchListener;
 import com.zero.hkdnews.R;
 import com.zero.hkdnews.adapter.HomeAdapter;
 import com.zero.hkdnews.beans.News;
@@ -33,7 +29,8 @@ import cn.bmob.v3.listener.FindListener;
  */
 public class TeseFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,AdapterView.OnItemClickListener{
 
-    private SuperListview mList;
+    private ListView mList;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private List<News> dataList;
     private HomeAdapter homeAdapter;
@@ -41,26 +38,32 @@ public class TeseFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private static final int ADD_DATA = 1;
     private static final int REFRESH_DATA = 2;
 
-    private Handler mHandler =  new Handler(){
-        public void handleMessage(Message msg){
-            if(msg.what == ADD_DATA){
+    private Handler mHandler =  new Handler() {
+        public void handleMessage(Message msg) {
+            if (msg.what == ADD_DATA) {
                 dataList = (List<News>) msg.obj;
                 homeAdapter.setDataList(dataList);
                 homeAdapter.notifyDataSetChanged();
 
-            }else if(msg.what == REFRESH_DATA){
+            } else if (msg.what == REFRESH_DATA) {
                 dataList = (List<News>) msg.obj;
                 homeAdapter.setDataList(dataList);
                 homeAdapter.notifyDataSetChanged();
                 T.showShort(getActivity(), "刷新完成！");
-
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         }
     };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tese,container,false);
+        View view = inflater.inflate(R.layout.fragment_news_com,container,false);
+
+        mList = (ListView) view.findViewById(R.id.news_com_list_view);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.news_com_srl);
+        mSwipeRefreshLayout.setColorSchemeColors(R.color.ORANGE, R.color.ASBESTOS, R.color.GREEN_SEA);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
         return view;
     }
 
@@ -71,18 +74,10 @@ public class TeseFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         dataList = new ArrayList<>();
         homeAdapter =  new HomeAdapter(dataList,getActivity());
 
-        //绑定fragment_home里面的SuperListView
-        mList = (SuperListview) getActivity().findViewById(R.id.tese_list);
-
-        //初始化
         homeAdapter.setDataList(dataList);
         mList.setAdapter(homeAdapter);
-
         queryData();
-        // Setting the refresh listener will enable the refresh progressbar
-        mList.setRefreshListener(this);
         mList.setOnItemClickListener(this);
-
     }
 
     @Override
@@ -123,7 +118,6 @@ public class TeseFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             public void onError(int i, String s) {}
         });
     }
-
 
     /**
      * 刷新查询

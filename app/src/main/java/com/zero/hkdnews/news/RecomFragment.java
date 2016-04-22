@@ -12,9 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.quentindommerc.superlistview.OnMoreListener;
-import com.quentindommerc.superlistview.SuperListview;
-import com.quentindommerc.superlistview.SwipeDismissListViewTouchListener;
 import com.zero.hkdnews.R;
 import com.zero.hkdnews.adapter.HomeAdapter;
 import com.zero.hkdnews.beans.News;
@@ -32,7 +29,8 @@ import cn.bmob.v3.listener.FindListener;
  * Created by zero on 15/5/17.
  */
 public class RecomFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,AdapterView.OnItemClickListener{
-    private SuperListview mList;
+    private ListView mList;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private List<News> dataList;
     private HomeAdapter homeAdapter;
@@ -52,14 +50,19 @@ public class RecomFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 homeAdapter.setDataList(dataList);
                 homeAdapter.notifyDataSetChanged();
                 T.showShort(getActivity(), "刷新完成！");
-
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         }
     };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_newst,container,false);
+        View view = inflater.inflate(R.layout.fragment_news_com,container,false);
+
+        mList = (ListView) view.findViewById(R.id.news_com_list_view);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.news_com_srl);
+        mSwipeRefreshLayout.setColorSchemeColors(R.color.ORANGE, R.color.ASBESTOS, R.color.GREEN_SEA);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         return view;
     }
 
@@ -70,65 +73,43 @@ public class RecomFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         dataList = new ArrayList<>();
         homeAdapter =  new HomeAdapter(dataList,getActivity());
 
-        //绑定fragment_home里面的SuperListView
-        mList = (SuperListview) getActivity().findViewById(R.id.recom_list);
-
         //初始化
         homeAdapter.setDataList(dataList);
         mList.setAdapter(homeAdapter);
 
-        Thread thread = new Thread(new Runnable() {
+        BmobQuery<News> query = new BmobQuery<>();
+        //判断是否有缓存
+        boolean isCache = query.hasCachedResult(getActivity());
+        if(isCache){  //此为举个例子，并不一定按这种方式来设置缓存策略
+            query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);    // 如果有缓存的话，则设置策略为CACHE_ELSE_NETWORK
+        }else{
+            query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);    // 如果没有缓存的话，则设置策略为NETWORK_ELSE_CACHE
+        }
+        query.order("-createdAt");
+        query.addWhereEqualTo("code",1);
+        query.findObjects(getActivity(), new FindListener<News>() {
             @Override
-            public void run() {
-                BmobQuery<News> query = new BmobQuery<>();
-
-                //判断是否有缓存
-                boolean isCache = query.hasCachedResult(getActivity());
-
-                if(isCache){  //此为举个例子，并不一定按这种方式来设置缓存策略
-                    query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);    // 如果有缓存的话，则设置策略为CACHE_ELSE_NETWORK
-                }else{
-                    query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);    // 如果没有缓存的话，则设置策略为NETWORK_ELSE_CACHE
-                }
-
-                query.order("-createdAt");
-                query.addWhereEqualTo("code",1);
-                query.findObjects(getActivity(),new FindListener<News>() {
-                    @Override
-                    public void onSuccess(List<News> list) {
-                        Message msg = Message.obtain();
-                        msg.obj = list;
-                        msg.what = ADD_DATA;
-                        mHandler.sendMessage(msg);
-                    }
-
-                    @Override
-                    public void onError(int i, String s) {
-
-                    }
-                });
+            public void onSuccess(List<News> list) {
+                Message msg = Message.obtain();
+                msg.obj = list;
+                msg.what = ADD_DATA;
+                mHandler.sendMessage(msg);
             }
 
+            @Override
+            public void onError(int i, String s) {
+
+            }
         });
 
-        thread.start();
-
-        // Setting the refresh listener will enable the refresh progressbar
-        mList.setRefreshListener(this);
-
         mList.setOnItemClickListener(this);
-
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        Toast.makeText(getActivity(),"OK:"+position,Toast.LENGTH_LONG).show();
-
         Bundle bundle = new Bundle();
-
         bundle.putSerializable("news",dataList.get(position));
-
         UIHelper.showNewsDetail(getActivity(), bundle);
     }
 

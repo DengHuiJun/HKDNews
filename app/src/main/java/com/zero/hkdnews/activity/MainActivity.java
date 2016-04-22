@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,10 +21,11 @@ import com.zero.hkdnews.R;
 import com.zero.hkdnews.beans.HnustUser;
 import com.zero.hkdnews.common.ActivityCollector;
 import com.zero.hkdnews.common.UIHelper;
+import com.zero.hkdnews.fragment.LeftMenuFragment;
 import com.zero.hkdnews.news.HomePagerFragment;
 import com.zero.hkdnews.groupmsg.InformFragment;
 import com.zero.hkdnews.fragment.MainFragment;
-import com.zero.hkdnews.fragment.ShareFragment;
+import com.zero.hkdnews.share.ShareFragment;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
@@ -30,20 +33,13 @@ import cn.bmob.v3.BmobUser;
 /**
  * 主界面
  */
-public class MainActivity extends ActionBarActivity implements View.OnClickListener,NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
 
-    //首页新闻的fragment,嵌入了一个viewpager
-    private HomePagerFragment homePagerFragment;
-
-    //分享界面的fragment
-    private ShareFragment mShareFragment;
-
-    //通知服务界面的Fragment
-    private InformFragment mInformFragment;
-
-    //我的资料界面的Fragment
-    private MainFragment mMainFragment;
+    private HomePagerFragment homePagerFragment;    //首页新闻的fragment,嵌入了一个viewpager
+    private ShareFragment mShareFragment;     //分享界面的fragment
+    private InformFragment mInformFragment; //通知服务界面的Fragment
+    private MainFragment mMainFragment;  //我的资料界面的Fragment
 
     //新闻布局
     private View mBottomHomeRl;
@@ -74,10 +70,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     private int mCurrentFragmentId; // 用来判断动画效果
 
-    /**
-     * 左侧滑块
-     */
-    private NavigationDrawerFragment mNavigationDrawerFragment;
+    private LeftMenuFragment mLeftMenuFragment;
+    private DrawerLayout mDrawerLayout;
+    private Toolbar mToolBar;
+    private ActionBarDrawerToggle mActionBarDrawerToggle;
 
     //标题
     private CharSequence mTitle;
@@ -85,15 +81,20 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, getClass().getSimpleName());
 
         ActivityCollector.addActivity(this);
         setContentView(R.layout.activity_main);
 
+        mToolBar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolBar);
+        mToolBar.setTitle("c测试");
+        mToolBar.setNavigationIcon(R.drawable.ic_drawer);
+
+        fragmentManager = getSupportFragmentManager();
+
         initNav();
         initView();
 
-        fragmentManager = getSupportFragmentManager();
         //第一次选中首页
         setBottomSelection(3);
         mCurrentFragmentTag = TAG_HOME_TAG;
@@ -103,25 +104,33 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
      * 初始化左侧滑块菜单
      */
     private void initNav() {
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
 
-        // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolBar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+        mActionBarDrawerToggle.syncState();
+
+        mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
+
+
+        mLeftMenuFragment = (LeftMenuFragment) fragmentManager.findFragmentById(R.id.left_navigation_drawer);
+
+        mLeftMenuFragment.setOnMenuItemSelectedListener(new LeftMenuFragment.OnMenuItemSelectedListener() {
+            @Override
+            public void menuItemSelected(int position) {
+                itemSelected(position);
+            }
+        });
     }
 
-    /**
-     * 处理右侧滑菜单的选择
-     * @param position
-     */
-    @Override
-    public void onNavigationDrawerItemSelected(int position) {
+    public void itemSelected(int position) {
         switch (position){
             //home
             case 0:
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                setBottomSelection(3);
                 break;
             //登录功能
             case 1:
@@ -149,6 +158,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 break;
             //定位
             case 3:
+                mDrawerLayout.closeDrawer(GravityCompat.START);
                 UIHelper.showLocation(this);
                 break;
 
@@ -158,38 +168,25 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 break;
 
             case 5:
+                mDrawerLayout.closeDrawer(GravityCompat.START);
                 UIHelper.toAnActivity(this, SettingActivity.class);
                 break;
+
+            default:
+                if (mDrawerLayout.isDrawerOpen(GravityCompat.START))
+                    mDrawerLayout.closeDrawer(GravityCompat.START);
         }
     }
 
-    /**
-     * 根据选项，改变ActionBar的标题
-     * @param number
-     */
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
-        }
-    }
-
-    /**
-     * 点击左上角恢复原来的ActionBar
-     */
-    public void restoreActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
-    }
+//    /**
+//     * 点击左上角恢复原来的ActionBar
+//     */
+//    public void restoreActionBar() {
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+//        actionBar.setDisplayShowTitleEnabled(true);
+//        actionBar.setTitle(mTitle);
+//    }
 
     private void initView() {
         mBottomHomeRl = findViewById(R.id.bottom_home_rl);
@@ -215,16 +212,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-       // getMenuInflater().inflate(R.menu.menu_main, menu);
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
+
             getMenuInflater().inflate(R.menu.main_activity2, menu);
-            restoreActionBar();
+//            restoreActionBar();
             return true;
-        }
-        return true;
     }
 
     @Override

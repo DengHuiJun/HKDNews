@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.BottomSheetDialog;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListPopupWindow;
+import android.widget.ListView;
+import android.widget.TextView;
 
-import com.quentindommerc.superlistview.SuperListview;
 import com.zero.hkdnews.R;
 import com.zero.hkdnews.activity.BaseActivity;
 import com.zero.hkdnews.adapter.GroupAdapter;
@@ -32,13 +33,16 @@ import cn.bmob.v3.listener.FindListener;
  * 通知组实体类
  * Created by zero on 15/6/15.
  */
-public class GroupActivity extends BaseActivity implements AdapterView.OnItemClickListener{
+public class GroupActivity extends BaseActivity implements AdapterView.OnItemClickListener {
     private static final String TAG = "GroupActivity";
-    private SuperListview listview;
+    private ListView listview;
     private List<Group> datas;
     private GroupAdapter adapter;
 
     private TitleBar mTitleBar;
+    private TextView mOneTv;
+    private TextView mTwoTv;
+    private TextView mThreeTv;
 
     //存储群组的id,name
     private String groupId;
@@ -57,7 +61,7 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
             } else if (msg.what == 2) {
                 adapter.setList(null);
                 adapter.notifyDataSetChanged();
-                T.showShort(GroupActivity.this, "暂未加入群组！");
+                T.showShort(GroupActivity.this, "暂未加入任何群组！");
             }
         }
     };
@@ -96,7 +100,7 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
             }
         });
 
-        listview = (SuperListview) findViewById(R.id.group_list_view);
+        listview = (ListView) findViewById(R.id.group_list_view);
     }
 
     private void initData() {
@@ -105,56 +109,46 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
 
     }
 
-    public void showListPopup(View view) {
-        String items[] = {"发布通知", "邀请成员", "查看成员", "历史通知"};
-        final ListPopupWindow listPopupWindow = new ListPopupWindow(this);
+//    public void showListPopup(View view) {
+//        String items[] = {"发布通知", "邀请成员", "查看成员", "历史通知"};
+//        final ListPopupWindow listPopupWindow = new ListPopupWindow(this);
+//
+//        //设置ListView类型的适配器
+//        listPopupWindow.setAdapter(new ArrayAdapter<>(GroupActivity.this, android.R.layout.simple_list_item_1, items));
+//
+//        //给每个item设置监听事件
+//        listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+////                listPopupWindow.dismiss();
 
-        //设置ListView类型的适配器
-        listPopupWindow.setAdapter(new ArrayAdapter<>(GroupActivity.this, android.R.layout.simple_list_item_1, items));
-
-        //给每个item设置监听事件
-        listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-//                listPopupWindow.dismiss();
-//                final Snackbar snackbar = Snackbar.make(addGroup,"测试Snackbar弹出提示",Snackbar.LENGTH_LONG);
-//                snackbar.show();
-//                snackbar.setAction("取消",new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        snackbar.dismiss();
-//                    }
-//                });
-                listPopupListener(position);
-            }
-        });
-
-        //设置ListPopupWindow的锚点,也就是弹出框的位置是相对当前参数View的位置来显示，
-        listPopupWindow.setAnchorView(view);
-
-        //ListPopupWindow 距锚点的距离，也就是相对锚点View的位置
-        listPopupWindow.setHorizontalOffset(100);
-        listPopupWindow.setVerticalOffset(100);
-
-        //设置对话框的宽高
-        listPopupWindow.setWidth(350);
-        listPopupWindow.setHeight(500);
-        listPopupWindow.setModal(false);
-
-        listPopupWindow.show();
-
-    }
+////                });
+//                listPopupListener(position);
+//            }
+//        });
+//
+//        //设置ListPopupWindow的锚点,也就是弹出框的位置是相对当前参数View的位置来显示，
+//        listPopupWindow.setAnchorView(view);
+//
+//        //ListPopupWindow 距锚点的距离，也就是相对锚点View的位置
+//        listPopupWindow.setHorizontalOffset(100);
+//        listPopupWindow.setVerticalOffset(100);
+//
+//        //设置对话框的宽高
+//        listPopupWindow.setWidth(350);
+//        listPopupWindow.setHeight(500);
+//        listPopupWindow.setModal(false);
+//
+//        listPopupWindow.show();
+//    }
 
 
     //加载该用户的群组
     private void addGroup(){
         BmobQuery<Group> query = new BmobQuery<>();
-
         HnustUser user = BmobUser.getCurrentUser(GroupActivity.this, HnustUser.class);
-
         query.addWhereRelatedTo("groups",new BmobPointer(user));
-
         query.findObjects(GroupActivity.this, new FindListener<Group>() {
             @Override
             public void onSuccess(List<Group> list) {
@@ -178,35 +172,51 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        T.showShort(this,datas.get(position).getName());
-
         groupId = datas.get(position).getObjectId();
         groupName = datas.get(position).getName();
 
-        showListPopup(view);
+        showBottomSheetView();
     }
 
-    private void listPopupListener(int position) {
-        switch (position) {
-            // 发布通知
-            case 0:
-                break;
+    private void showBottomSheetView() {
+        BottomSheetDialog dialog = new BottomSheetDialog(this);
 
-            // 邀请成员
-            case 1:
-                Intent toInvite = new Intent(this, InviteMemberActivity.class);
-                startActivity(toInvite);
-                break;
+        View view = LayoutInflater.from(this).inflate(R.layout.bottom_sheet_list, null);
+        mOneTv = (TextView) view.findViewById(R.id.group_bottom_one);
+        mTwoTv = (TextView) view.findViewById(R.id.group_bottom_two);
+        mThreeTv = (TextView) view.findViewById(R.id.group_bottom_three);
 
-            // 查看成员
-            case 2:
-                break;
+        mOneTv.setOnClickListener(oneClickListener);
+        mTwoTv.setOnClickListener(twoClickListener);
+        mThreeTv.setOnClickListener(threeClickListener);
 
-            // 历史通知
-            case 3:
-                break;
+        dialog.setContentView(view);
+        dialog.setTitle("功能列表");
+        dialog.show();
+    }
+
+    // 发布通知
+    private View.OnClickListener oneClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
         }
-    }
+    };
 
+    // 邀请成员
+    private View.OnClickListener twoClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent toInvite = new Intent(GroupActivity.this, InviteMemberActivity.class);
+            startActivity(toInvite);
+        }
+    };
 
+    // 查看成员
+    private View.OnClickListener threeClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
+        }
+    };
 }

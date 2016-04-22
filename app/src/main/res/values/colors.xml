@@ -11,8 +11,7 @@
     <color name="SUN_FLOWER">#F1C40F</color>
     <color name="ORANGE">#F39C12</color>
 
-    <color name="font_gray">#969696</color>
-
+    <color name="font_gray">#767e89</color>
 
     <color name="GREEN_SEA">#16A085</color>
 
@@ -24,7 +23,6 @@
 
     <color name="PETER_RIVER">#3498DB</color>
     <color name="BELIZE_HOLE">#2980B9</color>
-
 
     <color name="custom_theme_darker">#ad843d</color>
     <color name="custom_theme_dark">#d4a14a</color>
@@ -38,10 +36,6 @@
         <item>@color/custom_theme_light</item> <!-- really much lighter color of main color -->
     </integer-array>
 
-
-    <color name="head_text">#0e5986</color>
-    
-    
     <!-- 新版的颜色搭配-->
     <color name="circle_ic_in">#65f0ac</color>
     <color name="circle_ic_out">#c7f7c5</color>
@@ -58,8 +52,12 @@
     <color name="love_or_special">#ffa283</color>
     <color name="warning_news">#e8333a</color>
 
+
+
     <color name="color_100">#b2dfdb</color>
     <color name="color_500">#009688</color>
     <color name="color_700">#00796b</color>
+
+    <color name="colorDivider">#60000000</color>
 
 </resources>

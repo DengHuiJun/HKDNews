@@ -25,13 +25,11 @@ public class CommentAdapter extends BaseAdapter {
     private List<Comment>       listItems;
     private LayoutInflater      listContainer;
 
-
     class ViewHoler {
         ImageView face;
         TextView name;
         TextView content;
         TextView date;
-        TextView reply;
     }
 
     public void setListItems(List<Comment> listItems){
@@ -42,7 +40,6 @@ public class CommentAdapter extends BaseAdapter {
         this.context =context;
         this.listItems = data;
         listContainer = LayoutInflater.from(context);
-
     }
 
     @Override
@@ -65,35 +62,33 @@ public class CommentAdapter extends BaseAdapter {
         ViewHoler viewHoler = null;
 
         if(convertView==null){
-            convertView = listContainer.inflate(R.layout.comment_list_item,null);
+            convertView = listContainer.inflate(R.layout.comment_list_item, null);
             viewHoler = new ViewHoler();
 
             viewHoler.face = (ImageView) convertView.findViewById(R.id.comment_listitem_userface);
             viewHoler.name = (TextView) convertView.findViewById(R.id.comment_listitem_name);
             viewHoler.content = (TextView) convertView.findViewById(R.id.comment_listitem_content);
             viewHoler.date = (TextView) convertView.findViewById(R.id.comment_listitem_date);
-            viewHoler.reply = (TextView) convertView.findViewById(R.id.comment_listitem_replies);
 
             convertView.setTag(viewHoler);
 
-        }else{
+        } else {
             viewHoler = (ViewHoler) convertView.getTag();
         }
 
         //设置数据
-       Comment comment = listItems.get(position);
+        Comment comment = listItems.get(position);
 
         viewHoler.name.setText(comment.getAuthor());
         viewHoler.date.setText(comment.getUpdatedAt());
         viewHoler.content.setText(comment.getContent());
 
         //如果不存在，则加载本地头像
-        if(comment.getFace()!=null){
+        if (comment.getFace()!=null) {
             Picasso.with(context).load(comment.getFace().getFileUrl(context)).into(viewHoler.face);
-        }else{
+        } else {
             Picasso.with(context).load(R.mipmap.default_me).into(viewHoler.face);
         }
-
 
         return convertView;
     }

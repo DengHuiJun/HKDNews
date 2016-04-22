@@ -1,4 +1,4 @@
-package com.zero.hkdnews.fragment;
+package com.zero.hkdnews.share;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,6 @@ import android.widget.ListView;
 
 import com.pnikosis.materialishprogress.ProgressWheel;
 import com.zero.hkdnews.R;
-import com.zero.hkdnews.activity.ShareUploadActivity;
 import com.zero.hkdnews.adapter.ShareAdapter;
 import com.zero.hkdnews.beans.UploadNews;
 import com.zero.hkdnews.util.T;
@@ -28,9 +28,10 @@ import cn.bmob.v3.listener.FindListener;
  * 校园分享Fragment
  * Created by zero on 15/4/11.
  */
-public class ShareFragment extends Fragment {
+public class ShareFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private ListView mListView;
+    private SwipeRefreshLayout mSRL;
 
     private List<UploadNews> mDataList;
     private ShareAdapter mAdapter;
@@ -48,22 +49,21 @@ public class ShareFragment extends Fragment {
 
     private Handler mHandler =  new Handler(){
         public void handleMessage(Message msg){
-            if(msg.what == GET_DATA_OK) {
+            if (msg.what == GET_DATA_OK) {
                 mDataList = (List<UploadNews>) msg.obj;
                 mAdapter.setDatalist(mDataList);
                 mAdapter.notifyDataSetChanged();
                 mLoadPw.setVisibility(View.GONE);
-            }
-            if (msg.what == GET_DATA_FAIL) {
+            } else if (msg.what == GET_DATA_FAIL) {
                 mLoadPw.setVisibility(View.GONE);
                 T.showShort(getActivity(),"更新失败！");
-            }
-
-            if (msg.what == REFRESH_CODE) {
+                mSRL.setRefreshing(false);
+            } else if (msg.what == REFRESH_CODE) {
                 mDataList = (List<UploadNews>) msg.obj;
                 mAdapter.setDatalist(mDataList);
                 mAdapter.notifyDataSetChanged();
                 T.showShort(getActivity(),"刷新至最新！");
+                mSRL.setRefreshing(false);
             }
         }
     };
@@ -71,6 +71,11 @@ public class ShareFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View shareLayout = inflater.inflate(R.layout.fragment_share, container, false);
+
+        mSRL = (SwipeRefreshLayout) shareLayout.findViewById(R.id.share_srl);
+        mSRL.setColorSchemeColors(R.color.GREEN_SEA, R.color.ASBESTOS, R.color.ORANGE, R.color.BELIZE_HOLE);
+        mSRL.setOnRefreshListener(this);
+
         return shareLayout;
     }
 
@@ -145,8 +150,12 @@ public class ShareFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_OK && resultCode == getActivity().RESULT_OK) {
-            mLoadPw.setVisibility(View.VISIBLE);
-            queryData(true);
+            queryData(false);
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        queryData(true);
     }
 }

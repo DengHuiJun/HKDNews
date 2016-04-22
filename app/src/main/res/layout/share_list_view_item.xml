@@ -15,7 +15,7 @@
             android:id="@+id/share_list_view_item_me"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:src="@drawable/ic_launcher"/>
+            android:src="@mipmap/default_me"/>
         <LinearLayout
             android:paddingLeft="10dp"
             android:layout_width="match_parent"

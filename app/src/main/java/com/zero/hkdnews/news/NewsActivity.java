@@ -14,12 +14,12 @@ import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
-import com.quentindommerc.superlistview.SuperListview;
 import com.zero.hkdnews.R;
 import com.zero.hkdnews.activity.BaseActivity;
 import com.zero.hkdnews.adapter.CommentAdapter;
@@ -47,7 +47,7 @@ import cn.bmob.v3.listener.UpdateListener;
  * 新闻详情页
  * Created by zero on 15/4/11.
  */
-public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener,AdapterView.OnItemClickListener{
+public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "NewsActivity";
 
     private Context context ;
@@ -90,7 +90,8 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private boolean isCommented = false;
 
     private CommentAdapter commentAdapter;
-    private SuperListview commentListView;
+    private ListView commentListView;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private List<Comment> comments = new ArrayList<>();
 
     private List<CollectNews> mCollectedNewsList = new ArrayList<>();
@@ -154,6 +155,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 commentAdapter.setListItems(comments);
                 commentAdapter.notifyDataSetChanged();
                 T.showShort(context, "刷新成功!");
+                swipeRefreshLayout.setRefreshing(false);
                 break;
 
             case UPLOAD_NEWS_COMMENT_MSG:
@@ -217,6 +219,9 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         loadPB = (ProgressBar) findViewById(R.id.news_detail_pb);
 
         mWebView = (WebView) findViewById(R.id.news_detail_webview);
+
+        commentListView = (ListView) findViewById(R.id.comment_list_listview);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.comment_list_srl);
     }
 
 
@@ -246,12 +251,10 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         mDetailV.setOnClickListener(toNewsClickListener);
 
         //评论列表
-        commentListView = (SuperListview) findViewById(R.id.comment_list_listview);
-
-        commentAdapter = new CommentAdapter(context,comments);
+        commentAdapter = new CommentAdapter(context, comments);
         commentListView.setAdapter(commentAdapter);
-        commentListView.setRefreshListener(this);
-//        commentListView.setOnItemClickListener(this);   // 暂时关闭回复评论功能，未想好显示的方式
+        swipeRefreshLayout.setColorSchemeColors(R.color.GREEN_SEA, R.color.ASBESTOS, R.color.ORANGE);
+        swipeRefreshLayout.setOnRefreshListener(this);
     }
 
     /**
@@ -357,21 +360,11 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         });
     }
 
-    private View.OnClickListener homeClickListenter = new View.OnClickListener(){
-
-        @Override
-        public void onClick(View v) {
-            UIHelper.showHome(context);
-            finish();
-        }
-    };
-
     private View.OnClickListener refreshClickListener = new View.OnClickListener(){
 
         @Override
         public void onClick(View v) {
             initData(news.getObjectId());
-            Toast.makeText(context,"refresh",Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -419,7 +412,7 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     private View.OnClickListener shareClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            T.showShort(getApplicationContext(),"No");
+            T.showShort(getApplicationContext(),"未开发");
         }
     };
 
@@ -532,14 +525,5 @@ public class NewsActivity extends BaseActivity implements SwipeRefreshLayout.OnR
     @Override
     public void onRefresh() {
         loadCommentData(false);
-    }
-
-    //网友评论的点击事件
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Comment com = comments.get(position);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("comment",com);
-        UIHelper.showCommentPub(this,bundle);
     }
 }

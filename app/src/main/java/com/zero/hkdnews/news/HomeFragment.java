@@ -9,9 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
 
-import com.quentindommerc.superlistview.SuperListview;
 import com.zero.hkdnews.R;
 import com.zero.hkdnews.adapter.HomeAdapter;
 import com.zero.hkdnews.beans.News;
@@ -30,7 +30,8 @@ import cn.bmob.v3.listener.FindListener;
  */
 public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener ,AdapterView.OnItemClickListener {
 
-    private SuperListview mList;
+    private ListView mList;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private List<News> dataList;
     private HomeAdapter homeAdapter;
@@ -50,13 +51,19 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 homeAdapter.setDataList(dataList);
                 homeAdapter.notifyDataSetChanged();
                 T.showShort(getActivity(), "刷新完成！");
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         }
     };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View homeLayout = inflater.inflate(R.layout.fragment_home, container, false);
+        View homeLayout = inflater.inflate(R.layout.fragment_news_com, container, false);
+
+        mList = (ListView) homeLayout.findViewById(R.id.news_com_list_view);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) homeLayout.findViewById(R.id.news_com_srl);
+        mSwipeRefreshLayout.setColorSchemeColors(R.color.ORANGE, R.color.ASBESTOS, R.color.GREEN_SEA);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         return homeLayout;
     }
 
@@ -67,15 +74,12 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         dataList = new ArrayList<>();
         homeAdapter = new HomeAdapter(dataList, getActivity());
 
-        //绑定fragment_home里面的SuperListView
-        mList = (SuperListview) getActivity().findViewById(R.id.list);
         //初始化
         homeAdapter.setDataList(dataList);
         mList.setAdapter(homeAdapter);
 
         queryNews();
 
-        mList.setRefreshListener(this);
         mList.setOnItemClickListener(this);
     }
 
@@ -133,10 +137,8 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(getActivity(), "OK:" + position, Toast.LENGTH_LONG).show();
         Bundle bundle = new Bundle();
         bundle.putSerializable("news", dataList.get(position));
         UIHelper.showNewsDetail(getActivity(), bundle);
     }
-
 }

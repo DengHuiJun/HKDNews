@@ -1,9 +1,5 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!--<item name="android:actionModeBackground">@mipmap/login_btn_bg</item>-->
-    </style>
-
     <style name="detail_head_title">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -11,7 +7,7 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/head_text</item>
+        <item name="android:textColor">@color/font_gray</item>
         <item name="android:textStyle">bold</item>
         <item name="android:shadowColor">#ffffff</item>
         <item name="android:shadowDx">1</item>
@@ -35,6 +31,26 @@
         <item name="android:padding">1dp</item>
         <item name="android:clickable">true</item>
     </style>
+
+    <style name="AppTheme" parent="AppBaseTheme">
+
+    </style>
+
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- customize the color palette -->
+        <item name="colorPrimary">@color/color_500</item>
+        <item name="colorPrimaryDark">@color/color_700</item>
+        <item name="colorAccent">@color/color_100</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
 

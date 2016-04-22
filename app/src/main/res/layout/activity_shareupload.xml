@@ -4,6 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <com.zero.hkdnews.myview.TitleBar
+        android:id="@+id/share_upload_tb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
         android:layout_margin="5dp"
         android:layout_width="match_parent"
