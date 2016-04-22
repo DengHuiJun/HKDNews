@@ -11,8 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
-import com.pnikosis.materialishprogress.ProgressWheel;
 import com.zero.hkdnews.R;
 import com.zero.hkdnews.adapter.ShareAdapter;
 import com.zero.hkdnews.beans.UploadNews;
@@ -39,7 +39,7 @@ public class ShareFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     //浮动的按钮
     private FloatingActionButton mUploadPhotoFAB;
 
-    private ProgressWheel mLoadPw;
+    private ProgressBar mLoadPw;
 
     private static final int GET_DATA_OK = 0x01;
     private static final int GET_DATA_FAIL = 0x02;
@@ -106,7 +106,7 @@ public class ShareFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     }
 
     private void findView() {
-        mLoadPw = (ProgressWheel) getActivity().findViewById(R.id.fragment_share_pb);
+        mLoadPw = (ProgressBar) getActivity().findViewById(R.id.fragment_share_pb);
         mListView = (ListView) getActivity().findViewById(R.id.share_list_view);
         mUploadPhotoFAB = (FloatingActionButton) getActivity().findViewById(R.id.fab);
     }

@@ -35,20 +35,16 @@ public class SendInformActivity extends BaseActivity {
     private EditText mContentEt;
     private Button   mSendBtn;
 
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what == 11){
+            if (msg.what == 11) {
                 HnustUser user = BmobUser.getCurrentUser(SendInformActivity.this,HnustUser.class);
-
                 final Inform inform = (Inform) msg.obj;
-
                 BmobRelation relation = new BmobRelation();
                 relation.add(user);
-
                 inform.setUsers(relation);
-
                 inform.update(SendInformActivity.this, new UpdateListener() {
                     @Override
                     public void onSuccess() {
@@ -65,16 +61,13 @@ public class SendInformActivity extends BaseActivity {
                 });
 
             }
-            if (msg.what == 22){
+            if (msg.what == 22) {
+
                 Inform inform = (Inform) msg.obj;
-
                 HnustUser user = BmobUser.getCurrentUser(SendInformActivity.this,HnustUser.class);
-
                 BmobRelation relation = new BmobRelation();
                 relation.add(inform);
-
                 user.setInforms(relation);
-
                 user.update(SendInformActivity.this, new UpdateListener() {
                     @Override
                     public void onSuccess() {
@@ -86,7 +79,6 @@ public class SendInformActivity extends BaseActivity {
                         T.showShort(SendInformActivity.this,s);
                     }
                 });
-
             }
         }
     };

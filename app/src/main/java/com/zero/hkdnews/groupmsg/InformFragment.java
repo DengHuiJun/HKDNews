@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.pnikosis.materialishprogress.ProgressWheel;
 import com.zero.hkdnews.R;
 import com.zero.hkdnews.adapter.PlayAdapter;
 import com.zero.hkdnews.beans.HnustUser;
@@ -20,6 +19,7 @@ import com.zero.hkdnews.util.T;
 import java.util.ArrayList;
 import java.util.List;
 import android.os.Handler;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import cn.bmob.v3.BmobQuery;
@@ -45,7 +45,7 @@ public class InformFragment extends Fragment {
 
     private FloatingActionButton mFAB;
 
-    private ProgressWheel mLoadPw;
+    private ProgressBar mLoadPw;
     private TextView mEmptyTv;
 
     private final Handler mHandler = new Handler(){
@@ -93,7 +93,7 @@ public class InformFragment extends Fragment {
     }
 
     private void initView() {
-        mLoadPw = (ProgressWheel) getActivity().findViewById(R.id.fragment_play_pb);
+        mLoadPw = (ProgressBar) getActivity().findViewById(R.id.fragment_play_pb);
         mInformLv = (ListView) getActivity().findViewById(R.id.play_list_view);
         mFAB = (FloatingActionButton) getActivity().findViewById(R.id.play_fab);
         mEmptyTv = (TextView) getActivity().findViewById(R.id.inform_empty_tv);

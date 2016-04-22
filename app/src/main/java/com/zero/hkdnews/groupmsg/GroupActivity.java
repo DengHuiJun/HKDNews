@@ -30,7 +30,7 @@ import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.listener.FindListener;
 
 /**
- * 通知组实体类
+ * 群组列表
  * Created by zero on 15/6/15.
  */
 public class GroupActivity extends BaseActivity implements AdapterView.OnItemClickListener {
@@ -43,6 +43,9 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
     private TextView mOneTv;
     private TextView mTwoTv;
     private TextView mThreeTv;
+    private TextView mFourTv;
+
+    private static final int REQ_CODE_ADD_GROUP = 0x01;
 
     //存储群组的id,name
     private String groupId;
@@ -53,13 +56,14 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-            if (msg.what == 1){
+            if (msg.what == 1) {
                 datas = (List<Group>) msg.obj;
                 adapter.setList(datas);
                 adapter.notifyDataSetChanged();
-                T.showShort(GroupActivity.this,"跟新完毕！");
+//                T.showShort(GroupActivity.this, "加载完成！");
+
             } else if (msg.what == 2) {
-                adapter.setList(null);
+                adapter.setList(datas);
                 adapter.notifyDataSetChanged();
                 T.showShort(GroupActivity.this, "暂未加入任何群组！");
             }
@@ -96,7 +100,8 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
         mTitleBar.setRightClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UIHelper.toAnActivity(GroupActivity.this, AddGroupActivity.class);
+                Intent intent = new Intent(GroupActivity.this, AddGroupActivity.class);
+                startActivityForResult(intent, REQ_CODE_ADD_GROUP);
             }
         });
 
@@ -108,41 +113,6 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
         groupId = "";
 
     }
-
-//    public void showListPopup(View view) {
-//        String items[] = {"发布通知", "邀请成员", "查看成员", "历史通知"};
-//        final ListPopupWindow listPopupWindow = new ListPopupWindow(this);
-//
-//        //设置ListView类型的适配器
-//        listPopupWindow.setAdapter(new ArrayAdapter<>(GroupActivity.this, android.R.layout.simple_list_item_1, items));
-//
-//        //给每个item设置监听事件
-//        listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-////                listPopupWindow.dismiss();
-
-////                });
-//                listPopupListener(position);
-//            }
-//        });
-//
-//        //设置ListPopupWindow的锚点,也就是弹出框的位置是相对当前参数View的位置来显示，
-//        listPopupWindow.setAnchorView(view);
-//
-//        //ListPopupWindow 距锚点的距离，也就是相对锚点View的位置
-//        listPopupWindow.setHorizontalOffset(100);
-//        listPopupWindow.setVerticalOffset(100);
-//
-//        //设置对话框的宽高
-//        listPopupWindow.setWidth(350);
-//        listPopupWindow.setHeight(500);
-//        listPopupWindow.setModal(false);
-//
-//        listPopupWindow.show();
-//    }
-
 
     //加载该用户的群组
     private void addGroup(){
@@ -171,6 +141,15 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQ_CODE_ADD_GROUP && resultCode == RESULT_OK) {
+            addGroup();
+        }
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         groupId = datas.get(position).getObjectId();
         groupName = datas.get(position).getName();
@@ -185,10 +164,12 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
         mOneTv = (TextView) view.findViewById(R.id.group_bottom_one);
         mTwoTv = (TextView) view.findViewById(R.id.group_bottom_two);
         mThreeTv = (TextView) view.findViewById(R.id.group_bottom_three);
+        mFourTv = (TextView) view.findViewById(R.id.group_bottom_four);
 
         mOneTv.setOnClickListener(oneClickListener);
         mTwoTv.setOnClickListener(twoClickListener);
         mThreeTv.setOnClickListener(threeClickListener);
+        mFourTv.setOnClickListener(fourClickListener);
 
         dialog.setContentView(view);
         dialog.setTitle("功能列表");
@@ -199,7 +180,7 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
     private View.OnClickListener oneClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
+            UIHelper.toAnActivity(GroupActivity.this, SendInformActivity.class);
         }
     };
 
@@ -216,7 +197,15 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
     private View.OnClickListener threeClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            UIHelper.toAnActivity(GroupActivity.this, CheckMemberActivity.class);
+        }
+    };
 
+    // 历史通知
+    private View.OnClickListener fourClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            UIHelper.toAnActivity(GroupActivity.this, HistoryInformActivity.class);
         }
     };
 }

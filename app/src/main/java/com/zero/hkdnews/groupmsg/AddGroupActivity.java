@@ -45,7 +45,6 @@ public class AddGroupActivity extends BaseActivity {
                 group.update(AddGroupActivity.this, new UpdateListener() {
                     @Override
                     public void onSuccess() {
-                        T.showShort(getApplicationContext(), "创建成功！关联了用户");
                         Message msg = Message.obtain();
                         msg.what =23;
                         msg.obj = group;
@@ -58,7 +57,7 @@ public class AddGroupActivity extends BaseActivity {
                     }
                 });
             }
-            if (msg.what == 23){
+            if (msg.what == 23) {
                 Group group = (Group) msg.obj;
                 HnustUser user = BmobUser.getCurrentUser(AddGroupActivity.this,HnustUser.class);
                 BmobRelation relation = new BmobRelation();
@@ -67,7 +66,9 @@ public class AddGroupActivity extends BaseActivity {
                 user.update(AddGroupActivity.this, new UpdateListener() {
                     @Override
                     public void onSuccess() {
-                        T.showShort(getApplicationContext(), "关联用户！");
+                        T.showShort(getApplicationContext(), "创建成功！");
+                        setResult(RESULT_OK);
+                        finish();
                     }
                     @Override
                     public void onFailure(int i, String s) {

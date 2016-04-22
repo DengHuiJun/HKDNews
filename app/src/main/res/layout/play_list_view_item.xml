@@ -77,57 +77,29 @@
 
         <RelativeLayout
             android:layout_margin="5dp"
-            android:id="@+id/play_list_view_item_bottom_comment"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_centerVertical="true"
-                android:id="@+id/play_list_view_item_bottom_one"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@mipmap/news_share_transmit"/>
-            <TextView
-                android:layout_centerVertical="true"
-                android:id="@+id/play_list_view_item_bottom_one_text"
-                android:layout_toRightOf="@id/play_list_view_item_bottom_one"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/font_gray"
-                android:text="评论"/>
-
-        </RelativeLayout>
-
-        <TextView
-            android:layout_gravity="center_vertical"
-            android:layout_width="1dp"
-            android:layout_height="20dp"
-            android:background="@color/gray"/>
-
-        <RelativeLayout
-            android:layout_margin="5dp"
             android:id="@+id/play_list_view_item_bottom_receive"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content">
+
             <ImageView
                 android:layout_centerVertical="true"
                 android:id="@+id/play_list_view_item_bottom_two"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@mipmap/news_share_comment"/>
+
             <TextView
+                android:layout_marginLeft="5dp"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/play_list_view_item_bottom_two"
                 android:id="@+id/play_list_view_item_bottom_two_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/font_gray"
-                android:text="收到"/>
+                android:text="收到消息"/>
 
         </RelativeLayout>
 
@@ -153,16 +125,15 @@
                 android:background="@mipmap/news_share_love"/>
             <TextView
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/play_list_view_item_bottom_three"
                 android:id="@+id/play_list_view_item_bottom_three_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/font_gray"
-                android:text="查看"/>
+                android:text="查看情况"/>
 
         </RelativeLayout>
-
-
 
     </LinearLayout>
 
@@ -170,6 +141,5 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/gray"/>
-
 
 </LinearLayout>

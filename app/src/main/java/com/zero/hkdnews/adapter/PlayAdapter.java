@@ -13,7 +13,7 @@ import com.zero.hkdnews.beans.Inform;
 import java.util.List;
 
 /**
- * Created by luowei on 15/6/15.
+ * Created by denghui on 15/6/15.
  */
 public class PlayAdapter extends BaseAdapter{
     private List<Inform> list;

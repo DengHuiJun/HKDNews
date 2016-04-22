@@ -4,62 +4,37 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+    <com.zero.hkdnews.myview.TitleBar
+        android:id="@+id/send_inform_tb"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal"
-        android:background="@color/big_title">
-
-        <ImageView
-            android:padding="5dp"
-            android:id="@+id/group_header_home"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|center"
-            android:background="@mipmap/news_detail_top_back"
-            android:clickable="true" />
-
-        <TextView
-            android:id="@+id/group_header_title"
-            style="@style/detail_head_title"
-            android:layout_gravity="center"
-            android:textColor="@color/white"
-            android:text="发布通知" />
-
-        <ImageView
-            android:padding="5dp"
-            android:id="@+id/group_header_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|center"
-            android:background="@mipmap/ic_add_white"
-            android:clickable="true" />
-
-    </LinearLayout>
-
-
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/send_inform_title"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:textSize="22sp"
-        android:text="通知内容:"/>
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:textColor="@color/font_gray"
+        android:text="通知内容:" />
 
     <EditText
         android:id="@+id/send_inform_content"
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:hint="请输入详情..."
-        android:gravity="top"
-        android:layout_height="0dp" />
+        android:layout_margin="16dp"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:hint="请输入..."
+        android:background="@color/CLOUDS"
+        android:gravity="top" />
 
     <Button
         android:id="@+id/send_inform_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="发布"/>
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:text="发布" />
 
 </LinearLayout>

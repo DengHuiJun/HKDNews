@@ -20,6 +20,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:background="@drawable/round_button"
             android:text="拍照"/>
         <Button
             android:layout_marginLeft="10dp"
@@ -27,6 +28,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:background="@drawable/round_button"
             android:text="相册"/>
 
     </LinearLayout>
@@ -35,8 +37,8 @@
         android:textSize="18sp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
-        android:text="您选择的照片："
-        android:textColor="#000"
+        android:text="您的图片："
+        android:textColor="@color/font_gray"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -48,25 +50,24 @@
         />
 
     <EditText
-        android:hint="输入上传内容..."
+        android:id="@+id/share_upload_edit_text"
+        android:hint="输入分享的内容"
         android:gravity="top"
         android:focusableInTouchMode="true"
         android:focusable="true"
-        android:layout_margin="10dp"
-        android:id="@+id/share_upload_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
-
-    <Button
-        android:layout_margin="5dp"
-        android:textSize="20sp"
-        android:id="@+id/share_upload_ok_btn"
+        android:layout_margin="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="点击上传"/>
+        android:minHeight="80dp"
+        android:background="@color/white"
+        />
 
-
-
+    <Button
+        android:id="@+id/share_upload_ok_btn"
+        android:layout_margin="5dp"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="点击上传" />
 
 </LinearLayout>

@@ -12,35 +12,61 @@
     <TextView
         android:id="@+id/group_bottom_one"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:textSize="16sp"
+        android:layout_height="45dp"
+        android:textSize="18sp"
         android:gravity="center"
         android:text="发布通知" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:background="@color/colorDivider" />
 
     <TextView
         android:id="@+id/group_bottom_two"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:textSize="16sp"
+        android:layout_height="45dp"
+        android:textSize="18sp"
         android:gravity="center"
         android:text="邀请成员" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:background="@color/colorDivider" />
 
     <TextView
-        android:id="@+id/group_bottom_three"
+    android:id="@+id/group_bottom_three"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:textSize="18sp"
+    android:gravity="center"
+    android:text="查看成员" />
+
+    <View
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:textSize="16sp"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@color/colorDivider" />
+
+    <TextView
+        android:id="@+id/group_bottom_four"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:textSize="18sp"
         android:gravity="center"
-        android:text="查看成员" />
+        android:text="历史通知" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@color/colorDivider" />
 
 </LinearLayout>

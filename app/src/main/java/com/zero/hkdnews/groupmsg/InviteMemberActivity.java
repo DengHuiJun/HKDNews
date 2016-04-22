@@ -15,7 +15,7 @@ import cn.bmob.v3.BmobPushManager;
 /**
  * Created by 邓慧 on 16/4/12.
  */
-public class InviteMemberActivity extends BaseActivity{
+public class InviteMemberActivity extends BaseActivity {
 
     private TitleBar mTitleBar;
     private TextInputLayout mTIL;
@@ -55,8 +55,6 @@ public class InviteMemberActivity extends BaseActivity{
 
         BmobPushManager bmobPushManager = new BmobPushManager(this);
         bmobPushManager.pushMessageAll("这是给所有设备推送的一条消息。"+ username);
-
-
 
         T.showShort(this, "发送成功！");
         finish();

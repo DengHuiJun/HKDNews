@@ -117,7 +117,7 @@ public class ShareUploadActivity extends BaseActivity {
         mUploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!mContentEt.getText().toString().equals("") && mOutputImage.exists()) {
+                if(!mContentEt.getText().toString().equals("") && mOutputImage.exists() && mPhotoIv.getVisibility() == View.VISIBLE) {
                     showPd();
                     Thread uploadPic = new Thread(new Runnable() {
                       @Override
