@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:layout_marginTop="10dp"
+    >
+
+    <ImageView
+        android:id="@+id/member_item_img"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@mipmap/default_me"
+        android:layout_gravity="center_horizontal"
+        />
+
+    <LinearLayout
+        android:layout_marginLeft="16dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/member_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textSize="18sp"
+            android:maxLines="1"
+            android:text="zerogeek" />
+
+        <TextView
+            android:id="@+id/member_item_intro"
+            android:maxLines="1"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textSize="16sp"
+            android:textColor="@color/SILVER"
+            android:text="计算机科学与技术专业2班"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

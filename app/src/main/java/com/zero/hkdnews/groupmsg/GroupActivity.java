@@ -48,8 +48,8 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
     private static final int REQ_CODE_ADD_GROUP = 0x01;
 
     //存储群组的id,name
-    private String groupId;
-    private String groupName;
+    private String groupId = "";
+    private String groupName = "";
 
     private Handler mHandler = new Handler(){
         @Override
@@ -81,7 +81,7 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
 
         addGroup();
 
-        adapter = new GroupAdapter(datas,this);
+        adapter = new GroupAdapter(datas, this);
 
         adapter.setList(datas);
 
@@ -110,8 +110,6 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
 
     private void initData() {
         datas = new ArrayList<>();
-        groupId = "";
-
     }
 
     //加载该用户的群组
@@ -180,7 +178,11 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
     private View.OnClickListener oneClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            UIHelper.toAnActivity(GroupActivity.this, SendInformActivity.class);
+
+            Intent toSendInform = new Intent(GroupActivity.this, SendInformActivity.class);
+            toSendInform.putExtra("id", groupId);
+            toSendInform.putExtra("name", groupName);
+            startActivity(toSendInform);
         }
     };
 
@@ -189,6 +191,8 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
         @Override
         public void onClick(View view) {
             Intent toInvite = new Intent(GroupActivity.this, InviteMemberActivity.class);
+            toInvite.putExtra("id", groupId);
+            toInvite.putExtra("name", groupName);
             startActivity(toInvite);
         }
     };
@@ -197,7 +201,10 @@ public class GroupActivity extends BaseActivity implements AdapterView.OnItemCli
     private View.OnClickListener threeClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            UIHelper.toAnActivity(GroupActivity.this, CheckMemberActivity.class);
+            Intent toCheck = new Intent(GroupActivity.this, CheckMemberActivity.class);
+            toCheck.putExtra("id", groupId);
+            toCheck.putExtra("name", groupName);
+            startActivity(toCheck);
         }
     };
 

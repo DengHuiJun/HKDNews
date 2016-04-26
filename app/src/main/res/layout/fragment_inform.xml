@@ -1,18 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:tag="@string/tag_play_fragment"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center_horizontal"
     >
-
-    <ProgressBar
-        android:id="@+id/fragment_play_pb"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" />
 
     <TextView
         android:id="@+id/inform_empty_tv"
@@ -24,24 +14,46 @@
         android:textSize="18sp"
         android:visibility="gone" />
 
-
-    <ListView
-        android:id="@+id/play_list_view"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:dividerHeight="10dp"
-        android:divider="@color/divder"
+        android:layout_height="wrap_content"
+        android:tag="@string/tag_play_fragment"
+        android:layout_gravity="center_horizontal"
         >
 
-    </ListView>
+        <ProgressBar
+            android:id="@+id/fragment_play_pb"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
 
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/fragment_inform_srl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/play_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:dividerHeight="10dp"
+                android:divider="@color/divder" >
+            </ListView>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+    </FrameLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/play_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_margin="16dp"
         android:src="@mipmap/ic_add_white" />
 
-</FrameLayout>
+</RelativeLayout>

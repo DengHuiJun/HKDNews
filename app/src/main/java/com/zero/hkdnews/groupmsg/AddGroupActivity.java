@@ -67,8 +67,8 @@ public class AddGroupActivity extends BaseActivity {
                     @Override
                     public void onSuccess() {
                         T.showShort(getApplicationContext(), "创建成功！");
-                        setResult(RESULT_OK);
-                        finish();
+//                        setResult(RESULT_OK);
+//                        AddGroupActivity.this.finish();
                     }
                     @Override
                     public void onFailure(int i, String s) {

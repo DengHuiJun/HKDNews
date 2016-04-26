@@ -5,6 +5,7 @@ import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,7 @@ import cn.bmob.v3.listener.FindListener;
  * 改过名字，由Play -> Inform
  * Created by zero on 15/4/11.
  */
-public class InformFragment extends Fragment {
+public class InformFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "InformFragment";
 
     private static final int QUERY_SUCCESS = 1;
@@ -41,6 +42,7 @@ public class InformFragment extends Fragment {
 
     private PlayAdapter mAdapter;
     private ListView mInformLv;
+    private SwipeRefreshLayout mSRL;
     private List<Inform> mData = new ArrayList<>();
 
     private FloatingActionButton mFAB;
@@ -54,14 +56,21 @@ public class InformFragment extends Fragment {
             super.handleMessage(msg);
             if (msg.what == QUERY_SUCCESS) {
                 mData = (List<Inform>) msg.obj;
+
+                if (mData.size() == 0) {
+                    showEmptyText(true);
+                } else {
+                    showEmptyText(false);
+                }
                 mAdapter.setList(mData);
                 mAdapter.notifyDataSetChanged();
-                showEmptyText(false);
+                mSRL.setRefreshing(false);
 
             } else if (msg.what == QUERY_FAILED) {
                 String log = (String) msg.obj;
                 T.showShortBar(mFAB, log);
                 showEmptyText(true);
+                mSRL.setRefreshing(false);
             }
         }
     };
@@ -70,6 +79,10 @@ public class InformFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View playLayout = inflater.inflate(R.layout.fragment_inform,container,false);
+
+        mSRL = (SwipeRefreshLayout) playLayout.findViewById(R.id.fragment_inform_srl);
+        mSRL.setOnRefreshListener(this);
+
         return playLayout;
     }
 
@@ -101,7 +114,7 @@ public class InformFragment extends Fragment {
     }
 
     /**
-     * 第一次查询数据
+     * 查询数据
      */
     private void queryData(){
         BmobQuery<Inform> query = new BmobQuery<>();
@@ -129,12 +142,15 @@ public class InformFragment extends Fragment {
     private void showEmptyText(boolean isShow){
         if (isShow) {
             mLoadPw.setVisibility(View.GONE);
-            mFAB.setVisibility(View.GONE);
             mEmptyTv.setVisibility(View.VISIBLE);
         } else {
             mLoadPw.setVisibility(View.GONE);
-            mFAB.setVisibility(View.VISIBLE);
             mEmptyTv.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        queryData();
     }
 }

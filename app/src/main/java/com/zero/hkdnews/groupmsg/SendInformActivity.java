@@ -12,6 +12,7 @@ import com.zero.hkdnews.app.AppContext;
 import com.zero.hkdnews.beans.Group;
 import com.zero.hkdnews.beans.HnustUser;
 import com.zero.hkdnews.beans.Inform;
+import com.zero.hkdnews.myview.TitleBar;
 import com.zero.hkdnews.util.L;
 import com.zero.hkdnews.util.T;
 
@@ -72,6 +73,7 @@ public class SendInformActivity extends BaseActivity {
                     @Override
                     public void onSuccess() {
                         T.showShort(SendInformActivity.this,"发布成功！");
+                        finish();
                     }
 
                     @Override
@@ -89,6 +91,11 @@ public class SendInformActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_inform);
 
+        TitleBar titleBar = (TitleBar) findViewById(R.id.send_inform_tb);
+        titleBar.setTitleText("发布通知");
+        titleBar.setBackClickListener(this);
+        titleBar.isShowRight(false);
+
         mContentEt = (EditText) findViewById(R.id.send_inform_content);
         mSendBtn = (Button) findViewById(R.id.send_inform_btn);
         getDatas();
@@ -104,19 +111,16 @@ public class SendInformActivity extends BaseActivity {
     /**
      * 得到传来的群组ID和名称
      */
-    private void getDatas(){
-
+    private void getDatas() {
         groupId = getIntent().getStringExtra("id");
         groupName = getIntent().getStringExtra("name");
 
         L.d(groupId + "%" + groupName);
-
     }
 
     public void sendInform(){
         Group group = new Group();
         group.setObjectId(groupId);
-
 
         final Inform inform = new Inform();
         inform.setAuthor(AppContext.getUserName());
