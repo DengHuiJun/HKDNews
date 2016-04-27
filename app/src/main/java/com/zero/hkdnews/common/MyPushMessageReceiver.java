@@ -39,8 +39,9 @@ public class MyPushMessageReceiver extends BroadcastReceiver {
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(context)
                             .setSmallIcon(R.mipmap.app_icon)
-                            .setContentTitle("邀请请求")
-                            .setContentText(msg);
+                            .setTicker("微圈邀请请求")
+                            .setContentTitle("邀请加入群组")
+                            .setContentText("点击查看详情");
             mBuilder.setContentIntent(resultPendingIntent);
 
             NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

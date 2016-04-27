@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import com.zero.hkdnews.R;
 import com.zero.hkdnews.adapter.PlayAdapter;
+import com.zero.hkdnews.beans.Group;
 import com.zero.hkdnews.beans.HnustUser;
 import com.zero.hkdnews.beans.Inform;
 import com.zero.hkdnews.util.T;
@@ -36,7 +37,8 @@ import cn.bmob.v3.listener.FindListener;
 public class InformFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "InformFragment";
 
-    private static final int QUERY_SUCCESS = 1;
+    private static final int QUERY_GROUP_SUCCESS = 1;
+    private static final int QUERY_INFORM_SUCCESS = 3;
     private static final int QUERY_FAILED = 2;
 
 
@@ -44,6 +46,7 @@ public class InformFragment extends Fragment implements SwipeRefreshLayout.OnRef
     private ListView mInformLv;
     private SwipeRefreshLayout mSRL;
     private List<Inform> mData = new ArrayList<>();
+    private List<Group> mGroups = new ArrayList<>(6);
 
     private FloatingActionButton mFAB;
 
@@ -54,21 +57,31 @@ public class InformFragment extends Fragment implements SwipeRefreshLayout.OnRef
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what == QUERY_SUCCESS) {
-                mData = (List<Inform>) msg.obj;
+            if (msg.what == QUERY_GROUP_SUCCESS) {
 
+                mGroups = (List<Group>) msg.obj;
+
+                if (mGroups.size() == 0) {
+                    showEmptyText(true);
+                    mSRL.setRefreshing(false);
+                } else {
+                    showEmptyText(false);
+                    for (int i = 0; i<mGroups.size();i++) {
+                        queryInformsByGroup(mGroups.get(i).getObjectId());
+                    }
+                }
+
+            } else if (msg.what == QUERY_INFORM_SUCCESS) {
                 if (mData.size() == 0) {
                     showEmptyText(true);
                 } else {
                     showEmptyText(false);
+                    mAdapter.setList(mData);
+                    mAdapter.notifyDataSetChanged();
                 }
-                mAdapter.setList(mData);
-                mAdapter.notifyDataSetChanged();
                 mSRL.setRefreshing(false);
 
             } else if (msg.what == QUERY_FAILED) {
-                String log = (String) msg.obj;
-                T.showShortBar(mFAB, log);
                 showEmptyText(true);
                 mSRL.setRefreshing(false);
             }
@@ -91,7 +104,7 @@ public class InformFragment extends Fragment implements SwipeRefreshLayout.OnRef
         super.onActivityCreated(savedInstanceState);
 
         initView();
-        queryData();
+        queryAllGroup();
 
         mAdapter = new PlayAdapter(mData, getActivity());
         mInformLv.setAdapter(mAdapter);
@@ -116,17 +129,17 @@ public class InformFragment extends Fragment implements SwipeRefreshLayout.OnRef
     /**
      * 查询数据
      */
-    private void queryData(){
-        BmobQuery<Inform> query = new BmobQuery<>();
+    private void queryAllGroup(){
+        BmobQuery<Group> query = new BmobQuery<>();
         HnustUser user = BmobUser.getCurrentUser(getActivity(),HnustUser.class);
-        query.addWhereRelatedTo("informs",new BmobPointer(user));
-        query.order("created");
-        query.findObjects(getActivity(), new FindListener<Inform>() {
+        query.addWhereRelatedTo("groups",new BmobPointer(user));
+        query.order("-createdAt");
+        query.findObjects(getActivity(), new FindListener<Group>() {
             @Override
-            public void onSuccess(List<Inform> list) {
+            public void onSuccess(List<Group> list) {
                 Message msg = Message.obtain();
-                msg.obj =list;
-                msg.what = QUERY_SUCCESS;
+                msg.obj = list;
+                msg.what = QUERY_GROUP_SUCCESS;
                 mHandler.sendMessage(msg);
             }
             @Override
@@ -135,6 +148,33 @@ public class InformFragment extends Fragment implements SwipeRefreshLayout.OnRef
                 msg.obj = s;
                 msg.what = QUERY_FAILED;
                 mHandler.sendMessage(msg);
+            }
+        });
+    }
+
+    private void queryInformsByGroup(String groupId) {
+        BmobQuery<Inform> query = new BmobQuery<Inform>();
+        Group group = new Group();
+        group.setObjectId(groupId);
+        query.addWhereEqualTo("group",new BmobPointer(group));
+        query.findObjects(getActivity(), new FindListener<Inform>() {
+
+            @Override
+            public void onSuccess(List<Inform> object) {
+               if (object.size() > 0) {
+                   for (int i = 0; i < object.size(); i++) {
+                       mData.add(object.get(i));
+                   }
+               }
+
+                Message msg = Message.obtain();
+                msg.what = QUERY_INFORM_SUCCESS;
+                mHandler.sendMessage(msg);
+            }
+
+            @Override
+            public void onError(int code, String msg) {
+
             }
         });
     }
@@ -151,6 +191,7 @@ public class InformFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
     @Override
     public void onRefresh() {
-        queryData();
+        mData.clear();
+        queryAllGroup();
     }
 }

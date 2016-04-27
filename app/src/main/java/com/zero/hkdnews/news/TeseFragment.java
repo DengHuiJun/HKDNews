@@ -98,7 +98,7 @@ public class TeseFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private void queryData(){
         BmobQuery<News> query = new BmobQuery<>();
         //判断是否有缓存
-        boolean isCache = query.hasCachedResult(getActivity());
+        boolean isCache = query.hasCachedResult(getActivity(), News.class);
         if(isCache){  //此为举个例子，并不一定按这种方式来设置缓存策略
             query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);    // 如果有缓存的话，则设置策略为CACHE_ELSE_NETWORK
         }else{

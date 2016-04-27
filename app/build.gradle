@@ -30,12 +30,18 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('src/libs/BmobSDK_V3.3.5_0408.jar')
-    compile files('src/libs/Bmob_Push_V0.8beta_20160315.jar')
     compile files('src/libs/picasso-2.5.0.jar')
     compile files('src/libs/viewpager_indicator.jar')
     compile 'com.android.support:support-v4:23.3.0'
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
     compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.1.3'
+
+    //bmob-sdk：Bmob的android sdk包，包含了Bmob的数据存储、文件等服务，以下是最新的bmob-sdk:
+    compile 'cn.bmob.android:bmob-sdk:3.4.6'
+    compile 'com.squareup.okhttp:okhttp:2.4.0'//自`V3.4.3版本`开始，使用`okhttp`优化SDK的网络框架
+    compile 'com.squareup.okio:okio:1.4.0'
+
+    //bmob-push：Bmob的推送包
+    compile 'cn.bmob.android:bmob-push:0.8'
 }
