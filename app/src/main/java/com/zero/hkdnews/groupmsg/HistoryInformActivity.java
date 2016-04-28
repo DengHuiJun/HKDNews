@@ -15,7 +15,7 @@ public class HistoryInformActivity extends AppCompatActivity {
 
         TitleBar titleBar = (TitleBar) findViewById(R.id.history_inform_tb);
         titleBar.setBackClickListener(this);
-        titleBar.setTitleText("历史通知");
+        titleBar.setTitleText("所有通知");
         titleBar.isShowRight(false);
 
     }

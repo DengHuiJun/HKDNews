@@ -83,8 +83,6 @@ public class CheckMemberActivity extends BaseActivity {
 
 
     private void queryMember() {
-
-        // 查询喜欢这个帖子的所有用户，因此查询的是用户表
         BmobQuery<HnustUser> query = new BmobQuery<HnustUser>();
         Group group = new Group();
         group.setObjectId(mId);
@@ -110,7 +108,6 @@ public class CheckMemberActivity extends BaseActivity {
 
     class MemberAdapter extends BaseAdapter {
         private List<HnustUser> mList;
-
 
         public MemberAdapter(List<HnustUser> list) {
             mList = list;

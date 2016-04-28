@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/round_button"
-            android:text="拒绝"
+            android:text="忽略"
             android:textColor="@color/font_gray"
             />
 

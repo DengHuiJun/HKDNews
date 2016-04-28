@@ -30,11 +30,8 @@ public class MyPushMessageReceiver extends BroadcastReceiver {
             Intent resultIntent = new Intent(context, AcceptActivity.class);
             resultIntent.putExtra("msg", msg);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-// Adds the back stack
             stackBuilder.addParentStack(AcceptActivity.class);
-// Adds the Intent to the top of the stack
             stackBuilder.addNextIntent(resultIntent);
-// Gets a PendingIntent containing the entire back stack
             PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(context)

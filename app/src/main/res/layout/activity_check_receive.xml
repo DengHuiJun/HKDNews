@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.zero.hkdnews.groupmsg.CheckReceiveActivity">
+
+    <com.zero.hkdnews.myview.TitleBar
+        android:id="@+id/check_receive_tb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <ProgressBar
+        android:id="@+id/check_receive_pb"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center"
+        />
+
+    <ListView
+        android:id="@+id/check_receive_lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
+        android:divider="#e8e8e8"
+        android:dividerHeight="3dp"
+        android:visibility="gone" >
+
+    </ListView>
+
+
+</LinearLayout>

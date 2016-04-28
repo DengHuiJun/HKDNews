@@ -109,18 +109,17 @@
         </receiver>
 
         <activity android:name=".groupmsg.HistoryInformActivity" />
-
-        <activity android:name=".groupmsg.AcceptActivity"
-            android:parentActivityName=".activity.MainActivity"
-            android:launchMode="singleTask"
-            android:taskAffinity=""
+        <activity
+            android:name=".groupmsg.AcceptActivity"
             android:excludeFromRecents="true"
-            >
+            android:launchMode="singleTask"
+            android:parentActivityName=".activity.MainActivity"
+            android:taskAffinity="">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity"/>
-
+                android:value=".activity.MainActivity" />
         </activity>
+        <activity android:name=".groupmsg.CheckReceiveActivity"></activity>
     </application>
 
 </manifest>

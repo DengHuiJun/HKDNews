@@ -12,11 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.zero.hkdnews.R;
-import com.zero.hkdnews.adapter.PlayAdapter;
+import com.zero.hkdnews.adapter.InformAdapter;
 import com.zero.hkdnews.beans.Group;
 import com.zero.hkdnews.beans.HnustUser;
 import com.zero.hkdnews.beans.Inform;
-import com.zero.hkdnews.util.T;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +41,7 @@ public class InformFragment extends Fragment implements SwipeRefreshLayout.OnRef
     private static final int QUERY_FAILED = 2;
 
 
-    private PlayAdapter mAdapter;
+    private InformAdapter mAdapter;
     private ListView mInformLv;
     private SwipeRefreshLayout mSRL;
     private List<Inform> mData = new ArrayList<>();
@@ -106,7 +105,7 @@ public class InformFragment extends Fragment implements SwipeRefreshLayout.OnRef
         initView();
         queryAllGroup();
 
-        mAdapter = new PlayAdapter(mData, getActivity());
+        mAdapter = new InformAdapter(mData, getActivity());
         mInformLv.setAdapter(mAdapter);
 
         mFAB.setOnClickListener(new View.OnClickListener() {

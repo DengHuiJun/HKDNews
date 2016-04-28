@@ -46,5 +46,15 @@
 
     </LinearLayout>
 
+    <CheckBox
+        android:id="@+id/member_item_check"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:visibility="gone"
+       />
 
 </LinearLayout>
