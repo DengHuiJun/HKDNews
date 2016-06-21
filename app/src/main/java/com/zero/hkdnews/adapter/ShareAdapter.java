@@ -72,7 +72,7 @@ public class ShareAdapter extends BaseAdapter {
 
             convertView.setTag(viewHolder);
 
-        }else{
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
@@ -97,7 +97,6 @@ public class ShareAdapter extends BaseAdapter {
                     .load(data.getPhoto().getFileUrl(context))
                     .into(viewHolder.photo);
         }
-
 
         return convertView;
     }

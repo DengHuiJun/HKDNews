@@ -57,7 +57,6 @@ public class StartActivity extends BaseActivity {
                     msg.what = 11;
                     handler.sendMessage(msg);
 
-
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -75,7 +74,6 @@ public class StartActivity extends BaseActivity {
         editor.putBoolean("flag", false);
         editor.commit();
     }
-
 
     public boolean getFlag() {
         SharedPreferences pref = getSharedPreferences("data",MODE_PRIVATE);

@@ -68,9 +68,9 @@ public class RegisterActivity extends BaseActivity{
             T.showShort(this,"邮箱格式不正确！");
         }
 
-        if(cancel){
+        if (cancel) {
 
-        }else{
+        } else {
             showProgress(true);
             HnustUser user = new HnustUser();
             user.setUsername(name);

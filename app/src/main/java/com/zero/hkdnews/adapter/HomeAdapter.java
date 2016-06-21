@@ -22,12 +22,10 @@ public class HomeAdapter extends BaseAdapter{
     private LayoutInflater layoutInflater;
     private Context context;
 
-
     public HomeAdapter(List<News> list,Context context){
         dataList = list;
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
-
     }
 
     public void setDataList(List<News> dataList) {
@@ -57,7 +55,7 @@ public class HomeAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         News data = dataList.get(position);
         ViewHolder viewHolder = null;
-        if(convertView == null){
+        if (convertView == null) {
             convertView = layoutInflater.inflate(R.layout.home_list_view_item2,parent,false);
             viewHolder = new ViewHolder();
             viewHolder.newsTitle = (TextView) convertView.findViewById(R.id.home_news_title);
@@ -65,7 +63,7 @@ public class HomeAdapter extends BaseAdapter{
             viewHolder.newsSource = (TextView) convertView.findViewById(R.id.home_news_source);
             viewHolder.newsImage = (ImageView) convertView.findViewById(R.id.home_news_image);
             convertView.setTag(viewHolder);
-        }else{
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
@@ -73,9 +71,9 @@ public class HomeAdapter extends BaseAdapter{
         viewHolder.newsTime.setText(data.getCreatedAt());
         viewHolder.newsSource.setText(data.getNewsSource());
 
-        if(data.getNewsImage()!= null){
+        if( data.getNewsImage()!= null) {
             Picasso.with(context).load(data.getNewsImage().getFileUrl(context)).into(viewHolder.newsImage);
-        }else{
+        } else {
             Picasso.with(context).load(R.mipmap.default_news).into(viewHolder.newsImage);
         }
         return convertView;

@@ -76,8 +76,6 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 
         initData();
         findView();
-
-        // Set up the login form.
         populateAutoComplete();
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
